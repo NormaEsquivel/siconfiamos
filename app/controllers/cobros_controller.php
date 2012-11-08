@@ -30,7 +30,6 @@ class CobrosController extends AppController{
 					'recursive' => 0
 				));
 			}
-			pr($cobro);exit;
 			$this->set(compact('cobro'));
 		}
 	}
