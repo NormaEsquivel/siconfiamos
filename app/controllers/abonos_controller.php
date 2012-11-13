@@ -180,12 +180,14 @@ class AbonosController extends AppController{
 							
 							//Se crea el abono y se guarda la información del depósito
 							$this->Abono->create();
+							$this->Abono->Asociation->create();
 							$this->Abono->save(array(
 								'cliente_id' => $deposito['cliente_id'],
 								'cobro_id' => $id,
 								'abono' => $deposito['deposito']
 							));
-		
+							
+							$abono_id = $this->Abono->id;
 							//Se redondea el pago para hacer comparaciones adecuadas							$pago_redondeado = round($deposito['monto_pago'], 2);
 							$deposito_redondeado = round($deposito['deposito'],2);
 							$pago_regular = round($deposito['pago_regular'], 2);
@@ -202,6 +204,8 @@ class AbonosController extends AppController{
 									),
 									'recursive' => -1
 								 ));
+								 
+								 
 								if($deposito['tipo_calculo'] == 'insoluto' && 
 								(strtotime('now') < strtotime($deposito['fecha'])) && 
 								(strtotime('now') < strtotime($pago_anterior['Pago']['fecha_bien'])))
@@ -268,8 +272,13 @@ class AbonosController extends AppController{
 								}else{
 								 	$this->Pago->id = $deposito['pago_id'];
 									$this->Pago->save(array(
-										'abono_id' => $this->Abono->id, 
+										'abono_id' => $abono_id, 
 										'sitacion' => 'Pagado'
+									));
+									$this->Abono->Asociation->save(array(
+										'pago_id' => $deposito['pago_id'],
+										'abono_id' => $abono_id,
+										'abono' => $deposito_redondeado
 									));
 								}
 							
@@ -306,16 +315,22 @@ class AbonosController extends AppController{
 										}
 										
 										$this->Pago->create();
+										$this->Abono->Asociation->create();
 										$this->Pago->id = $pago['Pago']['id'];
 										//Si la cantidad depositada es mayor que el monto del pago
 										if(round($deposito['deposito'],2) >= round($deposito['monto_pago'],2)){
 											//Salva la información, actualiza el saldo y cambia el estado del pago
 											$this->Pago->save(array(
-												'abono_id' => $this->Abono->id,
+												'abono_id' => $abono_id,
 												'sitacion' => 'Pagado',
 												'saldo_pago' => 0
 											));
-											
+											$this->Abono->Asociation->save(array(
+												'pago_id' => $pago['Pago']['id'],
+												'abono_id' => $abono_id,
+												'abono' => $deposito['monto_pago']
+												
+											));
 											//Actualiza los valores para cuando realice la siguiente iteración
 											$deposito['pago_id'] = $pago['Pago']['id'];
 											$deposito['deposito'] = $deposito['deposito'] - $deposito['monto_pago'];
@@ -324,9 +339,15 @@ class AbonosController extends AppController{
 										}else{
 											//Debido a que la cantidad de depósito no es mayor que el total del pago solamente actualiza el saldo
 											$this->Pago->save(array(
-												'abono_id' => $this->Abono->id, 
-												'saldo_pago' => $deposito['pago_regular'] - $deposito['deposito'])
+												'abono_id' => $abono_id, 
+												'saldo_pago' => $deposito['pago_regular'] - $deposito['deposito']
+												)
 											);
+											$this->Abono->Asociation->save(array(
+												'pago_id' => $pago['Pago']['id'],
+												'abono_id' => $abono_id,
+												'abono' => $deposito['deposito']
+											));
 										}
 									}
 									
@@ -335,16 +356,27 @@ class AbonosController extends AppController{
 									
 									$this->Pago->id = $deposito['pago_id'];
 									$pago_actual = $this->Pago->read();
-							
+									if($pago_actual['Pago']['saldo_pago'] == null){
+										$deposito_asociation = $pago_actual['Pago']['pago'];
+									}else{
+										$deposito_asociation = round($pago_actual['Pago']['saldo_pago'], 2 );
+									}
+
 									$fecha_hoy = strtotime(date('Y-m-d'));
 									$fecha_pago_actual = strtotime($pago_actual['Pago']['fecha_bien']);
 									
 									if($fecha_hoy > $fecha_pago_actual){
 											
 										$this->Pago->save(array(
-											'abono_id' => $this->Abono->id, 
+											'abono_id' => $abono_id, 
 											'sitacion' => 'Pagado',
 											'saldo_pago' => 0
+										));
+										
+										$this->Abono->Asociation->save(array(
+											'pago_id' => $deposito['pago_id'],
+											'abono_id' => $abono_id,
+											'abono' => $deposito_asociation
 										));
 										
 										$cantidad_depositada = round(round($deposito['deposito'], 2) - $pago_redondeado, 2);
@@ -377,11 +409,17 @@ class AbonosController extends AppController{
 												$ciclo_anterior = 0;
 												if($cantidad_depositada >= $siguiente_pago['Pago']['saldo_pago']){
 													$this->Pago->create();
+													$this->Abono->Asociation->create();
 													$this->Pago->id = $siguiente_pago['Pago']['id'];	
 													$this->Pago->save(array(
 														'abono_id' => $this->Abono->id, 
 														'sitacion' => 'Pagado',
 														'saldo_pago' => 0
+													));
+													$this->Abono->Asociation->save(array(
+														'pago_id' => $siguiente_pago['Pago']['id'],
+														'abono_id' => $abono_id,
+														'abono' => $siguiente_pago['Pago']['saldo_pago']
 													));
 													
 													$cantidad_depositada = round(($cantidad_depositada - $siguiente_pago['Pago']['saldo_pago']), 2);
@@ -389,21 +427,28 @@ class AbonosController extends AppController{
 												}else{
 	
 													$this->Pago->create();
+													$this->Abono->Asociation->create();
 													$this->Pago->id = $siguiente_pago['Pago']['id'];	
 													$this->Pago->save(array(
-														'abono_id' => $this->Abono->id, 
+														'abono_id' => $abono_id, 
 														'saldo_pago' => round(($siguiente_pago['Pago']['saldo_pago']- $cantidad_depositada), 2)
 													));
+													$this->Abono->Asociation->save(array(
+														'pago_id' => $siguiente_pago['Pago']['id'],
+														'abono_id' => $abono_id,
+														'abono' => $cantidad_depositada
+													));
+													
 												}
 											}else{
 												
 												if($ciclo_anterior){
 													$siguientes_pagos = $this->Pago->find('all', array(
-															'conditions' => array(
-																'Pago.id >' =>  $deposito['pago_id'],
-																'Pago.credito_id' => $deposito['credito_id']
-															),
-															'recursive' => -1
+														'conditions' => array(
+															'Pago.id >' =>  $deposito['pago_id'],
+															'Pago.credito_id' => $deposito['credito_id']
+														),
+														'recursive' => -1
 													));
 													$cuotas = 0;
 													$total_capital = 0;
@@ -465,14 +510,29 @@ class AbonosController extends AppController{
 														));
 														
 														$cantidad_depositada = round(($cantidad_depositada - $siguiente_pago['Pago']['saldo_pago']), 2);
+														
+														$this->Abono->Asociation->save(array(
+															'pago_id' => $siguiente_pago['Pago']['id'],
+															'abono_id' => $abono_id,
+															'abono' => $siguiente_pago['Pago']['saldo_pago']
+														));
+														
+														
 														$deposito['pago_id'] = $siguiente_pago['Pago']['id'];
 													}else{
 	
 														$this->Pago->create();
+														$this->Abono->Asociation->create();
 														$this->Pago->id = $siguiente_pago['Pago']['id'];	
 														$this->Pago->save(array(
 															'abono_id' => $this->Abono->id, 
 															'saldo_pago' => round(($siguiente_pago['Pago']['saldo_pago']- $cantidad_depositada), 2)
+														));
+														
+														$this->Abono->Asociation->save(array(
+															'pago_id' => $siguiente_pago['Pago']['id'],
+															'abono_id' => $abono_id,
+															'abono' => $cantidad_depositada
 														));
 													}
 												}
@@ -495,12 +555,19 @@ class AbonosController extends AppController{
 										if($fecha_hoy > strtotime($pago_anterior['Pago']['fecha_bien'])){
 											
 											$this->Pago->save(array(
-												'abono_id' => $this->Abono->id, 
+												'abono_id' => $abono_id, 
 												'sitacion' => 'Pagado',
 												'saldo_pago' => 0
 											));
 											
 											$cantidad_depositada = round(round($deposito['deposito'], 2) - $pago_redondeado, 2);
+											
+											$this->Abono->Asociation->save(array(
+												'pago_id' => $deposito['pago_id'],
+												'abono_id' => $abono_id,
+												'abono' => $pago_redondeado
+											));
+											
 											$siguientes_pagos = $this->Pago->find('all', array(
 													'conditions' => array(
 														'Pago.id >' =>  $deposito['pago_id'],
@@ -654,6 +721,11 @@ class AbonosController extends AppController{
 									$this->Pago->save(array(
 										'abono_id' => $this->Abono->id, 
 										'saldo_pago' => $pago_redondeado - $deposito['deposito']
+									));
+									$this->Abono->Asociation->save(array(
+										'pago_id' => $deposito['pago_id'],
+										'abono_id' => $abono_id,
+										'abono' => $deposito['deposito']
 									));
 								}
 							 }

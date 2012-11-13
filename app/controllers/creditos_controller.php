@@ -158,29 +158,46 @@ class CreditosController extends AppController{
 				$usuario=$this->Session->read('User');
 				$cliente=$this->Session->read('Cliente');
 						if(!empty($this->data)){
-							switch($this->data['Credito']['periodo_cuotas']){
-								case 'diario':
-									$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*30.4166, 0, PHP_ROUND_HALF_UP);
-								break;
-								case 'semanal':
-									$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*4;
+							$creditosActivos = $this->Credito->find('count', array(
+								'conditions' => array(
+									'Credito.cliente_id' => $cliente['Cliente']['id'],
+									'Credito.estado' => 'activo'
+								)
+							));
+							
+							if($creditosActivos == 0){
+								switch($this->data['Credito']['periodo_cuotas']){
+									case 'diario':
+										$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*30.4166, 0, PHP_ROUND_HALF_UP);
 									break;
-								case 'quincenal':
-									$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*2;
-									break;
-								case 'mensual':
-									$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas'];
-									break;
-							}
-							$fecha=explode('/',$this->data['Credito']['fecha']);
-							$this->data['Credito']['fecha']=$fecha[2] . '-' . $fecha[0] . '-' . $fecha[1];
-							$fecha=explode('/',$this->data['Credito']['fecha_calculo']);
-							$this->data['Credito']['fecha_calculo']=$fecha[2] . '-' . $fecha[0] . '-' . $fecha[1];
-							$this->data['Credito']['cliente_id']=$cliente['Cliente']['id'];
-			
-							if($this->Credito->save($this->data)){
-								$this->Session->setFlash('Su información se ha guardado con éxito.');
-								$this->redirect(array('action'=>'imprimir',$this->data['Credito']['cliente_id']));
+									case 'semanal':
+										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*4;
+										break;
+									case 'quincenal':
+										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*2;
+										break;
+									case 'mensual':
+										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas'];
+										break;
+								}
+								$fecha=explode('/',$this->data['Credito']['fecha']);
+								$this->data['Credito']['fecha']=$fecha[2] . '-' . $fecha[0] . '-' . $fecha[1];
+								$fecha=explode('/',$this->data['Credito']['fecha_calculo']);
+								$this->data['Credito']['fecha_calculo']=$fecha[2] . '-' . $fecha[0] . '-' . $fecha[1];
+								$this->data['Credito']['cliente_id']=$cliente['Cliente']['id'];
+				
+								if($this->Credito->save($this->data)){
+									$this->Session->setFlash('Su información se ha guardado con éxito.');
+									$this->redirect(array('action'=>'imprimir',$this->data['Credito']['cliente_id']));
+								}
+							}else{
+								$this->Session->setFlash('Este cliente ya cuenta con un crédito activo');
+								$this->redirect(array(
+									'controller' => 'creditos',
+									'action' => 'view',
+									$cliente['Cliente']['id']
+									
+								));
 							}
 						}else{$this->set('id',$cliente['Cliente']['id']);
 								$this->set('nombre',$cliente['Cliente']['nombre'].' '.$cliente['Cliente']['apellido_paterno'].' '.$cliente['Cliente']['apellido_materno']);}

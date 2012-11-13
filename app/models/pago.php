@@ -19,6 +19,13 @@ class Pago extends AppModel{
 			// 'dependent' => true
 		// )
 	// );
+	var $hasMany = array(
+		'Asociation' => array(
+			'className' => 'Asociation',
+			'foreignKey' => 'pago_id',
+			'dependent'=> true
+		)
+	);
 	
 	var $belongsTo = array(
 		'Credito' => array(

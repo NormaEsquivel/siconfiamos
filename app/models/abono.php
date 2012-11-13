@@ -15,8 +15,8 @@ class Abono extends AppModel{
 	);
 	
 	var $hasMany = array(
-		'Pago' => array(
-			'className' => 'Pago',
+		'Asociation' => array(
+			'className' => 'Asociation',
 			'foreign_key' => 'abono_id',
 			'dependent' => true
 		)

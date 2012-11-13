@@ -3,10 +3,13 @@
 class Empresa extends AppModel{
 	var $name='Empresa';
 	
-	var $hasMany= array('Cliente' => array(
-		'className' => 'Cliente',
-		'foreignKey' => 'empresa_id',
-		'dependent'=> true));
+	var $hasMany= array(
+		'Cliente' => array(
+			'className' => 'Cliente',
+			'foreignKey' => 'empresa_id',
+			'dependent'=> true
+		)
+	);
 	
 	var $belongsTo=array('User'=> array(
 		'className' => 'User',
