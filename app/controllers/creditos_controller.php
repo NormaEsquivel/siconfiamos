@@ -151,7 +151,7 @@ class CreditosController extends AppController{
 					$this->redirect(array('controller'=>'clientes','action'=>'sesion',$id,5));
 				}
 			}
-		}
+		}
 		
 		function add(){
 			if($this->Session->check('User')){
