@@ -1,17 +1,23 @@
 <?php
 
 class Credito extends AppModel{
+		
 		var $name='Credito';
+		var $actAs = array('Containable');
+		
 		var $belongsTo=array(
 			'Cliente'=>array(
-			'className' => 'Cliente',
-			'foreingKey'=>'cliente_id'
-			));
+				'className' => 'Cliente',
+				'foreingKey'=>'cliente_id'
+			)
+		);
 		 var $hasMany=array(
 		 	'Pago'=>array(
-			'className'=>'Pago',
-			'foreignKey'=>'credito_id',
-			'dependent'=>true));
+				'className'=>'Pago',
+				'foreignKey'=>'credito_id',
+				'dependent'=>true
+			)
+		);
 		var $validate=array(
 			'fecha'=>array(
 				'rule'=>array('date','ymd'),

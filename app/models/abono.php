@@ -3,6 +3,8 @@
 class Abono extends AppModel{
 	var $name='Abono';
 	
+	var $actAs = array('Containable');
+	
 	var $belongsTo = array(
 		'Cliente' => array(
 			'className' => 'Cliente',

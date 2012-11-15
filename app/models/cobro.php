@@ -2,6 +2,9 @@
 
 class Cobro extends AppModel{
 	var $name  = 'Cobro';
+	
+	var $actAs = array('Containable');
+	
 	var $hasMany = array(
 		'Abono' => array(
 			'className' => 'Abono',
