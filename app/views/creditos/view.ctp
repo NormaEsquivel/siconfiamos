@@ -39,7 +39,7 @@
 		<td><?php echo $credito['Credito']['tasa_interes']; ?></td>
 		<td><?php echo $credito['Credito']['cuotas'];; ?></td>
 		<td><?php echo $credito['Credito']['periodo_cuotas']; ?></td>
-		<td><?php echo $credito['Credito']['prestamo']; ?></td>
+		<td>$<?php echo number_format($credito['Credito']['prestamo'], 2); ?></td>
 		<td><?php echo $credito['Credito']['fecha_calculo']; ?></td>
 		<td><?php echo $credito['Credito']['tipo_calculo'];  ?></td>
 </tr>

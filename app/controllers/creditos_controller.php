@@ -137,10 +137,24 @@ class CreditosController extends AppController{
 				$usuario=$this->Session->read('User');
 				$credito=$this->Credito->find('first',array('conditions'=>array('Credito.cliente_id'=>$id,'Credito.estado'=>'activo')));
 					if($credito){
-						$pagos=$this->Credito->Pago->find('all',array('conditions'=>array('Pago.credito_id'=>$credito['Credito']['id'])));
-						$this->Session->write('credito',$credito);
-						$this->set('credito',$credito);
-						$this->set('pagos',$pagos);
+						$this->loadModel('Pago');
+						$pagos=$this->Pago->find('all',array(
+							'conditions'=>array(
+								'Pago.credito_id'=>$credito['Credito']['id']
+							),
+							'contain' => array('Asociation' => array('Abono'))
+						));
+						
+						// foreach($pagos as $key => $pago){
+							// $asociations[$pago['Pago']['id']] = $this->Credito->Pago->Asociation->find('all', array(
+								// 'conditions' => array(
+									// 'Asociation.pago_id' => $pago['Pago']['id']
+								// ),
+								// 'contain' => array
+							// ));
+						// }						pr($pagos);
+						//$this->Session->write('credito',$credito);
+						$this->set(compact('credito', 'pagos', 'asociations'));
 					}else{
 						if($id2){
 							$mensaje='Este cliente aún no tiene un historial';
@@ -151,7 +165,7 @@ class CreditosController extends AppController{
 					$this->redirect(array('controller'=>'clientes','action'=>'sesion',$id,5));
 				}
 			}
-		}
+		}
 		
 		function add(){
 			if($this->Session->check('User')){
