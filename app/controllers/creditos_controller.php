@@ -185,7 +185,7 @@ class CreditosController extends AppController{
 										$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*30.4166, 0, PHP_ROUND_HALF_UP);
 									break;
 									case 'semanal':
-										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*4;
+										$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*4.33,0,PHP_ROUND_HALF_UP);
 										break;
 									case 'quincenal':
 										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*2;
@@ -326,7 +326,7 @@ class CreditosController extends AppController{
 						$tasa=$this->data['Credito']['tasa_interes']/100;
 						$tasa=$tasa/360;
 						$tasa=$tasa*7;
-						$cuotas = $this->data['Credito']['cuotas']*4;
+						$cuotas = round($this->data['Credito']['cuotas']*4.33, 0, PHP_ROUND_HALF_UP);
 					}
 					if($this->data['Credito']['periodo_cuotas']=='quincenal'){
 						$tasa=$this->data['Credito']['tasa_interes']/100;
