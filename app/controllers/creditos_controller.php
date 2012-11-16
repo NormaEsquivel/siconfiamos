@@ -130,31 +130,32 @@ class CreditosController extends AppController{
 				$this->redirect(array('action'=>'view',$credito['Cliente']['id']));
 			}
 			}
-			}
+		}
 		
 		function view($id=null, $id2=null){
 			if($this->Session->check('User')){
-				$usuario=$this->Session->read('User');
-				$credito=$this->Credito->find('first',array('conditions'=>array('Credito.cliente_id'=>$id,'Credito.estado'=>'activo')));
+				$usuario = $this->Session->read('User');
+				$this->Credito->Behaviors->attach('Containable');
+				$credito = $this->Credito->find('first',array(
+					'conditions'=>array(
+						'Credito.cliente_id'=>$id,
+						'Credito.estado'=>'activo'
+					), 
+					'contain' => array('Cliente')
+				));
 					if($credito){
-						$this->loadModel('Pago');
-						$pagos=$this->Pago->find('all',array(
+						$this->Credito->Pago->Behaviors->attach('Containable');
+						$pagos=$this->Credito->Pago->find('all',array(
 							'conditions'=>array(
 								'Pago.credito_id'=>$credito['Credito']['id']
 							),
-							'contain' => array('Asociation' => array('Abono'))
+							'contain' => array(
+								'Asociation' => array(
+									'Abono'
+								)
+							)
 						));
-						
-						// foreach($pagos as $key => $pago){
-							// $asociations[$pago['Pago']['id']] = $this->Credito->Pago->Asociation->find('all', array(
-								// 'conditions' => array(
-									// 'Asociation.pago_id' => $pago['Pago']['id']
-								// ),
-								// 'contain' => array
-							// ));
-						// }						pr($pagos);
-						//$this->Session->write('credito',$credito);
-						$this->set(compact('credito', 'pagos', 'asociations'));
+						$this->set(compact('credito', 'pagos'));
 					}else{
 						if($id2){
 							$mensaje='Este cliente aún no tiene un historial';

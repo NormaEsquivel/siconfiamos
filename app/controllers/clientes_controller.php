@@ -47,7 +47,7 @@ class ClientesController extends AppController{
 	function view($id=null){
 		if($this->Session->check('User')){
 			$usuario=$this->Session->read('User');
-			$cliente=$this->Cliente->find('first',array('conditions'=>array('Cliente.id'=>$id)));
+			$cliente=$this->Cliente->find('first',array('conditions'=>array('Cliente.id'=>$id), 'contain' => array('Empresa')));
 				$this->set('cliente',$cliente);
 		}else{
 			$this->Session->setFlash('Necesita iniciar sesión');
@@ -105,7 +105,8 @@ class ClientesController extends AppController{
 					'order' => array(
 						'Cliente.empresa_id' => 'ASC',
 						'Cliente.division' => 'ASC'
-						)
+						),
+					'contain' => array('Empresa')
 				));
 				$this->set('clientes',$clientes);
 		}

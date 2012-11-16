@@ -23,7 +23,7 @@ class AbonosController extends AppController{
 				'conditions' => array('Cliente.empresa_id' => $id),
 				'fields' => array('full_name', 'id', 'apellido_paterno', 'empresa_id'),
 				'order' => array('apellido_paterno' => 'ASC'),
-				'recursive' => 0
+				'contain' => false
 			));
 			
 			
@@ -42,7 +42,8 @@ class AbonosController extends AppController{
 				}
 				
 				$activo = $this->Credito->find('count', array(
-					'conditions' => $conditions
+					'conditions' => $conditions,
+					'contain' => false
 				));
 				
 				if($activo == 0){
@@ -63,6 +64,8 @@ class AbonosController extends AppController{
 				$this->loadModel('Credito');
 				$this->loadModel('Pago');
 				$i = 0;
+				$this->Credito->Behaviors->attach('Containable');
+				$this->Pago->Behaviors->attach('Containable');
 				foreach($this->data['Abono'] as $cliente){
 					if($cliente['addPay']){
 						$credito = $this->Credito->find('first', array(
@@ -71,16 +74,18 @@ class AbonosController extends AppController{
 								'Credito.cliente_id' => $cliente['id']
 							),
 							'fields' => array('id','tipo_calculo'),
-							'recursive' => 0
+							'contain' => false
 						));
+						
 									
 						$pagos_credito = $this->Pago->find('all', array(
 							'conditions' => array(
 								'Pago.credito_id' => $credito['Credito']['id'],
 								'Pago.sitacion' => 'No pagado'
 							),
-							'recursive' => -1
+							'contain' => false
 						));
+
 							
 						$pagos_atrasados = $this->Pago->find('count', array(
 							'conditions' => array(
@@ -88,14 +93,15 @@ class AbonosController extends AppController{
 								'Pago.credito_id' => $credito['Credito']['id'],
 								'Pago.fecha_bien <' => date('Y-m-d')
 							),
-							'recursive' => 0
+							'contain' => false
 						));
 						
 						$pagos[$i] = $this->Pago->find('first', array(
 								'conditions' => array(
 									'Pago.sitacion' => 'No pagado',
 									'Pago.credito_id' => $credito['Credito']['id']
-								)
+								),
+								'contain' => false
 						));
 						
 						if($pagos[$i]['Pago']['saldo_pago'] == null ){
@@ -123,7 +129,8 @@ class AbonosController extends AppController{
 									'Pago.id <>' => $pagos[$i]['Pago']['id'],
 									'Pago.credito_id' => $credito['Credito']['id'],
 									'Pago.fecha_bien <' => date('Y-m-d')
-								)
+								),
+								'contain' => false
 							));
 													
 							foreach($atrasados as $atrasado){							

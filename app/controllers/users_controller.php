@@ -122,7 +122,7 @@ class UsersController extends AppController{
 	function empresa_view(){
 		if($this->Session->check('User')){
 				$usuario=$this->Session->read('User');
-				$empresas = $this->User->Empresa->find('all');
+				$empresas = $this->User->Empresa->find('all', array('contain' => false));
 				$this->set('empresas',$empresas);	
 			}else{
 			$this->Session->setFlash('Necesita iniciar sesión');

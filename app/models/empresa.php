@@ -3,6 +3,8 @@
 class Empresa extends AppModel{
 	var $name='Empresa';
 	
+	var $actsAs = array('Containable');
+	
 	var $hasMany= array(
 		'Cliente' => array(
 			'className' => 'Cliente',
