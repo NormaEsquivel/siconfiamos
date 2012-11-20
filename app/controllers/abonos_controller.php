@@ -138,7 +138,6 @@ class AbonosController extends AppController{
 							
 						}
 						
-						
 						$pagos[$i]['Credito']['tipo_calculo'] = $credito['Credito']['tipo_calculo'];
 						$pagos[$i]['Cliente']['id'] = $cliente['id'];
 						$pagos[$i]['Cliente']['empresa_id'] = $cliente['empresa_id'];
