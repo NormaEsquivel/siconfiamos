@@ -46,7 +46,7 @@ con las siguientes:
 $texto3 =
 '1.En este acto el Acreedor presta al /los Cliente(es) y el/los Cliente (es) reciben el monto del Préstamo indicado arriba. El/los Cliente
 es), de forma incondicional, se obligan a pagar el Monto Total, que es la suma de: $' . number_format($credito['Credito']['prestamo'], 2) .'(' . $letras_prestamo . ')' .
-'Moneda Nacional; más los Cargos financieros de $'. number_format(round($credito['Pago'][0]['intereses'],2)*$credito['Credito']['cuotas'],2) . ' + I.V.A. en el domicilio del Acreedor. El monto deberá
+' Moneda Nacional; más los Cargos financieros de $'. number_format($total_interes, 2) . ' + I.V.A. en el domicilio del Acreedor. El monto deberá
 ser pagado en el número de pagos ' . $periodo_plural . ' que arriba se mencionan, en el entendido de que cada pago será igual al Monto '
 . strtoupper($credito['Credito']['periodo_cuotas']) . ' de Pago arriba señalado. El Primer Pago ' . strtoupper($credito['Credito']['periodo_cuotas']) . ' se vencerá y será exigible ' . $vencimiento .'
 , justamente en la fecha que arriba se indica como Primer Pago ' . strtoupper($credito['Credito']['periodo_cuotas']) . ', a menos que dicha
