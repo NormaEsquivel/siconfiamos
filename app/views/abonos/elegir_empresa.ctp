@@ -20,10 +20,17 @@
 	echo $this->Html->link($empresa['Empresa']['nombre'], array(
 		'controller' => 'abonos',
 		'action' => 'elegir_empleados',
-		$empresa['Empresa']['id']	
+		$empresa['Empresa']['id']
 	));
 	?><br>
 <?php endforeach; ?>
 <br>
 <br>
 <?php echo $this->Html->link('Histórico', array('controller' => 'cobros', 'action' => 'index')); ?>
+<br>
+<br>
+<br>
+<?php echo $this->Html->link('Reporte 2', array('controller' => 'abonos', 'action' => 'buscar_empresa')); ?>
+
+
+

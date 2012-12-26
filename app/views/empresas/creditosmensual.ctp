@@ -96,7 +96,9 @@
 									$divisor=1;
 								break;
 					};
-					$total_empresa = $total_empresa + round($cliente['Credito']['prestamo'], 2)
+					$total_empresa = $total_empresa + round($cliente['Credito']['prestamo'], 2);
+					
+pr($empresa);
 					?>
 		<tr>
 			<td><?php echo $j++; ?></td>

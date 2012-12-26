@@ -6,61 +6,33 @@ class CobrosController extends AppController{
 	
 	function view($id = null){
 		if($this->Session->check('User')){
+				$this->Cobro->Behaviors->attach('Containable');
 			$cobro = $this->Cobro->find('first', array(
 				'conditions' => array('Cobro.id' => $id),
-				'contain'=> false
+				'contain'=> array('Abono' => array('Cliente','Asociation' => array('Pago')))
 			));
-			pr($cobro);
-			// $this->loadModel('Cliente');
-			// $this->loadModel('Pago');
-// 			
-			// foreach($cobro['Abono'] as $key => $cliente){
-				// $cobro['Abono'][$key]['Cliente'] = $this->Cliente->find('first', array(
-					// 'conditions' => array(
-						// 'Cliente.id' => $cliente['cliente_id']
-					// ),
-					// 'fields' => array('full_name'),
-					// 'recursive' => 0
-				// ));
-// 				
-				// $cobro['Abono'][$key]['Pago'] = $this->Pago->find('all', array(
-					// 'conditions' => array(
-						// 'Pago.abono_id' => $cliente['id']
-					// ),
-					// 'recursive' => 0
-				// ));
-				// //-------------
-// 				
-				// $cobro['Abono'][$key]['Pago'] = $this->Pago->find('all', array(
-					// 'conditions' => array(
-						// 'Pago.fecha' => date('Y-m-d') 
-					// ),
-					// 'recursive'=>0
-				// ));
-// 				
-				// $cobro['Abono'][$key]['Pago']=$this->Pago->find('all', array(
-				// 'conditions'=> array(
-						// 'Pago.fecha_pagado'=> date('Y-m-d')
-					// ),
-					// 'recursive'=>0
-				// ));
-// 				
-				// $cobro['Abono'][$key]['Pago']=$this->Pago->find('all', array(
-				// 'conditions'=> array(
-						// 'Pago.numero_pago' =>$cliente['id']
-					// ),
-					// 'recursive'=> 0
-				// ));				
-// 				
-				// $cobro['Abono'][$key]['Pago']=$this->Pago->find('all', array(
-				// 'conditions'=>array(
-						// 'Pago.pago_capital'=> $cliente['id']
-					// ),
-					// 'recursive'=>0
-				// ));
-// 				
-				// //------------------------
-			// }
+			//pr($cobro);
+			
+			 $this->loadModel('Cliente');
+			 $this->loadModel('Pago');
+ 			
+			 // foreach($cobro['Abono'] as $key => $cliente){
+				 // $cobro['Abono'][$key]['Cliente'] = $this->Cliente->find('first', array(
+					 // 'conditions' => array(
+						 // 'Cliente.id' => $cliente['cliente_id']
+					 // ),
+					 // 'fields' => array('full_name'),
+					 // 'recursive' => 0
+				 // ));
+				 
+				 // $cobro['Abono'][$key]['Pago'] = $this->Pago->find('all', array(
+					 // 'conditions' => array(
+						 // 'Pago.abono_id' => $cliente['id']
+					 // ),
+					 // 'recursive' => 0
+				 // )); 			 
+			 //}
+			 
 			$this->set(compact('cobro'));
 		}
 	}

@@ -128,7 +128,6 @@ class PagosController extends AppController{
 					$this->Session->delete('credito');
 				}
 			}
-			
 		}
 	}
 

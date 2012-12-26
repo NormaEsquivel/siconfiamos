@@ -132,7 +132,7 @@ class CreditosController extends AppController{
 			}
 		}
 		
-		function view($id=null, $id2=null){
+		function view($id=null){
 			if($this->Session->check('User')){
 				$usuario = $this->Session->read('User');
 				$this->Credito->Behaviors->attach('Containable');
@@ -155,8 +155,20 @@ class CreditosController extends AppController{
 								)
 							)
 						));
+						$totales=null;
+							if(!isset($totales[$credito['Cliente']['full_name']])){
+								$totales[$credito['Cliente']['full_name']]['Prestamo']=0;
+								$totales[$credito['Cliente']['full_name']]['Intereses']=0;
+								$totales[$credito['Cliente']['full_name']]['Iva']=0;
+							}
+						foreach ($pagos as $key => $pago) {
+							$totales[$credito['Cliente']['full_name']]['Prestamo']=$totales[$credito['Cliente']['full_name']]['Prestamo'] + $pago['Pago']['pago_capital'];
+							$totales[$credito['Cliente']['full_name']]['Intereses']=$totales[$credito['Cliente']['full_name']]['Intereses'] + $pago['Pago']['intereses'];
+							$totales[$credito['Cliente']['full_name']]['Iva']=$totales[$credito['Cliente']['full_name']]['Iva'] + $pago['Pago']['iva_intereses'];
+						}
 						$this->set(compact('credito', 'pagos'));
-					}else{
+						$this->set(compact('totales'));
+						}else{
 						if($id2){
 							$mensaje='Este cliente aún no tiene un historial';
 						}else{
@@ -166,8 +178,227 @@ class CreditosController extends AppController{
 					$this->redirect(array('controller'=>'clientes','action'=>'sesion',$id,5));
 				}
 			}
+			 // pr($credito);
+			 // pr($pagos);
+			 // pr($totales);
 		}
+
+	function saldo_creditos(){
+		if($this->Session->check('User')){
+			if(!empty($this->data)){
+				$fecha_inicio=date('Y-m-d',strtotime($this->data['Credito']['fecha_inicio']));
+				$fecha_final=date('Y-m-d',strtotime($this->data['Credito']['fecha_final']));
+			}else
+				{
+					if(date('d')>15){
+						$fecha_final=date('Y-m-t');
+						$fecha_inicio=date('Y-m-16');
+					}else
+						{
+							$fecha_inicio=date('y-m-1');
+							$fecha_final=date('y-m-16');
+						}
+				}
+		}
+		$this->Credito->Behaviors->attach('Containable');
+			$Creditos = $this -> Credito -> find('all',array(
+				'conditions'=>array(
+					'credito.estado'=>'activo',
+					'credito.fecha_calculo >='=>$fecha_inicio,
+					'credito.fecha_calculo <='=>$fecha_final
+				),
+				'contain'=>array(
+					'Cliente'=>array(
+						'Empresa'=>array(
+							'fields'=>array( 
+								'nombre' ),					
+							'order'=>array('Empresa.nombre')
+						)
+					),
+					'Pago'=>array(
+						'Asociation'=>array(
+							'Abono'
+						)
+					)
+				)
+			));	
+				 
+			$t=null;
+			foreach ($Creditos as $key => $credito) {
+				$fecha=date($credito['Credito']['fecha']);
+				
+						if(! isset($t[$credito['Cliente']['Empresa']['nombre']])){
+						$t[$credito['Cliente']['Empresa']['nombre']]['Capital']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Interes']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Iva']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Pago']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Saldo']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo_inte']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo_iva']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['saldointeres']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['saldoiva']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Saldototal']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial_intereses']=0;
+						$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial_iva']=0;
+						}
+						
+				foreach ($credito['Pago'] as $key => $Pago){
+					foreach($Pago['Asociation'] as $key => $Asociation){
+						foreach ($Asociation['Abono'] as $key => $Abono){
+							$t[$credito['Cliente']['Empresa']['nombre']]['Capital'] = $t[$credito['Cliente']['Empresa']['nombre']]['Capital'] + $Pago['pago_capital'];	
+						}
+					} 
+				
+				if($credito['Credito']['estado']=='activo' and $Pago['sitacion']=='Pagado'){
+						
+						if($fecha >= $fecha_inicio){
+							$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial'] =  $credito['Credito']['prestamo'] - $Pago['pago_capital'];
+							$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial_intereses']= $credito['Credito']['prestamo'] - $Pago['intereses'];
+							$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial_iva']=$credito['Credito']['prestamo'] - $Pago['iva_intereses'];
+						}
+					$t[$credito['Cliente']['Empresa']['nombre']]['Pago'] = $t[$credito['Cliente']['Empresa']['nombre']]['Pago'] + $Abono['abono'];
+				}
+				
+				if($Pago['sitacion']=='No pagado'){
+					$t[$credito['Cliente']['Empresa']['nombre']]['Saldototal']= $t[$credito['Cliente']['Empresa']['nombre']]['Saldototal'] + $Pago['pago_capital'];
+				}
+				}
+					// $comparacion1=$fecha_inicio->diff($fecha);
+					// $comparacion2=$fecha->diff($fecha_final);
+					// if($comparacion1->format('%R%a')>=0 and $comparacion2->format('%R%a')>=0){
+						$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo'] = $t[$credito['Cliente']['Empresa']['nombre']]['Prestamo'] + $credito['Credito']['prestamo'];
+					// }
+					
+					$t[$credito['Cliente']['Empresa']['nombre']]['Saldo']=$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo'] - $t[$credito['Cliente']['Empresa']['nombre']]['Pago'] + $t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial'];
+					
+					$t[$credito['Cliente']['Empresa']['nombre']]['Interes'] = $t[$credito['Cliente']['Empresa']['nombre']]['Interes'] + $Pago['intereses'];
+					$t[$credito['Cliente']['Empresa']['nombre']]['Iva'] = $t[$credito['Cliente']['Empresa']['nombre']]['Iva'] + $Pago['iva_intereses'];
+					
+					$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo_inte']=$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo']-$t[$credito['Cliente']['Empresa']['nombre']]['Interes'];
+					$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo_iva']=$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo']-$t[$credito['Cliente']['Empresa']['nombre']]['Iva'];
+				   	
+				   	$t[$credito['Cliente']['Empresa']['nombre']]['saldointeres']=$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial_intereses'] + $t[$credito['Cliente']['Empresa']['nombre']]['Prestamo_inte']
+				   		- $t[$credito['Cliente']['Empresa']['nombre']]['Interes'];
+					$t[$credito['Cliente']['Empresa']['nombre']]['saldoiva']=$t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial_iva'] + $t[$credito['Cliente']['Empresa']['nombre']]['Prestamo_iva']
+						- $t[$credito['Cliente']['Empresa']['nombre']]['Iva'];
+					
+				}
 		
+		$this->set(compact('Creditos'));
+		$this->set(compact('t'));
+		pr($Creditos);
+		pr($t);
+		}
+	
+
+	function creditos_detalle(){
+		if($this->Session->check('User')){
+			if(!empty($this->data)){
+				$fecha_inicio=date('Y-m-d',strtotime($this->data['Credito']['fecha_inicio']));
+				$fecha_final=date('Y-m-d',strtotime($this->data['Credito']['fecha_final']));
+			}else
+				{
+					if(date('d')>15){
+						$fecha_final=date('Y-m-t');
+						$fecha_inicio=date('Y-m-16');
+					}else
+						{
+							$fecha_inicio=date('y-m-1');
+							$fecha_final=date('y-m-16');
+						}
+				}
+		}
+		$this->Credito->Behaviors->attach('Containable');
+			$Creditos = $this -> Credito -> find('all',array(
+				'conditions'=>array(
+					'credito.estado'=>'activo',
+					'credito.fecha_calculo >='=>$fecha_inicio,
+					'credito.fecha_calculo <='=>$fecha_final
+				),
+				'contain'=>array(
+					'Cliente'=>array(
+						'Empresa'=>array(
+							'fields'=>array( 
+								'nombre' ),					
+							'order'=>array('Empresa.nombre')
+						)
+					),
+					'Pago'=>array(
+						'Asociation'=>array(
+							'Abono'
+						)
+					)
+				)
+			));		
+			
+			$total=null;
+			foreach ($Creditos as $key => $credito) {
+				$fecha=new DateTime($credito['Credito']['fecha_calculo']);
+				
+					if(!isset($total[$credito['Cliente']['full_name']])){
+						$total[$credito['Cliente']['full_name']]['capital']=0;
+						$total[$credito['Cliente']['full_name']]['interes']=0;
+						$total[$credito['Cliente']['full_name']]['iva']=0;
+						$total[$credito['Cliente']['full_name']]['saldoinicial']=0;
+						$total[$credito['Cliente']['full_name']]['Prestamo']=0;
+						$total[$credito['Cliente']['full_name']]['pagos']=0;
+						$total[$credito['Cliente']['full_name']]['saldo']=0;
+						$total[$credito['Cliente']['full_name']]['Prestamo_interes']=0;
+						$total[$credito['Cliente']['full_name']]['Prestamo_iva']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_interes']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_iva']=0;
+						$total[$credito['Cliente']['full_name']]['empresa']=0;
+						$total[$credito['Cliente']['full_name']]['Saldototal']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_inicial_interes']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_inicial_iva']=0;
+					}
+				 foreach ($credito['Pago'] as $key => $pago){
+					foreach($pago['Asociation'] as $key => $Asociation){
+						foreach ($Asociation['Abono'] as $key => $Abono){
+				 	$total[$credito['Cliente']['full_name']]['capital']=$total[$credito['Cliente']['full_name']]['capital']+$pago['pago_capital'];
+					 	}
+					}
+					
+					if($credito['Credito']['estado']=='activo' and $pago['sitacion']=='Pagado'){
+						if($fecha >= $fecha_inicio){
+							$total[$credito['Cliente']['full_name']]['saldoinicial']=$credito['Credito']['prestamo'] - $pago['pago_capital'];
+							$total[$credito['Cliente']['full_name']]['Saldo_inicial_interes']=$credito['Credito']['prestamo'] - $pago['intereses'];
+							$total[$credito['Cliente']['full_name']]['Saldo_inicial_iva']=$credito['Credito']['prestamo']- $pago['iva_intereses'];
+						}
+						$total[$credito['Cliente']['full_name']]['pagos']=$total[$credito['Cliente']['full_name']]['pagos']+$Abono['abono'];
+					}
+					if($pago['sitacion']=='No pagado'){
+						$total[$credito['Cliente']['full_name']]['Saldototal']=$total[$credito['Cliente']['full_name']]['Saldototal'] + $pago['pago_capital'];
+					}
+				}
+				
+				 $total[$credito['Cliente']['full_name']]['Prestamo']=$total[$credito['Cliente']['full_name']]['Prestamo']+$credito['Credito']['prestamo'];				 
+				 $total[$credito['Cliente']['full_name']]['saldo']=$total[$credito['Cliente']['full_name']]['saldoinicial']+$total[$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['full_name']]['pagos'];
+				 
+				 $total[$credito['Cliente']['full_name']]['interes']=$total[$credito['Cliente']['full_name']]['interes']+$pago['intereses'];
+				 $total[$credito['Cliente']['full_name']]['iva']=$total[$credito['Cliente']['full_name']]['iva']+$pago['iva_intereses'];
+				 
+				 $total[$credito['Cliente']['full_name']]['Prestamo_interes']=$total[$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['full_name']]['interes'];
+				 $total[$credito['Cliente']['full_name']]['Prestamo_iva']=$total[$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['full_name']]['iva'];
+				 
+				 $total[$credito['Cliente']['full_name']]['Saldo_interes']=$total[$credito['Cliente']['full_name']]['Saldo_inicial_interes'] + $total[$credito['Cliente']['full_name']]['Prestamo_interes']
+				 	- $total[$credito['Cliente']['full_name']]['interes'];
+				 $total[$credito['Cliente']['full_name']]['Saldo_iva']=$total[$credito['Cliente']['full_name']]['Saldo_inicial_iva'] + $total[$credito['Cliente']['full_name']]['Prestamo_iva']
+				 	- $total[$credito['Cliente']['full_name']]['iva'];
+				
+				$total[$credito['Cliente']['full_name']]['empresa']= $credito['Cliente']['Empresa']['nombre'];
+			
+			}
+			$this->set(compact('Creditos'));
+			$this->set(compact('Asociations'));
+			$this->set(compact('total'));
+			// pr($Creditos);
+			// pr($total);
+			
+		}
+	
 		function add(){
 			if($this->Session->check('User')){
 				$usuario=$this->Session->read('User');
