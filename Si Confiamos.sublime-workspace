@@ -1,0 +1,918 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"butt",
+				"button-height"
+			],
+			[
+				"field",
+				"field-block"
+			],
+			[
+				"E",
+				"Empresa"
+			],
+			[
+				"men",
+				"menugenerator"
+			],
+			[
+				"hola",
+				"hola2"
+			],
+			[
+				"with",
+				"with-right-arrow"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/views/users/empresa_view.ctp",
+			"settings":
+			{
+				"buffer_size": 2030,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/controllers/users_controller.php",
+			"settings":
+			{
+				"buffer_size": 4629,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/controllers/clientes_controller.php",
+			"settings":
+			{
+				"buffer_size": 18837,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/views/clientes/view2.ctp",
+			"settings":
+			{
+				"buffer_size": 2489,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/views/clientes/add.ctp",
+			"settings":
+			{
+				"buffer_size": 17046,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/views/templates/add_client.ctp",
+			"settings":
+			{
+				"buffer_size": 17046,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/views/layouts/template.ctp",
+			"settings":
+			{
+				"buffer_size": 7864,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/webroot/js/src/views/users/empresa_view.js",
+			"settings":
+			{
+				"buffer_size": 941,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/controllers/empresas_controller.php",
+			"settings":
+			{
+				"buffer_size": 23517,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 512.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/wamp/www/siconfiamos/app/controllers/empresas_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/templates/index.ctp",
+		"/C/wamp/www/siconfiamos/app/views/elements/login_error.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/users_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/layouts/login.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/clientes_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/clientes/view.ctp",
+		"/C/wamp/www/siconfiamos/app/views/templates/view.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/creditos_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/creditos/view_credit.ctp",
+		"/C/wamp/www/siconfiamos/app/views/creditos/historial.ctp",
+		"/C/wamp/www/siconfiamos/app/views/templates/credit_history.ctp",
+		"/C/wamp/www/siconfiamos/app/views/templates/view_credit.ctp",
+		"/C/wamp/www/siconfiamos/app/views/creditos/view.ctp",
+		"/C/wamp/www/siconfiamos/app/models/credito.php",
+		"/C/wamp/www/siconfiamos/app/views/creditos/ver_cotizacion.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/templates_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/templates/add_credit.ctp",
+		"/C/wamp/www/siconfiamos/app/views/creditos/add.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_credit.js",
+		"/C/wamp/www/siconfiamos/app/views/creditos/cotizar.ctp",
+		"/C/wamp/www/siconfiamos/app/views/clientes/view2.ctp",
+		"/C/wamp/www/siconfiamos/app/views/users/index.ctp",
+		"/C/wamp/www/siconfiamos/app/views/templates/login.ctp",
+		"/C/wamp/www/siconfiamos/app/views/layouts/csv/default.ctp",
+		"/C/Users/Victor/Documents/Siconfiamos template/html/login.html",
+		"/C/wamp/www/siconfiamos/app/views/layouts/template.ctp",
+		"/C/wamp/www/siconfiamos/app/views/templates/add_client.ctp",
+		"/C/wamp/www/siconfiamos/app/views/layouts/wizard.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_client.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/formValidator/languages/jquery.validationEngine-es.js",
+		"/C/wamp/www/siconfiamos/app/models/user.php",
+		"/C/wamp/www/siconfiamos/app/models/cliente.php",
+		"/C/wamp/www/siconfiamos/app/models/aval.php",
+		"/C/wamp/www/siconfiamos/app/models/personal.php",
+		"/C/wamp/www/siconfiamos/app/models/familiar.php",
+		"/C/wamp/www/siconfiamos/app/views/templates/active_credit.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/js/add.js",
+		"/C/Users/Victor/Documents/Siconfiamos template/html/wizard.html",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_cliente.js",
+		"/C/wamp/www/siconfiamos/app/views/layouts/wizards.ctp",
+		"/C/wamp/www/siconfiamos/app/views/avals/view.ctp",
+		"/C/wamp/www/siconfiamos/app/vendors/format.php",
+		"/C/wamp/www/siconfiamos/app/views/elements/portal/menu.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/formValidator/developr.validationEngine.css",
+		"/C/Users/Victor/Documents/Siconfiamos template/html/tabs.html",
+		"/C/Users/Victor/Documents/Siconfiamos template/html/tables.html",
+		"/C/Users/Victor/Documents/Siconfiamos template/html/blocks.html",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/index.js",
+		"/C/wamp/www/siconfiamos/app/views/templates/view_credito.ctp",
+		"/C/wamp/www/siconfiamos/cake/libs/controller/app_controller.php",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/DataTables/jquery.dataTables-simple.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/DataTables/jquery.dataTables.css",
+		"/C/Users/Victor/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Victor/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/development-bundle/ui/i18n/jquery.ui.datepicker-sk.js",
+		"/C/wamp/www/siconfiamos/app/models/template.php",
+		"/C/wamp/www/siconfiamos/app/models/empresa.php",
+		"/C/wamp/www/siconfiamos/app/views/clientes/add2.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/style.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/992.css",
+		"/C/wamp/www/siconfiamos/app/controllers/abonos_controller.php",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/768.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/2x.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/480.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/error.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/login.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/reset.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/colors.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/form.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/files.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/modal.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/table.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/agenda.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/switches.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/calendars.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/dashboard.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/glDatePicker/android.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/glDatePicker/default.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/glDatePicker/developr.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/google-code-prettify/prettify.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/google-code-prettify/sunburst.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/development-bundle/demos/demos.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/development-bundle/external/qunit.css",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/styles/progress-slider.css",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/DataTables/jquery.dataTables.css",
+		"/C/Users/Victor/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"clientes",
+			"hide",
+			"before",
+			"salario",
+			"ingresos",
+			"Cliente",
+			"fecha_nacimiento",
+			"Personal",
+			"lyLetterNumber",
+			"mber",
+			"validate",
+			"utilize",
+			"input('",
+			"Secundariol",
+			"			<td></td>\n",
+			"</dd><dd>",
+			"p>",
+			"</strong>",
+			"<p><strong>",
+			"p>",
+			"strong>",
+			"<p><strong>",
+			"p>",
+			"<?php",
+			"strong>",
+			"<p>",
+			"ul>",
+			"ul",
+			"p>",
+			"p",
+			"['pago']",
+			"['Pago']",
+			"'pago'",
+			"Credito",
+			"credito",
+			"Credito",
+			"credito",
+			"Credito",
+			"credito",
+			"Credito",
+			"credito",
+			"Credito",
+			"credito",
+			"th",
+			"Familiar",
+			"Aval",
+			"'Cliente'",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"cliente",
+			"Cliente",
+			"styleSelect",
+			"{\n",
+			"new",
+			"../../../img/",
+			"../img/",
+			"../../../img/",
+			"../../img/",
+			"../../../img/",
+			"../../img/",
+			"}\n",
+			"../../img",
+			"../../img/",
+			"\n	",
+			"/**",
+			"../../img/",
+			"../img/",
+			";\n",
+			"../img/",
+			"to",
+			"../../img/",
+			"../img/",
+			".\n",
+			"../img/",
+			"/**",
+			"../img/",
+			"*/\n",
+			"../img/",
+			"/**",
+			"../img/",
+			"standard",
+			"(../",
+			"../img/",
+			"move",
+			"Credito",
+			"move",
+			"comment",
+			"+/\"],",
+			"Empresa",
+			"clientes",
+			"',\n",
+			"	\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 8,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/views/users/empresa_view.ctp",
+					"settings":
+					{
+						"buffer_size": 2030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								725,
+								725
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/controllers/users_controller.php",
+					"settings":
+					{
+						"buffer_size": 4629,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3866,
+								3866
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1452.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/controllers/clientes_controller.php",
+					"settings":
+					{
+						"buffer_size": 18837,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1182,
+								1182
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 535.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/views/clientes/view2.ctp",
+					"settings":
+					{
+						"buffer_size": 2489,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								2489
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/views/clientes/add.ctp",
+					"settings":
+					{
+						"buffer_size": 17046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								17046,
+								17046
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 8793.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/views/templates/add_client.ctp",
+					"settings":
+					{
+						"buffer_size": 17046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								17046
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/views/layouts/template.ctp",
+					"settings":
+					{
+						"buffer_size": 7864,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5393,
+								5393
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1262.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/webroot/js/src/views/users/empresa_view.js",
+					"settings":
+					{
+						"buffer_size": 941,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								453,
+								453
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "app/controllers/empresas_controller.php",
+					"settings":
+					{
+						"buffer_size": 23517,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4449,
+								4449
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2087.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"ec",
+				"app/controllers/empresas_controller.php"
+			],
+			[
+				"empresa_v",
+				"app/webroot/js/src/views/users/empresa_view.js"
+			],
+			[
+				"ev",
+				"app/views/users/empresa_view.ctp"
+			],
+			[
+				"template",
+				"app/views/layouts/template.ctp"
+			],
+			[
+				"ac",
+				"app/views/templates/add_client.ctp"
+			],
+			[
+				"add",
+				"app/views/clientes/add.ctp"
+			],
+			[
+				"view2",
+				"app/views/clientes/view2.ctp"
+			],
+			[
+				"cc",
+				"app/controllers/clientes_controller.php"
+			],
+			[
+				"uc",
+				"app/controllers/users_controller.php"
+			],
+			[
+				"vc",
+				"app/views/creditos/ver_cotizacion.ctp"
+			],
+			[
+				"ac.js",
+				"app/webroot/js/src/views/templates/add_credit.js"
+			],
+			[
+				"view",
+				"app/views/creditos/view.ctp"
+			],
+			[
+				"ver",
+				"app/views/creditos/ver_cotizacion.ctp"
+			],
+			[
+				"cotiza",
+				"app/views/creditos/cotizar.ctp"
+			],
+			[
+				"addc",
+				"app/webroot/js/src/views/templates/add_credit.js"
+			],
+			[
+				"credito",
+				"app/models/credito.php"
+			],
+			[
+				"ch",
+				"app/views/templates/credit_history.ctp"
+			],
+			[
+				"his",
+				"app/views/creditos/historial.ctp"
+			],
+			[
+				"index",
+				"app/views/templates/index.ctp"
+			],
+			[
+				"login",
+				"app/views/layouts/login.ctp"
+			],
+			[
+				"tc",
+				"app/controllers/templates_controller.php"
+			],
+			[
+				"default",
+				"app/views/layouts/csv/default.ctp"
+			],
+			[
+				"login.ctp",
+				"app/views/layouts/login.ctp"
+			],
+			[
+				"templa",
+				"app/controllers/templates_controller.php"
+			],
+			[
+				"validationen",
+				"app/webroot/js/src/portal/libs/formValidator/languages/jquery.validationEngine-es.js"
+			],
+			[
+				"wiza",
+				"app/views/layouts/wizard.ctp"
+			],
+			[
+				"ac.ctp",
+				"app/views/templates/add_client.ctp"
+			],
+			[
+				"add_",
+				"app/views/templates/add_client.ctp"
+			],
+			[
+				"active",
+				"app/views/templates/active_credit.ctp"
+			],
+			[
+				"add.js",
+				"app/webroot/js/src/views/creditos/js/add.js"
+			],
+			[
+				"add_cre",
+				"app/webroot/js/src/views/templates/add_credit.js"
+			],
+			[
+				"persona",
+				"app/models/personal.php"
+			],
+			[
+				"aval",
+				"app/models/aval.php"
+			],
+			[
+				"clien",
+				"app/models/cliente.php"
+			],
+			[
+				"user",
+				"app/models/user.php"
+			],
+			[
+				"dataval",
+				"app/webroot/js/src/portal/libs/formValidator/languages/jquery.validationEngine-es.js"
+			],
+			[
+				"add_client",
+				"app/webroot/js/src/views/templates/add_cliente.js"
+			],
+			[
+				"add_cli",
+				"app/views/templates/add_client.ctp"
+			],
+			[
+				"wizar",
+				"app/views/layouts/wizard.ctp"
+			],
+			[
+				"add_c",
+				"app/views/templates/add_client.ctp"
+			],
+			[
+				"templates",
+				"app/controllers/templates_controller.php"
+			],
+			[
+				"format",
+				"app/vendors/format.php"
+			],
+			[
+				"menu",
+				"app/views/elements/portal/menu.ctp"
+			],
+			[
+				"view_",
+				"app/views/templates/view_credit.ctp"
+			],
+			[
+				"credit_",
+				"app/views/templates/credit_history.ctp"
+			],
+			[
+				"cliente.",
+				"app/models/cliente.php"
+			],
+			[
+				"index.js",
+				"app/webroot/js/src/views/templates/index.js"
+			],
+			[
+				"datata",
+				"app/webroot/css/portal/DataTables/jquery.dataTables.css"
+			],
+			[
+				"app",
+				"cake/libs/controller/app_controller.php"
+			],
+			[
+				"creditos",
+				"app/controllers/creditos_controller.php"
+			],
+			[
+				"index.ctp",
+				"app/views/templates/index.ctp"
+			],
+			[
+				"template.ctp",
+				"app/views/layouts/template.ctp"
+			],
+			[
+				".css",
+				"app/webroot/js/src/views/creditos/development-bundle/ui/i18n/jquery.ui.datepicker-sk.js"
+			],
+			[
+				"",
+				"app/webroot/css/portal/992.css"
+			],
+			[
+				"768",
+				"app/webroot/css/portal/768.css"
+			],
+			[
+				"controller",
+				"app/controllers/abonos_controller.php"
+			],
+			[
+				"99",
+				"app/webroot/css/portal/992.css"
+			],
+			[
+				"style",
+				"app/webroot/css/portal/style.css"
+			],
+			[
+				"cotiz",
+				"app/views/creditos/cotizar.ctp"
+			],
+			[
+				"empresa.php",
+				"app/models/empresa.php"
+			],
+			[
+				"abonos",
+				"app/controllers/abonos_controller.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/Victor/Documents/Victor Projects/Sistema-Rentas.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

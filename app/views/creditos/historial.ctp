@@ -1,48 +1,80 @@
-<div id="menu">
-<table>
-<tr>
-<td><?php echo $this->Html->link('Clientes', array('controller' => 'users', 'action' => 'sesion',1)); ?>
-</td>	
-<td><?php echo $this->Html->link('Empresas', array('controller' => 'users', 'action' => 'sesion',2)); ?>
-</td>
-<td><?php echo $this->Html->link('Reportes', array('controller' => 'empresas', 'action' => 'reportes')); ?>
-</td>
-<td><?php echo $this->Html->link('Pagos', array('controller' => 'abonos', 'action' => 'elegir_empresa')); ?>
-</td>
-<td><?php echo $this->Html->link('Finalizar sesión', array('controller'=>'users','action' => 'logout'));?>
-</td>
-</tr>
-</table>
-</div>
-<h2>Historial Crediticio de <?php echo $creditos[0]['Cliente']['nombre'].' '.$creditos[0]['Cliente']['apellido_paterno'].' '.$creditos[0]['Cliente']['apellido_materno']; ?></h2>
-<br>
-<?php echo $this->Html->link('Credito actual de '.$creditos[0]['Cliente']['nombre'].' '.$creditos[0]['Cliente']['apellido_paterno'].' '.$creditos[0]['Cliente']['apellido_materno'],array('action'=>'view',$creditos[0]['Cliente']['id'])); ?>
-<br>
-<br>
-<table>
-<thead>
-	<tr>
-	<th>Numero de Crédito</th>
-	<th>Fecha</th>
-	<th>Monto</th>
-	<th>Numero de Cuotas</th>
-	<th>Periodo Cuotas</th>
-	<th>Estado</th>
-	</tr>
-</thead>
-<tbody>
-<?php $meses=array(0,'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'); 
-foreach($creditos as $credito):
-	$fecha=explode('-',$credito['Credito']['fecha_calculo']); ?>
-	<tr>
-	<td><?php echo $credito['Credito']['id']; ?></td>
-	<td><?php echo $fecha[2].' de '.$meses[$fecha[1][0]*10+$fecha[1][1]].' de '.$fecha[0]; ?></td>
-	<td><?php echo '$'.number_format($credito['Credito']['prestamo'],2); ?></td>
-	<td><?php echo $credito['Credito']['cuotas']; ?></td>
-	<td><?php echo $credito['Credito']['periodo_cuotas']; ?></td>
-	<td><?php echo $credito['Credito']['estado']; ?></td>
-	<td><?php echo $html->link('Pagos', array('controller' => 'pagos', 'action' => 'imprimirpdf', $credito['Credito']['id'])); ?></td>
-	</tr>
-<?php endforeach; ?>
-</tbody>
+<?php
+$menu_elements = array(
+	'element2' => array(
+		'name' => $this->Html->link('Finalizar Sesión', 
+			array(
+				'controller' => 'users',
+				'action' => 'logout'
+			)
+		)
+	)
+);
+$firstElementClass = 'current';
+$secondElementClass = '';
+$thirdElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
+echo $this->Html->script('src/portal/developr.accordions.js', array(
+	'inline' => false
+));
+
+?>
+
+<h3 class = "thin underline">Historial de Crédito de <?php echo $creditos[0]['Cliente']['full_name']; ?></h3>
+
+<table class="simple-table responsive-table" id="sorting-example2">
+
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Fecha</th>
+			<th scope="col">Monto</th>
+			<th scope="col">Número de Cuotas</th>
+			<th scope="col">Periodo Cuotas</th>
+			<th scope="col">Tipo de Cálculo</th>
+			<th scope="col">Estado</th>
+			<th scope="col">Acciones</th>
+		</tr>
+	</thead>
+
+	<tfoot>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tfoot>
+
+	<tbody>
+		<?php foreach($creditos as $credito): ?>
+			<tr>
+				<td scope="row"><?php echo $credito['Credito']['id']; ?></td>
+				<td scope="row"><?php echo $credito['Credito']['fecha_calculo']; ?></td>
+				<td scope="row">$<?php echo number_format($credito['Credito']['prestamo'], 2); ?></td>
+				<td scope="row"><?php echo $credito['Credito']['cuotas']; ?></td>
+				<td scope="row"><?php echo ucfirst($credito['Credito']['periodo_cuotas']); ?></td>
+				<td scope="row"><?php echo ucfirst($credito['Credito']['tipo_calculo']); ?></td>
+				<td scope="row"><?php echo ucfirst($credito['Credito']['estado']); ?></td>
+				<td scope="row">
+					<?php 
+					echo $this->Html->link('Ver',
+						array(
+							'controller' => 'creditos',
+							'action' => 'view_credit',
+							$credito['Credito']['id']
+						),
+						array(
+							'class' => 'button compact icon-card'
+						)
+					); 
+					?>
+				</td>				
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+
 </table>

@@ -110,7 +110,7 @@ class XTCPDF  extends TCPDF
         $this->Cell(array_sum($w), 0, '', 'T');
     }
 	
-	public function ColoredTable2($header,$pagos,$arreglo2,$clientes) {
+	public function ColoredTable2($header,$pagos,$total,$clientes) {
         // Colors, line width and bold font
         $this->SetFillColor(34, 5, 100,0);
         $this->SetTextColor(255);
@@ -135,7 +135,7 @@ class XTCPDF  extends TCPDF
         	foreach($arreglo as $pago){
 	        	$this->Cell($w[0], 6, $i++ , 'LR', 0, 'L', $fill);
 	            $this->Cell($w[1], 6, $pago['Credito']['cheque'] , 'LR', 0, 'L', $fill);
-	            $this->Cell($w[2], 6, isset($clientes[$key]['Cliente']['division']) ? $clientes[$key]['Cliente']['full_name'].' (' . $clientes[$key]['Cliente']['division'] . ')' : $clientes[$key]['Cliente']['full_name'] , 'LR', 0, 'R', $fill);
+	            $this->Cell($w[2], 6, $clientes[$key]['Cliente']['full_name'], 'LR', 0, 'R', $fill);
 	            $this->Cell($w[3], 6, date('d/m/Y', strtotime($pago['Pago']['fecha'])) , 'LR', 0, 'R', $fill);
 	            $this->Cell($w[4], 6, $pago['Pago']['numero_pago'], 'LR', 0, 'R', $fill);
 				$this->Cell($w[5], 6, '$'.number_format($pago['Pago']['pago'],2), 'LR', 0, 'R', $fill);
@@ -151,10 +151,10 @@ class XTCPDF  extends TCPDF
             $this->Cell($w[2], 6, ' ' , 'LR', 0, 'R', $fill);
             $this->Cell($w[3], 6, ' ' , 'LR', 0, 'R', $fill);
             $this->Cell($w[4], 6, 'Total:' , 'LR', 0, 'R', $fill);
-			$this->Cell($w[5], 6, '$'.number_format($arreglo2['Pago'],2), 'LR', 0, 'R', $fill);
-			$this->Cell($w[6], 6, '$'.number_format($arreglo2['Capital'],2), 'LR', 0, 'R', $fill);
-			$this->Cell($w[7], 6, '$'.number_format($arreglo2['Interes'],2), 'LR', 0, 'R', $fill);
-			$this->Cell($w[8], 6, '$'.number_format($arreglo2['Iva'],2), 'LR', 0, 'R', $fill);
+			$this->Cell($w[5], 6, '$'.number_format($total['Pago'],2), 'LR', 0, 'R', $fill);
+			$this->Cell($w[6], 6, '$'.number_format($total['Capital'],2), 'LR', 0, 'R', $fill);
+			$this->Cell($w[7], 6, '$'.number_format($total['Interes'],2), 'LR', 0, 'R', $fill);
+			$this->Cell($w[8], 6, '$'.number_format($total['Iva'],2), 'LR', 0, 'R', $fill);
 			$this->Ln();
         $this->Cell(array_sum($w), 0, '', 'T');
     }

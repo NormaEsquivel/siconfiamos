@@ -140,12 +140,13 @@ class EmpresasController extends AppController{
 	
 	function add(){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			$usuario=$this->Session->read('User');
 		if(!empty($this->data)){
 			$this->data['Empresa']['user_id']=$usuario['User']['id'];
 			if($this->Empresa->save($this->data)){
 				$this->Session->setFlash('Su información se ha guardado con éxito');
-				$this->redirect(array('controller'=>'users','action'=>'view_user'));
+				$this->redirect(array('controller'=>'users','action'=>'sesion', 2));
 			}
 		}
 		}else{
@@ -156,6 +157,8 @@ class EmpresasController extends AppController{
 	
 	function view($id=null){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
+			$this->set('title_for_layout', '');
 			$usuario=$this->Session->read('User');
 			$empresa=$this->Empresa->find('first',array('conditions'=>array('Empresa.id'=>$id)));
 				
@@ -169,16 +172,18 @@ class EmpresasController extends AppController{
 	
 	function cliente_view($id=null){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			$usuario=$this->Session->read('User');
 			$this->Session->delete('empresa');	
 			$cuenta=$this->Empresa->Cliente->find('count',array('conditions'=>array('Cliente.empresa_id'=>$id)));
 		 if($cuenta>0){
-			$clientes=$this->Empresa->Cliente->find('all',array('conditions'=>array('Cliente.empresa_id'=>$id, 'recursive' => 0)));
+			$clientes=$this->Empresa->Cliente->find('all',array('conditions'=>array('Cliente.empresa_id'=>$id), 'recursive' => 0));
 			$empresa=$this->Empresa->find('first',array('conditions'=>array('Empresa.id'=>$id)));
 			$this->set('clientes',$clientes);
 			$this->set('id',$usuario['User']['id']);
 			$this->set('empresa',$empresa);
 			$this->Session->write('empresa',$empresa);
+			$this->set('title_for_layout', 'Clientes de ' . $empresa['Empresa']['nombre']);
 		 }else{
 		 		$empresa=$this->Empresa->find('first',array('conditions'=>array('Empresa.id'=>$id)));
 		 		$this->Session->write('empresa',$empresa);
@@ -213,6 +218,7 @@ class EmpresasController extends AppController{
 	
 	function edit($id=null){
 		if($this->Session->check('User')){
+		$this->layout = 'template';
 		 $usuario=$this->Session->read('User');
 		 $empresa=$this->Empresa->find('first',array('conditions'=>array('Empresa.id'=>$id)));
 			 $this->Empresa->id=$id;
@@ -248,7 +254,11 @@ class EmpresasController extends AppController{
 			foreach($empresas as $empresa){
 					$arreglo2['Empresa'][$cuenta]['nombre_empresa']=$empresa['Empresa']['nombre'];
 				foreach($empresa['Cliente'] as $cliente){
-					$creditos=$this->Empresa->Cliente->Credito->find('all',array('conditions'=>array('Credito.cliente_id'=>$cliente['id'])));
+					$creditos=$this->Empresa->Cliente->Credito->find('all',array(
+						'conditions'=>array(
+							'Credito.cliente_id'=>$cliente['id'],
+							'Credito.estado <>' =>	'finalizado'
+					)));
 						if($creditos){
 							foreach($creditos as $credito){
 								$fecha=new DateTime($credito['Credito']['fecha']);

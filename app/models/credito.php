@@ -20,7 +20,7 @@ class Credito extends AppModel{
 		);
 		var $validate=array(
 			'fecha'=>array(
-				'rule'=>array('date','ymd'),
+				'rule'=> 'notEmpty',
 				'message'=>'Introduzca una fecha válida'),
 			'cheque'=>array(
 				'rule2'=>array(

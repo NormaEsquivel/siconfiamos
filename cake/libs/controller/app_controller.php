@@ -33,4 +33,15 @@
  * @link http://book.cakephp.org/view/957/The-App-Controller
  */
 class AppController extends Controller {
+
+	function beforeFilter(){
+		if($this->Session->check('User') || ($this->params['controller'] == 'users' && $this->params['action'] == 'index') || ($this->params['controller'] == 'users' && $this->params['action'] == 'login')){
+			$auth_user = $this->Session->read('User');
+			$this->set(compact('auth_user'));
+		}else{
+			$this->Session->setFlash('Necesita iniciar sesión primero', 'login_error');
+			$this->redirect(array('controller' => 'users', 'action' => 'index'));
+		}
+	}
+
 }

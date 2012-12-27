@@ -27,16 +27,24 @@ class ClientesController extends AppController{
 	
 	function add(){
 		if($this->Session->check('User')){
-			$empresa=$this->Session->read('empresa');	
+			$this->layout = 'wizard';
+			$this->loadModel('Empresa');
+			$empresas = $this->Empresa->find('list', array(
+				'fields' => array('Empresa.id', 'Empresa.nombre')
+			));
+			$this->set(compact('empresas'));
+
 			if(!empty($this->data)){
-				$usuario=$this->Session->read('User');
-				$this->data['Cliente']['user_id']=$usuario['User']['id'];
-				$this->data['Cliente']['empresa_id']=$empresa['Empresa']['id'];
-					if($this->Cliente->save($this->data)){
-						$this->Session->setFlash('Su cliente se ha añadido con éxito.');
-						$this->Session->write('Cliente',$this->Cliente->read());
-						$this->redirect(array('controller'=>'users','action'=>'view_user'));
-					}	
+				$this->data['Cliente']['fecha_nacimiento'] = $this->data['Cliente']['fecha_nacimiento']['year'] . '-' . $this->data['Cliente']['fecha_nacimiento']['month'] . '-' . $this->data['Cliente']['fecha_nacimiento']['day'];
+				$this->data['Cliente']['antiguedad_laboral'] = $this->data['Cliente']['antiguedad_laboral']['year'] . '-' . $this->data['Cliente']['antiguedad_laboral']['month'] . '-' . $this->data['Cliente']['antiguedad_laboral']['day'];
+				$this->data['Aval']['fecha_nacimiento'] = $this->data['Aval']['fecha_nacimiento']['year'] . '-' . $this->data['Aval']['fecha_nacimiento']['month'] . '-' . $this->data['Aval']['fecha_nacimiento']['day'];
+				$this->data['Ingreso']['total_ingresos'] = $this->data['Ingreso']['salario_imss'] + $this->data['Ingreso']['salario_real'] + $this->data['Ingreso']['otros_ingresos'];
+				$this->data['Ingreso']['total_egresos'] = $this->data['Ingreso']['egresos_imss'] + $this->data['Ingreso']['egresos_real'] + $this->data['Ingreso']['otros_egresos'];
+
+
+				if($this->Cliente->saveAll($this->data)){
+					$this->redirect(array('action' => 'index'));
+				}
 			}
 		}else{
 			$this->Session->setFlash('Necesita iniciar sesión.');
@@ -46,9 +54,16 @@ class ClientesController extends AppController{
 	
 	function view($id=null){
 		if($this->Session->check('User')){
-			$usuario=$this->Session->read('User');
-			$cliente=$this->Cliente->find('first',array('conditions'=>array('Cliente.id'=>$id), 'contain' => array('Empresa')));
-				$this->set('cliente',$cliente);
+			$this->layout = 'template';
+			$cliente = $this->Cliente->find('first', array(
+				'conditions' => array(
+					'Cliente.id' => $id
+				),
+				'contain' => array('Aval', 'Personal', 'Familiar', 'Ingreso')
+			));
+			$this->set('title_for_layout', '');
+			$this->set(compact('cliente'));
+
 		}else{
 			$this->Session->setFlash('Necesita iniciar sesión');
 			$this->redirect(array('controller'=>'users'));
@@ -57,16 +72,35 @@ class ClientesController extends AppController{
 	
 	function edit($id=null){
 		if($this->Session->check('User')){
+			$this->layout = 'wizard';
 		 $usuario=$this->Session->read('User');
-		 $cliente=$this->Cliente->find('first',array('conditions'=>array('Cliente.id'=>$id)));
+		 $cliente=$this->Cliente->find('first',array(
+			'conditions'=>array('Cliente.id'=>$id),
+		 	'contain' => array('Aval', 'Personal', 'Familiar', 'Ingreso', 'Empresa')
+		));
+		 $this->loadModel('Empresa');
+		 $empresas = $this->Empresa->find('list', array(
+			'fields' => array('Empresa.id', 'Empresa.nombre'),
+			'contain' => false
+		));
+		 $this->set(compact('empresas'));
 			 $this->Cliente->id=$id;
 				if(empty($this->data)){
-				 $this->data=$this->Cliente->read();
+				 $this->data =$cliente;
+				 // pr($this->data);exit;
 				}else{
-					if($this->Cliente->save($this->data)){
+					$this->data['Cliente']['fecha_nacimiento'] = $this->data['Cliente']['fecha_nacimiento']['year'] . '-' . $this->data['Cliente']['fecha_nacimiento']['month'] . '-' . $this->data['Cliente']['fecha_nacimiento']['day'];
+					$this->data['Cliente']['antiguedad_laboral'] = $this->data['Cliente']['antiguedad_laboral']['year'] . '-' . $this->data['Cliente']['antiguedad_laboral']['month'] . '-' . $this->data['Cliente']['antiguedad_laboral']['day'];
+					$this->data['Aval']['fecha_nacimiento'] = $this->data['Aval']['fecha_nacimiento']['year'] . '-' . $this->data['Aval']['fecha_nacimiento']['month'] . '-' . $this->data['Aval']['fecha_nacimiento']['day'];
+					$this->data['Ingreso']['total_ingresos'] = $this->data['Ingreso']['salario_imss'] + $this->data['Ingreso']['salario_real'] + $this->data['Ingreso']['otros_ingresos'];
+					$this->data['Ingreso']['total_egresos'] = $this->data['Ingreso']['egresos_imss'] + $this->data['Ingreso']['egresos_real'] + $this->data['Ingreso']['otros_egresos'];
+
+					if($this->Cliente->saveAll($this->data)){
 					 $this->Session->setFlash('La información de su cliente se ha actualizado con éxito');
 					 $this->redirect(array('controller'=>'clientes','action'=>'view',$this->data['Cliente']['id']));
 					}
+
+					pr($this->Cliente->invalidFields());exit;
 				} 		
 		}else{
 			$this->Session->setFlash('Necesita iniciar sesión');
@@ -100,6 +134,9 @@ class ClientesController extends AppController{
 	
 	function view2($id=null){
 		if($this->Session->check('User')){
+
+			$this->layout = 'template';
+
 			$usuario=$this->Session->read('User');
 				$clientes=$this->Cliente->find('all', array(
 					'order' => array(
@@ -122,10 +159,12 @@ class ClientesController extends AppController{
 	
 	function incidencia($id=null){
 		if($this->Session->check('User')){
-			
+			$this->layout = 'template';
 			if(!empty($this->data)){
-				$fecha_inicio= date('Y-m-d', strtotime($this->data['Cliente']['fecha_inicio']));
-				$fecha_final= date('Y-m-d', strtotime($this->data['Cliente']['fecha_final']));
+				$explode_inicio = explode('/', $this->data['Cliente']['fecha_inicio']);
+				$explode_final = explode('/', $this->data['Cliente']['fecha_final']);
+				$fecha_inicio= $explode_inicio[2] . '-' . $explode_inicio[1] . '-' . $explode_inicio[0];
+				$fecha_final= $explode_final[2] . '-' . $explode_final[1] . '-' . $explode_final[0];;
 				$periodo=$this->data['Cliente']['periodo'];
 				$id=$this->data['Cliente']['id'];
 			}else{
@@ -140,21 +179,29 @@ class ClientesController extends AppController{
 				
 				$periodo = 'quincenal';
 			}
+
+			// pr($fecha_inicio);exit;
 			
+			$this->Cliente->Credito->Behaviors->attach('Containable');
+
 			$clientes = $this->Cliente->Credito->find('all', array(
 				'conditions' => array(
-					'Cliente.empresa_id' => $id,
 					'Credito.periodo_cuotas' => $periodo,
-					'Credito.estado' => 'activo'
+					'Credito.estado' => 'activo',
+					'Cliente.empresa_id' => $id
 				),
-				'recursive' => 0
+				'contain' => array(
+					'Cliente' 
+				)
 			)); 
+			//pr($clientes);exit;
+			// pr($this->data);exit;
 			
 			$empresa = $this->Cliente->Empresa->find('first', array(
 				'conditions' => array(
 					'Empresa.id' => $id
 				),
-				'recursive'=> 0
+				'contain' => false
 			));
 			
 			$total['nombre_empresa'] = $empresa['Empresa']['nombre'];
@@ -162,292 +209,50 @@ class ClientesController extends AppController{
 			$total['Pago']=0;
 			$total['Interes']=0;
 			$total['Iva']=0;													
-			$i=0;
-			foreach($clientes as $key => $cliente){
-				$pagos[$key] = $this->Cliente->Credito->Pago->find('all', array(
-					'conditions' => array(
-						'Pago.credito_id' => $cliente['Credito']['id'],
-						'Pago.fecha_bien >=' => $fecha_inicio,
-						'Pago.fecha_bien <=' => $fecha_final,
-						'Pago.sitacion' => 'No pagado'
-					)
-				));
-				
-			}
+			$i=0;
+
+			if($clientes != null){
+
+				foreach($clientes as $key => $cliente){
+					$pagos[$key] = $this->Cliente->Credito->Pago->find('all', array(
+						'conditions' => array(
+							'Pago.credito_id' => $cliente['Credito']['id'],
+							'Pago.fecha_bien >=' => $fecha_inicio,
+							'Pago.fecha_bien <=' => $fecha_final,
+							'Pago.sitacion' => 'No pagado'
+						),
+						'contain' => false
+					));
 					
-			foreach($pagos as $key => $arreglo){
-				foreach($arreglo as $pago){
-					$total['Capital'] = $total['Capital'] + round($pago['Pago']['pago_capital'], 2);
-					$total['Pago'] = $total['Pago'] + round($pago['Pago']['pago'], 2);
-					$total['Interes'] = $total['Interes'] + round($pago['Pago']['intereses'], 2);
-					$total['Iva'] = $total['Iva'] + round($pago['Pago']['iva_intereses'], 2);															
 				}
 			}
-			// $clientes=$this->Cliente->Credito->find('all', array('conditions' => array(
-																						// 'Cliente.empresa_id' => $id,
-																						// 'Credito.periodo_cuotas' => $periodo,
-																						// 'Credito.estado' => 'activo'
-																						// )
-																// ));
-			// $empresa=$this->Cliente->find('first',array('conditions' => array(
-							// 'Cliente.empresa_id' => $id
-							// )
-						// ));	
-// 								
-			// $total['nombre_empresa']=$empresa['Empresa']['nombre'];
-			// $total['Capital']=0;
-			// $total['Pago']=0;
-			// $total['Interes']=0;
-			// $total['Iva']=0;													
-			// $i=0;
-// 
-			// foreach($clientes as $creditos){
-				// foreach($creditos['Pago'] as $pago){
-					// $fecha =  new DateTime($pago['fecha']);
-					// $comparacion1 =  $fecha_inicio->diff($fecha);
-					// $comparacion2 = $fecha->diff($fecha_final);
-					// if($comparacion1->format('%R%a')>=0 and $comparacion2->format('%R%a')>=0){
-// 							
-						// $abono = $this->Cliente->Credito->Pago->Abono->find('first',array(
-							// 'conditions'=>array('Pago.id' => $pago['id']),
-							// 'order'=>array('Abono.id DESC')
-						// ));
-						// $pagos_pagados = $this->Cliente->Credito->Pago->find('count', array(
-							// 'conditions' => array(
-								// 'Pago.credito_id' => $creditos['Credito']['id'],
-								// 'Pago.sitacion' => 'Pagado'
-							// )
-						// ));
-// 						
-						// $arreglo[$i]=$pago;
-						// $redondeo = round($pago['pago'], 2);
-						// $arreglo[$i]['prestamo'] = $redondeo*$creditos['Credito']['cuotas'] - $redondeo*$pagos_pagados;
-// 						
-						// if($abono){
-							// $arreglo[$i]['saldo']=$abono['Abono']['saldo'];
-							
-							// if($pago['sitacion'] != 'Pagado'){
-								// $arreglo[$i]['prestamo'] = $arreglo[$i]['prestamo'] - ($redondeo - $abono['Abono']['saldo']);
-							// }
-						// }
-// 						
-// 						
-						// $arreglo[$i]['cheque']=$creditos['Credito']['cheque'];
-						// $arreglo[$i]['nombre']=$creditos['Cliente']['nombre'] . ' ' . $creditos['Cliente']['apellido_paterno'] . ' ' . $creditos['Cliente']['apellido_materno'];
-						// isset($creditos['Cliente']['division']) ? $arreglo[$i]['division']=$creditos['Cliente']['division'] : '' ;
-						// $i++;
-						// $total['Capital']=$total['Capital']+$pago['pago_capital'];
-						// $total['Pago']=$total['Pago']+$pago['pago'];
-						// $total['Interes']=$total['Interes']+$pago['intereses'];
-						// $total['Iva']=$total['Iva']+$pago['iva_intereses'];
-					// }
-// 					
-				// }
-// 				
-			//}
-			// $this->Session->write('incidencia', $arreglo);
-			// $this->Session->write('generales', $total);
-			$this->Session->write('clientes', $clientes);
-			$this->Session->write('incidencia', $pagos);
-			$this->Session->write('generales', $total);
-			$this->set('empresa', $empresa);			$this->set('clientes', $clientes);
-			$this->set('id', $id);
-			$this->set('pagos', $pagos);
-			$this->set('total', $total);
 			
+			if(isset($pagos)){
+
+				foreach($pagos as $key => $arreglo){
+					foreach($arreglo as $pago){
+						$total['Capital'] = $total['Capital'] + round($pago['Pago']['pago_capital'], 2);
+						$total['Pago'] = $total['Pago'] + round($pago['Pago']['pago'], 2);
+						$total['Interes'] = $total['Interes'] + round($pago['Pago']['intereses'], 2);
+						$total['Iva'] = $total['Iva'] + round($pago['Pago']['iva_intereses'], 2);															
+					}
+				}
+				$this->Session->write('incidencia', $pagos);
+				$this->set('pagos', $pagos);
+				
+			}
+
+			$this->Session->write('total', $total);
+			$this->Session->write('clientes', $clientes);
+			$this->Session->write('generales', 'Incidencia ' . $periodo . ' de ' . $empresa['Empresa']['nombre'] . ' ( ' . $fecha_inicio . ' a ' . $fecha_final . ')');
+			$this->set('empresa', $empresa);
+			$this->set('clientes', $clientes);
+			$this->set('id', $id);
+			$this->set('total', $total);
+			$this->set('title_for_layout', '');
+			$this->set('title', 'Incidencia ' . $periodo . ' de ' . $empresa['Empresa']['nombre'] . ' ( ' . $fecha_inicio . ' a ' . $fecha_final . ')'); 
 		}
 	}
-	
-	// function incidencia($id=null,$id2=null){
-			// if($this->Session->check('User')){
-					// $usuario=$this->Session->read('User');
-					// $meses=array(0,'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
-					// if($id){
-							// $this->Session->write('id',$id);
-					// }else{
-						// $id=$this->Session->read('id');
-					// }
-// 				
-					// if(!empty($this->data)){
-						// $periodo=$this->data['Cliente']['periodo'];
-						// switch($this->data['Cliente']['periodo']){
-							// case 'semanal':
-								// $fecha_aux=mktime(0,0,0,$this->data['Cliente']['fecha']['month'],$this->data['Cliente']['fecha']['day'],$this->data['Cliente']['fecha']['year']);
-								// $fecha_busqueda=date('W',$fecha_aux);
-								// $fecha_viernes=date('N',$fecha_aux);
-								// switch($fecha_viernes){
-									// case 1:
-									// $prelim_fecha=date('c',strtotime('+4 days',$fecha_aux));
-									// break;
-									// case 2:
-									// $prelim_fecha=date('c',strtotime('+3 days',$fecha_aux));
-									// break;
-									// case 3:
-									// $prelim_fecha=date('c',strtotime('+2 days',$fecha_aux));
-									// break;
-									// case 4:
-									// $prelim_fecha=date('c',strtotime('+1 days',$fecha_aux));
-									// break;
-									// case 5:
-									// $prelim_fecha=date('c',$fecha_aux);
-									// break;
-									// case 6:
-									// $prelim_fecha=date('c',strtotime('-1 days',$fecha_aux));
-									// break;
-									// case 7:
-									// $prelim_fecha=date('c',strtotime('+2 days',$fecha_aux));
-									// break;
-								// }
-								// $prelim2=explode('T',$prelim_fecha);
-								// $prelim3=explode('-',$prelim2[0]);
-								// $viernes=$prelim3[2].' de '.$meses[$prelim3[1][0]*10+$prelim3[1][1]].' de '.$prelim3[0];
-								// $fecha_anio=$this->data['Cliente']['fecha']['year'];
-							// break;
-							// case 'quincenal':
-								// $anio=$this->data['Cliente']['fecha']['year'];
-								// $mes=$this->data['Cliente']['fecha']['month'];
-								// if($this->data['Cliente']['fecha']['day']<=15){
-									// $dia=15;
-								// }else{
-									// $dia=date('t',mktime(0,0,0,$this->data['Cliente']['fecha']['month'],$this->data['Cliente']['fecha']['day'],$this->data['Cliente']['fecha']['year']));
-								// }
-								// $viernes=$dia.' de '.$meses[$mes[0]*10+$mes[1]].' de '.$anio;
-							// break;
-							// case 'mensual':
-								// $anio=$this->data['Cliente']['fecha']['year'];
-								// $mes=$this->data['Cliente']['fecha']['month'];
-								// $viernes='Mensual';
-							// break;
-						// }
-// 						
-					// }else{
-						// $fecha_busqueda=date('W');
-						// $fecha_anio=date('Y');
-						// $periodo='semanal';
-						// switch(date('N')):
-							// case 1:
-								// $prelim=date('c',strtotime('+4 days'));
-							// break;
-							// case 2:
-								// $prelim=date('c',strtotime('+3 days'));
-							// break;
-							// case 3:
-								// $prelim=date('c',strtotime('+2 days'));
-							// break;
-							// case 4:
-								// $prelim=date('c',strtotime('+1 days'));
-							// break;
-							// case 5:
-								// $prelim=date('c');
-							// break;
-							// case 6:
-								// $prelim=date('c',strtotime('-1 days'));
-							// break;
-							// case 7:
-								// $prelim=date('c',strtotime('-2 days'));
-							// break;
-						// endswitch;
-								// $prelim2=explode('T',$prelim);
-								// $prelim3=explode('-',$prelim2[0]);
-								// $viernes=$prelim3[2].' de '.$meses[$prelim3[1][0]*10+$prelim3[1][1]].' de '.$prelim3[0];
-					// }
-					// $busqueda=$this->Cliente->Credito->find('all',array('conditions'=>array('Cliente.empresa_id'=>$id,'Credito.periodo_cuotas'=>$periodo,'Credito.estado'=>'activo')));
-					// $empresa=$this->Cliente->find('first',array('conditions'=>array('Cliente.empresa_id'=>$id)));
-					// $cuenta=0;
-					// $total['Capital']=0;
-					// $total['Interes']=0;
-					// $total['Iva']=0;
-					// $total['Pago']=0;
-					// foreach($busqueda as $cliente){
-						// foreach($cliente['Pago'] as $pagos){
-							// $explode=explode('-',$pagos['fecha']);
-// 							
-								// switch($periodo){
-									// case 'semanal':
-										// $fecha=date('W',mktime(0,0,0,$explode[1],$explode[0],$explode[2]));
-										// if($fecha==$fecha_busqueda and $explode[2]==$fecha_anio){
-										 // $arreglo[$cuenta]['nombre']=$cliente['Cliente']['nombre'].' '.$cliente['Cliente']['apellido_paterno'].' '.$cliente['Cliente']['apellido_materno'];
-										 // $arreglo[$cuenta]['cheque']=$cliente['Credito']['cheque'];
-										 // $arreglo[$cuenta]['fecha']=$pagos['fecha'];
-										 // $arreglo[$cuenta]['pago']=$pagos['pago'];
-										 // $arreglo[$cuenta]['pago_capital']=$pagos['pago_capital'];
-										 // $arreglo[$cuenta]['intereses']=$pagos['intereses'];
-										 // $arreglo[$cuenta]['iva']=$pagos['iva_intereses'];
-										 // $arreglo[$cuenta]['sitacion']=$pagos['sitacion'];
-										 // $arreglo[$cuenta]['id']=$pagos['id'];
-										 // $arreglo[$cuenta]['saldo_insoluto']=$pagos['saldo_insoluto'];
-										 // $arreglo[$cuenta]['credito_id']=$pagos['credito_id'];
-										 // $arreglo[$cuenta]['numero_pago']=$pagos['numero_pago'];
-										 // $total['Pago']=$total['Pago']+$pagos['pago'];
-										 // $total['Capital']=$total['Capital']+$pagos['pago_capital'];
-										 // $total['Interes']=$total['Interes']+$pagos['intereses'];
-										 // $total['Iva']=$total['Iva']+$pagos['iva_intereses'];
-										 // $cuenta++;
-										// }
-									// break;
-									// case 'quincenal':
-										// if($dia==$explode[0] and $explode[2]==$anio and $explode[1]==$mes){
-										 // $arreglo[$cuenta]['nombre']=$cliente['Cliente']['nombre'].' '.$cliente['Cliente']['apellido_paterno'].' '.$cliente['Cliente']['apellido_materno'];
-										 // $arreglo[$cuenta]['cheque']=$cliente['Credito']['cheque'];
-										 // $arreglo[$cuenta]['fecha']=$pagos['fecha'];
-										 // $arreglo[$cuenta]['pago']=$pagos['pago'];
-										 // $arreglo[$cuenta]['pago_capital']=$pagos['pago_capital'];
-										 // $arreglo[$cuenta]['intereses']=$pagos['intereses'];
-										 // $arreglo[$cuenta]['iva']=$pagos['iva_intereses'];
-										 // $arreglo[$cuenta]['sitacion']=$pagos['sitacion'];
-										 // $arreglo[$cuenta]['id']=$pagos['id'];
-										 // $arreglo[$cuenta]['saldo_insoluto']=$pagos['saldo_insoluto'];
-										 // $arreglo[$cuenta]['credito_id']=$pagos['credito_id'];
-										 // $arreglo[$cuenta]['numero_pago']=$pagos['numero_pago'];
-										 // $total['Pago']=$total['Pago']+$pagos['pago'];
-										 // $total['Capital']=$total['Capital']+$pagos['pago_capital'];
-										 // $total['Interes']=$total['Interes']+$pagos['intereses'];
-										 // $total['Iva']=$total['Iva']+$pagos['iva_intereses'];
-										 // $cuenta++;
-										// }
-// 										
-									// break;
-									// case 'mensual':
-										// if($explode[2]==$anio and $explode[1]==$mes){
-										 // $arreglo[$cuenta]['nombre']=$cliente['Cliente']['nombre'].' '.$cliente['Cliente']['apellido_paterno'].' '.$cliente['Cliente']['apellido_materno'];
-										 // $arreglo[$cuenta]['cheque']=$cliente['Credito']['cheque'];
-										 // $arreglo[$cuenta]['fecha']=$pagos['fecha'];
-										 // $arreglo[$cuenta]['pago']=$pagos['pago'];
-										 // $arreglo[$cuenta]['pago_capital']=$pagos['pago_capital'];
-										 // $arreglo[$cuenta]['intereses']=$pagos['intereses'];
-										 // $arreglo[$cuenta]['iva']=$pagos['iva_intereses'];
-										 // $arreglo[$cuenta]['sitacion']=$pagos['sitacion'];
-										 // $arreglo[$cuenta]['id']=$pagos['id'];
-										 // $arreglo[$cuenta]['saldo_insoluto']=$pagos['saldo_insoluto'];
-										 // $arreglo[$cuenta]['credito_id']=$pagos['credito_id'];
-										 // $arreglo[$cuenta]['numero_pago']=$pagos['numero_pago'];
-										 // $total['Pago']=$total['Pago']+$pagos['pago'];
-										 // $total['Capital']=$total['Capital']+$pagos['pago_capital'];
-										 // $total['Interes']=$total['Interes']+$pagos['intereses'];
-										 // $total['Iva']=$total['Iva']+$pagos['iva_intereses'];
-										 // $cuenta++;
-										// }
-// 										
-									// break;
-								// }
-						// }
-					// }
-// 
-					// $this->set('user',$usuario);
-					// if(isset($arreglo) or $id2==1){
-					// $total['nombre_empresa']=$empresa['Empresa']['nombre'];
-					// $total['viernes']=$viernes;
-					// $total['periodo']=$periodo;
-					// $this->set('total',$total);
-					// $this->set('pagos',$arreglo);
-					// $this->Session->write('generales',$total);
-					// $this->Session->write('incidencia',$arreglo);
-					// }else{
-						// $this->Session->setFlash('No se encontraron pagos para la fecha solicitada');
-						// $this->redirect(array('controller'=>'clientes','action'=>'incidencia',$id,1));
-					// }
-				// }
-		// }
 
 	function delete($id=null){
 		if($this->Session->check('User')){

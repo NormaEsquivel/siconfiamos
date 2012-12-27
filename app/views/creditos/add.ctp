@@ -1,67 +1,171 @@
-<head>
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/start/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<?php 	echo $this->Html->script('src/views/creditos/js/jquery-1.7.2.min');
-			echo $this->Html->script('src/views/creditos/js/jquery-ui-1.8.21.custom.min');
-			echo $this->Html->script('src/views/creditos/js/add');
-		?>
-</head>
-<div id="menu">
-<table>
-<tr>
-<td><?php echo $this->Html->link('Clientes', array('controller' => 'users', 'action' => 'sesion',1)); ?>
-</td>	
-<td><?php echo $this->Html->link('Empresas', array('controller' => 'users', 'action' => 'sesion',2)); ?>
-</td>
-<td><?php echo $this->Html->link('Reportes', array('controller' => 'empresas', 'action' => 'reportes')); ?>
-</td>
-<td><?php echo $this->Html->link('Finalizar sesión', array('controller'=>'users','action' => 'logout'));?>
-</td>
-</tr>
-</table>
-</div>
-<br>
-<?php echo $this->Html->link('Historial de Crédito',array('action'=>'historial',$id)); ?>
-<br>
-<br>
-<fieldset>
-<legend>Nuevo Crédito</legend>
 <?php
+echo $this->Html->css('portal/formValidator/developr.validationEngine.css?v=1');
+echo $this->Html->script('src/portal/libs/formValidator/jquery.validationEngine.js?v=1', array('inline' => false));	
+echo $this->Html->script('src/portal/libs/formValidator/languages/jquery.validationEngine-es.js?v=1', array('inline' => false));	
+echo $this->Html->script('src/portal/libs/glDatePicker/glDatePicker.min.js', array('inline' => false) ); 
+echo $this->Html->script('src/views/templates/add_credit.js', array('inline' => false));
+$menu_elements = array(
+	'element2' => array(
+		'name' => $this->Html->link('Finalizar Sesión', 
+			array(
+				'controller' => 'users',
+				'action' => 'logout'
+			)
+		)
+	)
+);
 
-echo $this->Form->create('Credito',array('action'=>'add')); ?>
-<table>
-<tr>
-	<td><?php echo $this->Form->input('fecha', array(
-								 'type'=>'text',
-								 'label' => 'Fecha:', 
-								 'id'=>'calendario')); ?></td>
-	<td> </td>
-	<td><?php echo $this->Form->input('cheque',array('label'=>'Número de Cheque:')); ?></td>
-	
-</tr>
-<tr>
-	<td><?php echo $this->Form->input('cuotas',array('label'=>'Cuotas (meses):')); ?></td>
-	<td><?php echo $this->Form->input('periodo_cuotas', array(
-								'type'=>'select',
-								'options'=>array('diario'=>'Diario','semanal'=>'Semanal','quincenal'=>'Quincenal','mensual'=>'Mensual','anual'=>'Anual'),
-								'label'=>'Periodo de pago:'
-								)); ?></td>
-	<td><?php echo $this->Form->input('prestamo',array('label'=>'Préstamo:')); ?></td>
-	
-</tr>
-<tr>
-	<td><?php echo $this->Form->input('fecha_calculo', array(
-								 'class' => 'calendar',
-								 'type' => 'text',
-								 'label' => 'Fecha de cálculo' 
-								));
-		?></td>
-	<td><?php echo $this->Form->input('tipo_calculo',array(
-										'type'=>'select',
-										'empty' => '(Seleccione un cálculo)',
-										'options' => array('capital'=>'Capital Fijo','insoluto'=>'Saldos Insolutos'),
-										'label' => 'Tipo de cálculo'));  ?></td>
-	<td class = "tasa_interes"></td>
-</tr>
-</table>
-<?php echo $this->Form->end('Calcular');?>
-</fieldset>
+$firstElementClass = 'current';
+$secondElementClass = '';
+$thirdElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
+
+
+?>
+<?php echo $this->Form->create('Credito', array(
+	'url' => array(
+		'controller' => 'creditos',
+		'action' => 'add'
+	),
+	'id' => 'new-credit-form'
+));
+?>
+<div class = "columns">
+	<div class="six-columns">
+
+		<h3 class = "thin underline">Datos Generales</h3>
+
+
+		<?php 
+		echo $this->Form->input('fecha', array(
+			'div' => false,
+			'before' => '<p class = "inline-label button-height">',
+			'after' => '</p>',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Fecha'
+			),
+			'type' => 'text',
+			'class' => 'input small-margin-right validate[custom[date]] datepicker'
+
+		));
+		?>
+
+		<?php 
+		echo $this->Form->input('fecha_calculo', array(
+			'div' => false,
+			'before' => '<p class = "inline-label button-height">',
+			'after' => '</p>',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Fecha de cálculo'
+			),
+			'type' => 'text',
+			'class' => 'input small-margin-right validate[custom[date]] datepicker'
+
+		));
+		?>
+
+		<?php 
+		echo $this->Form->input('cheque', array(
+			'div' => false,
+			'before' => '<p class = "inline-label button-height">',
+			'after' => '</p>',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Número de cheque'
+			),
+			'class' => 'input small-margin-right validate[required]'
+
+		));
+		?>
+
+		<?php 
+		echo $this->Form->input('cuotas', array(
+			'div' => false,
+			'before' => '<p class = "inline-label button-height">',
+			'after' => '
+			<span class = "info-spot on-top">
+				<span class="icon-info-round"></span>
+				<span class="info-bubble">
+					Favor de poner el tiempo en meses.
+				</span>
+			</span>
+			</p>',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Tiempo'
+			),
+			'class' => 'input small-margin-right validate[required, custom[number]]'
+
+		));
+		?>
+
+		<?php 
+		echo $this->Form->input('prestamo', array(
+			'div' => false,
+			'before' => '<p class = "inline-label button-height">',
+			'after' => '</p>',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Préstamo'
+			),
+			'class' => 'input small-margin-right validate[ required, custom[number]]'
+
+		));
+		?>
+
+		<?php 
+		echo $this->Form->input('periodo_cuotas', array(
+			'div' => false,
+			'before' => '<p class = "inline-label button-height">',
+			'after' => '</p>',
+			'type' => 'select',
+			'options' => array(
+				'semanal' => 'Semanal',
+				'quincenal' => 'Quincenal',
+				'mensual' => 'Mensual' 
+			),
+			'empty' => '(Elija el período de pago)',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Período'
+			),
+			'class' => 'select validate[required]'
+
+		));
+		?>
+
+
+	</div>
+	<div class="six-columns">
+		<h3 class  = "thin underline">Tipo de Cálculo</h3>
+			<?php 
+		echo $this->Form->input('tipo_calculo', array(
+			'div' => false,
+			'before' => '<p  id = "second-column" class = "inline-label button-height">',
+			'after' => '</p>',
+			'type' => 'select',
+			'options' => array(
+				'insoluto' => 'Saldos Insolutos',
+				'capital' => 'Capital Fijo' 
+			),
+			'empty' => '(Seleccione el tipo de cálculo)',
+			'label' => array(
+				'class' => 'label',
+				'text' => 'Tipo de Cálculo'
+			),
+			'class' => 'select'
+
+		));
+		?>
+
+		<?php 
+		echo $this->Form->end(array(
+			'class' => 'button blue-gradient glossy',
+			'id' => 'submit-button',
+			'label' => 'Calcular'
+		));
+		?>
+	</div>
+</div>

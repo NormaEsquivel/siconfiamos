@@ -1,40 +1,128 @@
-<div id="menu">
-<table>
-<tr>
-<td><?php echo $this->Html->link('Clientes', array('controller' => 'users', 'action' => 'sesion',1)); ?>
-</td>	
-<td><?php echo $this->Html->link('Empresas', array('controller' => 'users', 'action' => 'sesion',2)); ?>
-</td>
-<td><?php echo $this->Html->link('Reportes', array('controller' => 'empresas', 'action' => 'reportes')); ?>
-</td>
-<td><?php echo $this->Html->link('Pagos', array('controller' => 'abonos', 'action' => 'elegir_empresa')); ?>
-</td>
-<td><?php echo $this->Html->link('Finalizar sesión', array('controller'=>'users','action' => 'logout'));?>
-</td>
-</tr>
+<?php
+$menu_elements = array(
+	'element' => array(
+		'name' => $this->Html->link('Cotizar Credito', 
+			array(
+				'controller' => 'creditos',
+				'action' => 'cotizar'
+			)
+		)
+	),
+	'element1' => array(
+		'name' => $this->Html->link('Nuevo Cliente', 
+			array(
+				'controller' => 'clientes',
+				'action' => 'add'
+			)
+		)
+	),
+	'element3' => array(
+		'name' => $this->Html->link('Información de la Empresa', 
+			array(
+				'controller' => 'empresas',
+				'action' => 'view',
+				$empresa['Empresa']['id']
+			)
+		)
+	),
+	'element2' => array(
+		'name' => $this->Html->link('Finalizar Sesión', 
+			array(
+				'controller' => 'users',
+				'action' => 'logout'
+			)
+		)
+	)
+);
+
+$firstElementClass = '';
+$secondElementClass = 'current';
+$thirdElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
+
+$this->set(compact('menu_elements'));
+
+$this->Html->script('src/views/templates/index.js', array('inline' => false));
+
+?>
+
+<table class="table responsive-table" id="sorting-advanced">
+
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col" class="align-center hide-on-mobile">Nombre</th>
+			<th scope="col" class="align-center hide-on-mobile-portrait">Empresa</th>
+			<th scope="col" width = "40%" class="align-center">Acciones</th>
+		</tr>
+	</thead>
+
+	<tfoot>
+		<tr>
+			<td colspan="6">
+				<?php echo count($clientes) . ' Clientes fueron encontrados'; ?>
+			</td>
+		</tr>
+	</tfoot>
+
+	<tbody>
+		<?php foreach($clientes as $key => $cliente): ?>
+			<tr>
+				<td><?php echo $key+1; ?>
+				<td><?php echo $cliente['Cliente']['full_name']; ?></td>
+				<td><?php echo $cliente['Empresa']['nombre']; $cliente['Empresa']['nombre'] != null ? ' (' . $cliente['Empresa']['nombre'] . ')' : ''; ?></td>
+				<td class="low-padding align-center">
+					<?php 
+					echo $this->Html->link('Ver',
+						array(
+							'controller' => 'clientes',
+							'action' => 'view',
+							$cliente['Cliente']['id']
+						),
+						array(
+							'class' => 'button compact icon-card'
+						)
+					); 
+					?>
+					<?php 
+					echo $this->Html->link('Historial',
+						array(
+							'controller' => 'creditos',
+							'action' => 'historial',
+							$cliente['Cliente']['id']
+						),
+						array(
+							'class' => 'button compact icon-drawer'
+						)
+					); 
+					?>
+					<?php 
+					echo $this->Html->link('Crédito',
+						array(
+							'controller' => 'creditos',
+							'action' => 'view',
+							$cliente['Cliente']['id']
+						),
+						array(
+							'class' => 'button compact icon-folder'
+						)
+					); 
+					?>
+					<?php 
+					echo $this->Html->link('Eliminar', 
+						array(
+							'controller' => 'clientes',
+							'action' => 'view',
+							$cliente['Cliente']['id']
+						),
+						array(
+							'class' => 'button compact icon-cross'
+						)
+					); 
+					?>
+					</td>
+			</tr>
+		<?php endforeach;?>
+	</tbody>
+
 </table>
-</div>
-<br>
-<h3>Listado de Clientes: <?php echo $empresa['Empresa']['nombre'] ?> </h3>
-<table>
-	<tr>
-		<td>Nombre:</td>
-		<td>Apellido Paterno:</td>
-		<td>Apellido Materno:</td>
-	</tr>
-		<?php foreach($clientes as $cliente): ?>
-	<tr>
-		<td><?php echo $cliente['Cliente']['nombre'] ?></td>
-		<td><?php echo $cliente['Cliente']['apellido_paterno'] ?></td>
-		<td><?php echo $cliente['Cliente']['apellido_materno'] ?></td>
-		<td><?php echo $this->Html->link('Ver',array('controller'=>'clientes','action'=>'view',$cliente['Cliente']['id'])); ?></td>
-	</tr>
-	<?php endforeach; ?>
-</table>
-<?php echo $this->Html->link('Incidencias', array('controller'=>'clientes','action'=>'incidencia',$empresa['Empresa']['id'])) ?>
-<br>
-<?php echo $this->Html->link('Estado de cuenta', array('controller'=>'clientes','action'=>'estadodecuenta',$empresa['Empresa']['id'])) ?>
-<br>
-<?php echo $this->Html->link('Añadir Cliente', array('controller'=>'clientes','action'=>'add')) ?>
-<br>
-<?php echo $this->Html->link('Información de la empresa', array('controller'=>'empresas','action'=>'view',$cliente['Cliente']['empresa_id'])) ?>

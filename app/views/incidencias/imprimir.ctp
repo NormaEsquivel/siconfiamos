@@ -10,7 +10,7 @@ $tcpdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $tcpdf->SetFont('helvetica', 12);
 // add a page (required with recent versions of tcpdf) 
 $tcpdf->AddPage(); 
-$txt7='Incidencias de la empresa '.$generales['nombre_empresa'].'
+$txt7 = $generales . '
 
 
 
@@ -30,7 +30,7 @@ $txt = <<<EOD
 EOD;
 $tcpdf->Write($h=0, $txt, $link='', $fill=0, $align='C', $ln=true, $stretch=0, $firstline=false, $firstblock=false, $maxh=0);
 $tcpdf->multiCell(0, 0,$txt7, 0, 'C', false);
-$tcpdf->ColoredTable2($header,$incidencia,$generales, $clientes);
+$tcpdf->ColoredTable2($header,$incidencia,$total, $clientes);
 // ... 
 // etc. 
 // see the TCPDF examples  

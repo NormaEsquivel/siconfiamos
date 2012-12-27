@@ -9,7 +9,7 @@ class Cliente extends AppModel{
 	    'full_name' => 'CONCAT_WS(" ", Cliente.nombre, Cliente.apellido_paterno, Cliente.apellido_materno)'
 	);
 	
-	var $hasMany= array(
+	var $hasOne= array(
 		'Aval' => array(
 			'className' => 'Aval',
 			'foreignKey' => 'cliente_id',
@@ -80,26 +80,6 @@ class Cliente extends AppModel{
 			'rule2'=>array(
 				'rule'=>'numeric',
 				'message'=>'Este campo sólo puede contener números'
-			)
-		),
-		'telefono_1'=>array(
-			'rule1'=>array(
-				'rule'=>'numeric',
-				'message'=>'Sólamente puede introducir números'
-			),
-			'rule2'=>array(
-				'rule'=>array('between',10,10),
-				'message'=>'Introduzca 10 dígitos para el télefono'
-			)
-		),
-		'telefono_2'=>array(
-			'rule1'=>array(
-				'rule'=>'numeric',
-				'message'=>'Sólamente puede introducir números'
-			),
-			'rule2'=>array(
-				'rule'=>array('between',10,10),
-				'message'=>'Introduzca 10 dígitos para el télefono'
 			)
 		),		
 		'rfc'=>array(

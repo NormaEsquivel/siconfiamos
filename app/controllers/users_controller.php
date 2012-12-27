@@ -5,6 +5,7 @@ class UsersController extends AppController{
 	var $helpers=array('Html','Form');
 	
 	function index(){
+		$this->layout = 'login';
 	}
 	
 	function login(){
@@ -17,13 +18,13 @@ class UsersController extends AppController{
 				$this->Session->destroy();
 				$this->Session->write('User',$busqueda);
 				$this->Session->setFlash('Bienvenido');
-				$this->redirect(array('action'=>'view_user'));
+				$this->redirect(array('action'=>'sesion', 1));
 			}
 			else{
-				$this->Session->setFlash('Nombre de usuario y contraseña incorrectos.');
+				$this->Session->setFlash('Nombre de usuario y contraseña incorrectos.', 'login_error');
 				$this->redirect(array('action'=>'index'));
 			}}else{
-			$this->Session->setFlash('Nombre de usuario y contraseña incorrectos.');
+			$this->Session->setFlash('Nombre de usuario y contraseña incorrectos.', 'login_error');
 			$this->redirect(array('action'=>'index'));
 		}
 		}
@@ -46,7 +47,7 @@ class UsersController extends AppController{
 	
 	function logout(){
 		$this->Session->destroy();
-		$this->Session->setFlash('Sesión Finalizada.');
+		$this->Session->setFlash('Sesión Finalizada.', 'login_error');
 		$this->redirect(array('action'=>'index'));
 	}
 	
@@ -121,9 +122,11 @@ class UsersController extends AppController{
 	
 	function empresa_view(){
 		if($this->Session->check('User')){
+				$this->layout = 'template';
 				$usuario=$this->Session->read('User');
 				$empresas = $this->User->Empresa->find('all', array('contain' => false));
-				$this->set('empresas',$empresas);	
+				$this->set('empresas',$empresas);
+				$this->set('title_for_layout', 'Empresas');	
 			}else{
 			$this->Session->setFlash('Necesita iniciar sesión');
 			$this->redirect(array('controller'=>'users'));

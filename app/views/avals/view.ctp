@@ -29,7 +29,6 @@
 <th>Telefono 2</th>
 <th>C.P.</th>
 <th>Fecha de Nacimiento</th>
-<th>Dependientes Económicos</th>
 <th>RFC</th>
 <th>IFE</th>
 <th>CURP</th>
@@ -46,7 +45,6 @@
 <td><?php echo $aval['Aval']['telefono_2'];?></td>
 <td><?php echo $aval['Aval']['codigo_postal'];?></td>
 <td><?php echo $aval['Aval']['fecha_nacimiento'];?></td>
-<td><?php echo $aval['Aval']['dependientes'];?></td>
 <td><?php echo $aval['Aval']['rfc'];?></td>
 <td><?php echo $aval['Aval']['identificacion'];?></td>
 <td><?php echo $aval['Aval']['curp'];?></td>

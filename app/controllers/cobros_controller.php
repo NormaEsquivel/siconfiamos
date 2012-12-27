@@ -6,6 +6,7 @@ class CobrosController extends AppController{
 	
 	function view($id = null){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			$cobro = $this->Cobro->find('first', array(
 				'conditions' => array('Cobro.id' => $id),
 				
@@ -30,23 +31,24 @@ class CobrosController extends AppController{
 					'recursive' => 0
 				));
 			}
+			$this->set('title_for_layout', '');
 			$this->set(compact('cobro'));
 		}
 	}
 	
 	function index(){
 		if($this->Session->check('User')){
-			$this->paginate = array(
-				'limit' => 25,
+			$this->layout = 'template';
+			$cobros = $this->Cobro->find('all', array(
 				'order' => array('Cobro.created' => 'DESC')
-			);
-			$cobros = $this->paginate();
+			));
 			foreach($cobros as $key => $cobro){
 				$cobros[$key]['Cobro']['deposito'] = 0;
 				foreach($cobro['Abono'] as $abono){
 					$cobros[$key]['Cobro']['deposito'] = $cobros[$key]['Cobro']['deposito'] + $abono['abono'];
 				}
 			}
+			$this->set('title_for_layout', '');
 			$this->set(compact('cobros'));
 		}
 	}

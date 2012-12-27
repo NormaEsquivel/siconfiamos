@@ -29,13 +29,6 @@ class Empresa extends AppModel{
 		'direccion'=>array(
 			'rule'=>'notEmpty',
 			'message'=>'Este campo no puede dejarse en blanco'),
-		'telefono'=>array(
-			'rule1'=>array(
-				'rule'=>'numeric',
-				'message'=>'Sólamente puede introducir números'),
-			'rule2'=>array(
-				'rule'=>array('between',10,10),
-				'message'=>'Introduzca 10 dígitos para el télefono')),
 		'codigo_postal'=>array(
 			'rule1'=>array(
 				'rule'=>'numeric',

@@ -6,6 +6,7 @@ class AbonosController extends AppController{
 	
 	function elegir_empresa(){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			$this->loadModel('Empresa');
 			$empresas = $this->Empresa->find('all', array(
 				'fields' => array('id', 'nombre'),
@@ -17,6 +18,7 @@ class AbonosController extends AppController{
 	
 	function elegir_empleados($id = null){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			$this->loadModel('Cliente');
 			$this->loadModel('Credito');
 			$clientes = $this->Cliente->find('all', array(
@@ -60,6 +62,7 @@ class AbonosController extends AppController{
 	
 	function retrieve(){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			if(!empty($this->data)){
 				$this->loadModel('Credito');
 				$this->loadModel('Pago');
@@ -160,13 +163,15 @@ class AbonosController extends AppController{
 	
 	function add(){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			if(!empty($this->data)){
 				$this->loadModel('Pago');
 				$this->loadModel('Credito');
 				$this->Abono->Cobro->create();
 				
 				if($this->data['Abono'][0]['fecha_abono'] != null){
-					$fecha_cobro = date('Y-m-d', strtotime($this->data['Abono'][0]['fecha_abono']));
+					$explode_fecha = explode('/', $this->data['Abono'][0]['fecha_abono']);
+					$fecha_cobro = $explode_fecha[2] . '-' . $explode_fecha[1] . '-' . $explode_fecha[0];
 				}else{
 					$fecha_cobro = date('Y-m-d');
 				}
@@ -195,7 +200,8 @@ class AbonosController extends AppController{
 							));
 							
 							$abono_id = $this->Abono->id;
-							//Se redondea el pago para hacer comparaciones adecuadas							$pago_redondeado = round($deposito['monto_pago'], 2);
+							//Se redondea el pago para hacer comparaciones adecuadas
+							$pago_redondeado = round($deposito['monto_pago'], 2);
 							$deposito_redondeado = round($deposito['deposito'],2);
 							$pago_regular = round($deposito['pago_regular'], 2);
 							//Si el pago es igual al adeudo
@@ -292,7 +298,7 @@ class AbonosController extends AppController{
 							//Si se pago una cantidad mayor al adeudo
 							 }elseif($deposito_redondeado > $pago_redondeado){
 							 	
-								if($deposito['tipo_calculo'] == 'capital'){
+								if($deposito['tipo_calculo'] == 'capital' || $deposito['tipo_calculo'] == 'simple'){
 									//Estima cuantas iteraciones necesitará para calcular los pagos
 									$numero_pagos = $deposito['deposito']/$pago_regular;
 									$numero_pagos_redondeo = floor($numero_pagos);
@@ -622,7 +628,8 @@ class AbonosController extends AppController{
 											break;
 										}
 										
-										$interes = $credito['Credito']['tasa_interes'] / $divisor;										$interes = $interes*1.16;
+										$interes = $credito['Credito']['tasa_interes'] / $divisor;
+										$interes = $interes*1.16;
 										$interes = $interes / 100;
 										
 										$total_capital = $total_capital - $cantidad_depositada;
@@ -644,7 +651,8 @@ class AbonosController extends AppController{
 					
 										$this->Pago->saveAll($siguientes_pagos);
 										
-									}	
+									}
+	
 								}
 								
 							 }elseif($deposito_redondeado < $pago_redondeado){
@@ -736,7 +744,8 @@ class AbonosController extends AppController{
 									));
 								}
 							 }
-						}	
+						}
+	
 					}
 				}
 				

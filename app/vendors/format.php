@@ -30,5 +30,27 @@ class format{
 		$fecha = $explode[1] . ' de ' . $meses[$explode[0][0]*10+$explode[0][1]] . ' de ' . $explode[2]; 
 		return $fecha;
 	}
+
+	function menugenerator($menu_elements = null, $close_element = null, $menu = null){
+		foreach($menu_elements as $key => $element){
+			if(strpos($key, 'element')){
+				$menu = $menu . '
+				<li class = "with-right-arrow">
+					<span>' . $key . '</span>
+						<ul class = "big-menu">';
+				$close_element = '</ul></li>' . $close_element;
+				$aux = $this->menugenerator($element, $close_element, $menu);
+
+				$menu = $aux['menu'];
+				$close_element = $aux['close_element'];
+			}else{
+				$menu = $menu . '<li>' . $element['name'] .'</li>';
+			}
+		}
+
+		$content['menu'] = $menu;
+		$content['close_element'] = $close_element;	
+		return $content;
+	}
 }
 ?>

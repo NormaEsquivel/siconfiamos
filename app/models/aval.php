@@ -47,26 +47,6 @@ class Aval extends AppModel{
 				'rule'=>'numeric',
 				'message'=>'Este campo sólo puede contener números'
 			)
-		),
-		'telefono_1'=>array(
-			'rule1'=>array(
-				'rule'=>'numeric',
-				'message'=>'Sólamente puede introducir números'
-			),
-			'rule2'=>array(
-				'rule'=>array('between',10,10),
-				'message'=>'Introduzca 10 dígitos para el télefono'
-			)
-		),
-		'telefono_2'=>array(
-			'rule1'=>array(
-				'rule'=>'numeric',
-				'message'=>'Sólamente puede introducir números'
-			),
-			'rule2'=>array(
-				'rule'=>array('between',10,10),
-				'message'=>'Introduzca 10 dígitos para el télefono'
-			)
 		),		
 		'rfc'=>array(
 			'rule'=>'alphaNumeric',

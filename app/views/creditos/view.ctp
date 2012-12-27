@@ -1,108 +1,112 @@
-<div id="menu">
-<table>
-<tr>
-<td><?php echo $this->Html->link('Clientes', array('controller' => 'users', 'action' => 'sesion',1)); ?>
-</td>	
-<td><?php echo $this->Html->link('Empresas', array('controller' => 'users', 'action' => 'sesion',2)); ?>
-</td>
-<td><?php echo $this->Html->link('Reportes', array('controller' => 'empresas', 'action' => 'reportes')); ?>
-</td>
-<td><?php echo $this->Html->link('Pagos', array('controller' => 'abonos', 'action' => 'elegir_empresa')); ?>
-</td>
-<td><?php echo $this->Html->link('Finalizar sesión', array('controller'=>'users','action' => 'logout'));?>
-</td>
-</tr>
-</table>
-</div>
-<br>
-<h2>Crédito de <?php echo $credito['Cliente']['nombre'].' '.$credito['Cliente']['apellido_paterno'].' '.$credito['Cliente']['apellido_materno']?></h2>
-<br>
-<?php echo $this->Html->link('Historial de Crédito',array('action'=>'historial',$credito['Cliente']['id'])); ?>
-<br>
-<?php echo $this->Html->link('Información de '.$credito['Cliente']['nombre'].' '.$credito['Cliente']['apellido_paterno'].' '.$credito['Cliente']['apellido_materno'], array('controller' => 'clientes', 'action' => 'view', $credito['Cliente']['id'])); ?>
-<br>
-<br>
-<table>
-<tr>
-<th>Fecha:</th>
-<th>Número de cheque:</th>
-<th>Tasa de Interés:</th>
-<th>Número de cuotas:</th>
-<th>Periodo de cuotas:</th>
-<th>Préstamo:</th>
-<th>Fecha de cálculo:</th>
-<th>Tipo de cálculo:</th>
-</tr>
-<tr>
-		<td><?php echo $credito['Credito']['fecha']; ?></td>
-		<td><?php echo $credito['Credito']['cheque']; ?></td>
-		<td><?php echo $credito['Credito']['tasa_interes']; ?></td>
-		<td><?php echo $credito['Credito']['cuotas'];; ?></td>
-		<td><?php echo $credito['Credito']['periodo_cuotas']; ?></td>
-		<td>$<?php echo number_format($credito['Credito']['prestamo'], 2); ?></td>
-		<td><?php echo $credito['Credito']['fecha_calculo']; ?></td>
-		<td><?php echo $credito['Credito']['tipo_calculo'];  ?></td>
-</tr>
-</table>
-<br>
-<table><tr><td><?php echo $this->Html->link('PDF Pagos',array('controller'=>'pagos','action'=>'imprimirpdf',$credito['Credito']['id'])); ?></td>
-	<td><?php echo $this->Html->link('Contrato',array('action'=>'contrato',$credito['Credito']['id'])); ?></td>
-	<td><?php echo $this->Html->link('Finalizar Crédito',array('action'=>'borrarcredito',$credito['Credito']['id'])); ?></td>
-	<td><?php echo $this->Html->link('Liquidar crédito',array('controller' => 'creditos', 'action' => 'liquidar', $credito['Credito']['id'], $credito['Cliente']['id'])); ?></td></tr>	
-</table>
-<br>
-<br>
-<h3>Pagos</h3>
-<table>
-	<tr>
-		<th>Fecha Expedición:</Th>
-		<th>Numero de pago:</th>
-		<th>Fecha de pago:</th>
-		<th>Pago de capital:</Th>
-		<th>Intereses:</Th>
-		<th>IVA:</Th>
-		<th>Pago:</Th>
-		<th>Saldo Insoluto:</Th>
-		<th>Situación:</Th>
-	</tr>
-<?php 
-	$i=1;
-	$total_capital = 0;
-	$total_interes = 0;
-	$total_iva = 0;
-	$total_pago = 0;
+<?php
+$menu_elements = array(
+	'element' => array(
+		'name' => $this->Html->link('Liquidar Crédito', 
+			array(
+				'controller' => 'creditos',
+				'action' => 'liquidar',
+				$credito['Credito']['id']
+			)
+		)
+	),
+	'element4' => array(
+		'name' => $this->Html->link('Contrato', 
+			array(
+				'controller' => 'creditos',
+				'action' => 'contrato',
+				$credito['Credito']['id']
+			)
+		)
+	),
+	'element2' => array(
+		'name' => $this->Html->link('Finalizar Sesión', 
+			array(
+				'controller' => 'users',
+				'action' => 'logout'
+			)
+		)
+	)
+);
+$firstElementClass = 'current';
+$secondElementClass = '';
+$thirdElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
+
 ?>
-	<?php foreach($pagos as $pago): ?>
-		<?php 
-		$total_capital = $total_capital + $pago['Pago']['pago_capital'];
-		$total_interes = $total_interes + $pago['Pago']['intereses'];
-		$total_iva = $total_iva + $pago['Pago']['iva_intereses'];
-		$total_pago = $total_pago + $pago['Pago']['pago'];
-		?>
-		<tr>	
-			<td><?php echo $pago['Pago']['fecha']; ?></td>
-			<td><?php echo $pago['Pago']['numero_pago']; ?></td>
-			<td><?php echo $pago['Pago']['fecha_pagado'] != 0 ? $pago['Pago']['fecha_pagado'] : '' ; ?></td>
-			<td><?php echo '$'.number_format($pago['Pago']['pago_capital'],2); ?></td>
-			<td><?php echo '$'.number_format($pago['Pago']['intereses'],2); ?></td>
-			<td><?php echo '$'.number_format($pago['Pago']['iva_intereses'],2); ?></td>
-			<td><?php echo '$'.number_format($pago['Pago']['pago'],2); ?></td>
-			<td><?php echo '$'.number_format($pago['Pago']['saldo_insoluto'],2); ?></td>
-			<td><?php echo $pago['Pago']['sitacion']; ?></td>
-			
-		</tr>
-		<?php endforeach; ?>
-		<tr>	
-			<td>Total:</td>
-			<td> </td>
-			<td> </td>
-			<td>$<?php echo number_format($total_capital,2); ?></td>
-			<td>$<?php echo number_format($total_interes,2); ?> </td>
-			<td>$<?php echo number_format($total_iva,2); ?></td>
-			<td>$<?php echo number_format($total_pago,2); ?></td>
-			<td> </td>
-			<td> </td>
-			<td> </td>			
-		</tr>
-		
-</table>
+
+<h3 class = "thin underline">Crédito de <?php echo $credito['Cliente']['full_name']; ?></h3>
+
+<div class="standard-tabs margin-bottom" id="add-tabs">
+
+	<ul class="tabs">
+		<li class="active"><a href="#tab-1">Información del Crédito</a></li>
+		<li><a href="#tab-2">Pagos</a></li>
+	</ul>
+
+	<div class="tabs-content">
+
+		<div id="tab-1" class="with-padding">
+			<dl class = "definition inline">
+				<dt>Estado del crédito:</dt> <dd><?php echo ucfirst($credito['Credito']['estado']); ?></dd>
+				<dt>Fecha:</dt> <dd><?php echo $credito['Credito']['fecha']; ?></dd>
+				<dt>Número de cheque:</dt> <dd><?php echo $credito['Credito']['cheque']; ?></dd>
+				<dt>Tasa de interés:</dt> <dd><?php echo $credito['Credito']['tasa_interes']; ?>%</dd>
+				<dt>Número de cuotas:</dt> <dd><?php echo $credito['Credito']['cuotas']; ?></dd>
+				<dt>Período de cuotas:</dt> <dd><?php echo ucfirst($credito['Credito']['periodo_cuotas']); ?></dd>
+				<dt>Préstamo:</dt> <dd>$<?php echo number_format($credito['Credito']['prestamo'], 2); ?></dd>
+				<dt>Fecha de cálculo:</dt> <dd><?php echo $credito['Credito']['fecha_calculo']; ?></dd>
+				<dt>Tipo de cálculo:</dt> <dd><?php echo ucfirst($credito['Credito']['tipo_calculo']); ?></dd>
+			</dl>
+		</div>
+
+		<div id="tab-2" class="with-padding">
+
+			<table class="simple-table responsive-table" id="sorting-example2">
+
+				<thead>
+					<tr>
+						<th scope="col">Fecha</th>
+						<th scope="col">Número de pago:</th>
+						<th scope="col">Capital:</th>
+						<th scope="col">Intereses:</th>
+						<th scope="col">Iva:</th>
+						<th scope="col">Pago:</th>
+						<th scope="col">Saldo Insoluto:</th>
+						<th scope="col">Estado:</th>
+					</tr>
+				</thead>
+
+				<tfoot>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tfoot>
+
+				<tbody>
+					<?php foreach($credito['Pago'] as $pago): ?>
+						<tr>
+							<td scope="row"><?php echo $pago['fecha']; ?></td>
+							<td scope="row"><?php echo $pago['numero_pago']; ?></td>
+							<td scope="row">$<?php echo number_format($pago['pago_capital'], 2); ?></td>
+							<td scope="row">$<?php echo number_format($pago['intereses'], 2); ?></td>
+							<td scope="row">$<?php echo number_format($pago['iva_intereses'], 2); ?></td>
+							<td scope="row">$<?php echo number_format($pago['pago'], 2); ?></td>
+							<td scope="row">$<?php echo number_format($pago['saldo_insoluto'], 2); ?></td>
+							<td scope="row"><?php echo ucfirst($pago['sitacion']); ?></td>							
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+
+			</table>
+
+		</div>
+
+	</div>
+
+</div>

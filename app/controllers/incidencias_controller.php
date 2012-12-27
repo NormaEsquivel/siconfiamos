@@ -9,8 +9,11 @@ class IncidenciasController extends AppController{
 				if($this->Session->check('incidencia')){
 					$incidencia=$this->Session->read('incidencia');
 					$generales=$this->Session->read('generales');
+					$total = $this->Session->read('total');
+
 				Configure::write('debug',0); // Otherwise we cannot use this method while developing
 				$this->set('clientes', $this->Session->read('clientes')); 
+				$this->set('total', $total); 
 				$this->set('incidencia',$incidencia);
 				$this->set('generales',$generales);
 		        $this->layout = 'pdf'; //this will use the pdf.ctp layout 

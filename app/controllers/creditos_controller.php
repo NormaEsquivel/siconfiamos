@@ -6,14 +6,16 @@ class CreditosController extends AppController{
 		
 		function historial($id=null){
 			if($this->Session->check('User')){
-				$historial=$this->Credito->find('all',array('conditions'=>array('Credito.cliente_id'=>$id)));
-				if($historial){
-					$this->set('creditos',$historial);
-					$this->set('id', $id);
-				}else{
-					$this->Session->setFlash('Este Cliente no tiene créditos anteriores');
-					$this->redirect(array('action'=>'view',$id,1));
-				}
+				$this->layout = 'template';
+				$this->Credito->Behaviors->attach('Containable');
+				$creditos = $this->Credito->find('all', array(
+					'conditions' => array(
+						'Credito.cliente_id' => $id
+					),
+					'contain' => array('Cliente' => array('fields' => array('full_name')))
+				));
+				$this->set('title_for_layout', '');
+				$this->set(compact('creditos'));
 			}
 		}
 		
@@ -132,90 +134,105 @@ class CreditosController extends AppController{
 			}
 		}
 		
-		function view($id=null, $id2=null){
+		function view($id=null){
 			if($this->Session->check('User')){
-				$usuario = $this->Session->read('User');
+				$this->layout = 'template';
 				$this->Credito->Behaviors->attach('Containable');
-				$credito = $this->Credito->find('first',array(
-					'conditions'=>array(
-						'Credito.cliente_id'=>$id,
-						'Credito.estado'=>'activo'
-					), 
-					'contain' => array('Cliente')
+
+				$credito = $this->Credito->find('first', array(
+					'conditions' => array(
+						'Credito.estado' => 'activo',
+						'Credito.cliente_id' => $id
+					),
+					'contain' => array('Pago', 'Cliente')
 				));
-					if($credito){
-						$this->Credito->Pago->Behaviors->attach('Containable');
-						$pagos=$this->Credito->Pago->find('all',array(
-							'conditions'=>array(
-								'Pago.credito_id'=>$credito['Credito']['id']
-							),
-							'contain' => array(
-								'Asociation' => array(
-									'Abono'
-								)
-							)
-						));
-						$this->set(compact('credito', 'pagos'));
-					}else{
-						if($id2){
-							$mensaje='Este cliente aún no tiene un historial';
-						}else{
-							$mensaje='Este cliente aún no cuenta con un crédito activo';
-						}
-					$this->Session->setFlash($mensaje);
-					$this->redirect(array('controller'=>'clientes','action'=>'sesion',$id,5));
+
+				if($credito != null){
+					$this->set(compact('credito'));
+					$this->set('title_for_layout', '');
+				}else{
+					$cliente = $this->Credito->Cliente->find('first', array(
+						'conditions' => array(
+							'Cliente.id' => $id
+						),
+						'contain' => false
+					));
+
+					$this->Session->write('Cliente', $cliente);
+					$this->redirect(array('action' => 'add'));
 				}
+			}
+		}
+
+		function view_credit($id = null){
+			if($this->Session->check('User')){
+				$this->layout = 'template';
+				$this->Credito->Behaviors->attach('Containable');
+
+				$credito = $this->Credito->find('first', array(
+					'conditions' => array(
+						'Credito.id' => $id
+					),
+					'contain' => array('Pago', 'Cliente')
+				));
+
+				$this->set(compact('credito', 'id'));
 			}
 		}
 		
 		function add(){
 			if($this->Session->check('User')){
+				$this->layout = 'template';
 				$usuario=$this->Session->read('User');
 				$cliente=$this->Session->read('Cliente');
-						if(!empty($this->data)){
-							$creditosActivos = $this->Credito->find('count', array(
-								'conditions' => array(
-									'Credito.cliente_id' => $cliente['Cliente']['id'],
-									'Credito.estado' => 'activo'
-								)
-							));
+				if(!empty($this->data)){
+					$creditosActivos = $this->Credito->find('count', array(
+						'conditions' => array(
+							'Credito.cliente_id' => $cliente['Cliente']['id'],
+							'Credito.estado' => 'activo'
+						)
+					));
+					
+					if($creditosActivos == 0){
+						//pr($this->data);exit;
+						switch($this->data['Credito']['periodo_cuotas']){
+							case 'diario':
+								$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*30.4166, 0, PHP_ROUND_HALF_UP);
+							break;
+							case 'semanal':
+								$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*4,0,PHP_ROUND_HALF_UP);
+								break;
+							case 'quincenal':
+								$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*2;
+								break;
+							case 'mensual':
+								$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas'];
+								break;
+						}
+
+						$fecha=explode('/',$this->data['Credito']['fecha']);
+						$this->data['Credito']['fecha']=$fecha[2] . '-' . $fecha[1] . '-' . $fecha[0];
+						$fecha=explode('/',$this->data['Credito']['fecha_calculo']);
+						$this->data['Credito']['fecha_calculo']=$fecha[2] . '-' . $fecha[1] . '-' . $fecha[0];
+						$this->data['Credito']['cliente_id']=$cliente['Cliente']['id'];
+						// pr($this->data);exit;
+						if($this->Credito->save($this->data)){
+							$this->Session->setFlash('Su información se ha guardado con éxito.');
+							$this->redirect(array('action'=>'imprimir',$this->data['Credito']['cliente_id']));
+						}
+					}else{
+						$this->Session->setFlash('Este cliente ya cuenta con un crédito activo');
+						$this->redirect(array(
+							'controller' => 'creditos',
+							'action' => 'view',
+							$cliente['Cliente']['id']
 							
-							if($creditosActivos == 0){
-								switch($this->data['Credito']['periodo_cuotas']){
-									case 'diario':
-										$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*30.4166, 0, PHP_ROUND_HALF_UP);
-									break;
-									case 'semanal':
-										$this->data['Credito']['cuotas'] = round($this->data['Credito']['cuotas']*4.33,0,PHP_ROUND_HALF_UP);
-										break;
-									case 'quincenal':
-										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas']*2;
-										break;
-									case 'mensual':
-										$this->data['Credito']['cuotas'] = $this->data['Credito']['cuotas'];
-										break;
-								}
-								$fecha=explode('/',$this->data['Credito']['fecha']);
-								$this->data['Credito']['fecha']=$fecha[2] . '-' . $fecha[0] . '-' . $fecha[1];
-								$fecha=explode('/',$this->data['Credito']['fecha_calculo']);
-								$this->data['Credito']['fecha_calculo']=$fecha[2] . '-' . $fecha[0] . '-' . $fecha[1];
-								$this->data['Credito']['cliente_id']=$cliente['Cliente']['id'];
-				
-								if($this->Credito->save($this->data)){
-									$this->Session->setFlash('Su información se ha guardado con éxito.');
-									$this->redirect(array('action'=>'imprimir',$this->data['Credito']['cliente_id']));
-								}
-							}else{
-								$this->Session->setFlash('Este cliente ya cuenta con un crédito activo');
-								$this->redirect(array(
-									'controller' => 'creditos',
-									'action' => 'view',
-									$cliente['Cliente']['id']
-									
-								));
-							}
-						}else{$this->set('id',$cliente['Cliente']['id']);
-								$this->set('nombre',$cliente['Cliente']['nombre'].' '.$cliente['Cliente']['apellido_paterno'].' '.$cliente['Cliente']['apellido_materno']);}
+						));
+					}
+				}else{
+					$this->set('id',$cliente['Cliente']['id']);
+					$this->set('nombre',$cliente['Cliente']['nombre'].' '.$cliente['Cliente']['apellido_paterno'].' '.$cliente['Cliente']['apellido_materno']);
+				}
 			}
 		}
 
@@ -303,7 +320,8 @@ class CreditosController extends AppController{
 		
 		function cotizar(){
 			if($this->Session->check('User')){
-				
+				$this->layout = 'template';
+				$this->set('title_for_layout', 'Cotizar Crédito');
 				if(!empty($this->data)){
 					$total_iva=0;
 					$total_pago=0;
@@ -311,8 +329,8 @@ class CreditosController extends AppController{
 					$total_capital=0;
 					$num_mes=array('31','28','31','30','31','30','31','31','30','31','30','31');
 					$fechas = explode('/', $this->data['Credito']['fecha_cotizacion']);
-					$dia = $fechas[1];
-					$mes = $fechas[0];
+					$dia = $fechas[0];
+					$mes = $fechas[1];
 					$anio = $fechas[2];
 					$prestamo=$this->data['Credito']['prestamo'];
 					
@@ -327,7 +345,7 @@ class CreditosController extends AppController{
 						$tasa=$this->data['Credito']['tasa_interes']/100;
 						$tasa=$tasa/360;
 						$tasa=$tasa*7;
-						$cuotas = round($this->data['Credito']['cuotas']*4.33, 0, PHP_ROUND_HALF_UP);
+						$cuotas = round($this->data['Credito']['cuotas']*4, 0, PHP_ROUND_HALF_UP);
 					}
 					if($this->data['Credito']['periodo_cuotas']=='quincenal'){
 						$tasa=$this->data['Credito']['tasa_interes']/100;
@@ -453,6 +471,7 @@ class CreditosController extends AppController{
 		function ver_cotizacion(){
 			if($this->Session->check('User')){
 				if($this->Session->check('arreglo')){
+					$this->layout = 'template';
 					$arreglo=$this->Session->read('arreglo');
 					$credito=$this->Session->read('credito');
 					$this->set('credito',$credito);
@@ -478,14 +497,27 @@ class CreditosController extends AppController{
 
 		function liquidar($id = null, $id2 = null){
 			if($this->Session->check('User')){
+				$this->loadModel('Abono');
+				$this->Credito->Behaviors->attach('Containable');
+				$credito = $this->Credito->find('first', array(
+					'conditions' => array(
+						'Credito.id' => $id
+					),
+					'contain' => array(
+						'Cliente' => array(
+							'Empresa'
+						)
+					)
+				));
+			
 				$pagos = $this->Credito->Pago->find('all', array(
-							'conditions' => array(
-							'Pago.credito_id' => $id,
-							"(`Pago`.`sitacion` = 'No pagado' OR `Pago`.`sitacion` = 'abono')"
-							),
-							'order' => array('Pago.created ASC'),
-							'recursive' => 1
-						));
+					'conditions' => array(
+					'Pago.credito_id' => $id,
+					"(`Pago`.`sitacion` = 'No pagado' OR `Pago`.`sitacion` = 'abono')"
+					),
+					'order' => array('Pago.created ASC'),
+					'recursive' => 1
+				));
 				
 					$cuenta = 0;
 					$totalabono = 0;
@@ -497,39 +529,60 @@ class CreditosController extends AppController{
 					unset($pago['Pago']['created']);
 					unset($pago['Pago']['modified']);
 					
-					if($pago['Pago']['sitacion'] == 'abono'){
+					if($pago['Pago']['saldo_pago'] != null){
 					
-						$abonos = count($pago['Abono']);
-						$totalpago = $totalpago + $pago['Abono'][$abonos-1]['saldo'];
+						$totalpago = $totalpago + $pago['Pago']['saldo_pago'];
 						
 					}else{
-						$totalpago = $totalpago + $pago['Pago']['pago_capital'];
+						$totalpago = $totalpago + $pago['Pago']['pago'];
 					}
 					
-					$pago['Pago']['sitacion'] = 'Liquidado';
-					$arreglo[$cuenta]=$pago;
+					$pago['Pago']['sitacion'] = 'Pagado';
+					$arreglo[$cuenta] = $pago;
 					$cuenta++;
 				}
+
 				$fecha=date('d-m-Y');
-				$arreglo[$cuenta]=array(
-								'credito_id' => $id,
-								'fecha' => $fecha,
-								'fecha_pagado' => $fecha,
-								'pago_capital' => $totalpago,
-								'saldo_insoluto' => 0,
-								'intereses' => 0,
-								'iva_intereses' => 0,
-								'numero_pago' => 'liquidacion',
-								'pago' => $totalpago,
-								'sitacion' => 'Pagado'
-							);
 				
+				$this->Abono->Cobro->create();
+				$this->Abono->Cobro->save(array(
+					'empresa_id' => $credito['Cliente']['Empresa']['id'],
+					'fecha' => date('Y-m-d')
+				));
+				$id = $this->Abono->Cobro->id;
+				$this->Abono->create();
+				$this->Abono->save(array(
+					'cliente_id' => $credito['Cliente']['id'],
+					'cobro_id' => $id,
+					'abono' => round($totalpago, 2)
+				));
+
+				$abono_id = $this->Abono->id;
+
+				foreach($pagos as $pago){
+
+					if($pago['Pago']['saldo_pago'] != null){
+					
+						$totalpago = $pago['Pago']['saldo_pago'];
+						
+					}else{
+						$totalpago = $pago['Pago']['pago'];
+					}
+
+					$this->Abono->Asociation->create();
+					$this->Abono->Asociation->save(array(
+						'pago_id' => $pago['Pago']['id'],
+						'abono_id' => $abono_id,
+						'abono' => round($totalpago, 2)
+					));
+				}
+
 				$this->Credito->Pago->saveAll($arreglo);
-				$this->Credito->id = $id;
+				$this->Credito->id = $credito['Credito']['id'];
 				$this->Credito->saveField('estado', 'finalizado');
 				
 				$this->Session->setFlash('El crédito se ha finalizado');
-				$this->redirect(array('controller' => 'pagos', 'action' => 'imprimirpdf', $id));
+				$this->redirect(array('controller' => 'cobros', 'action' => 'view', $id));
 				
 				
 			}
