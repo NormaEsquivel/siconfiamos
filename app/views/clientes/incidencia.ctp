@@ -21,7 +21,8 @@ $menu_elements = array(
 $firstElementClass = '';
 $secondElementClass = 'current';
 $thirdElementClass = '';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 echo $this->Html->script('src/portal/libs/glDatePicker/glDatePicker.min.js', array('inline' => false) ); 
 echo $this->Html->script('src/views/clientes/incidencia.js', array(
 	'inline' => false

@@ -18,8 +18,8 @@ $menu_elements = array(
 $firstElementClass = 'current';
 $secondElementClass = '';
 $thirdElementClass = '';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
-
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 ?>
 <?php echo $this->Form->create('Credito', array(
 	'url' => array(

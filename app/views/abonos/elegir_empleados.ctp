@@ -14,8 +14,8 @@ echo $this->Html->script('src/views/abonos/elegir_empleados.js', array(
 $firstElementClass = '';
 $secondElementClass = '';
 $thirdElementClass = 'current';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
-
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 ?>
 
 <div class = "nine-columns">

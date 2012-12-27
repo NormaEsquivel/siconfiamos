@@ -151,6 +151,18 @@
 			)); 
 			?>
 		</li>
+		<li class = <?php echo $fourthElementClass; ?>>
+			<?php 
+			echo $this->Html->link('Reportes', array(
+				'controller' => 'cobros', 
+				'action' => 'reports_index'
+			), 
+			array(
+				'class' => 'shortcut-contacts',
+				'title' => 'Reportes'
+			)); 
+			?>
+		</li>
 	</ul>
 
 	<!-- Sidebar/drop-down menu -->

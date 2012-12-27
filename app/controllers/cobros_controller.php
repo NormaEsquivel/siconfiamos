@@ -52,5 +52,9 @@ class CobrosController extends AppController{
 			$this->set(compact('cobros'));
 		}
 	}
+
+	function reports_index(){
+		$this->layout = 'template';	
+	}
 	
 }

@@ -21,7 +21,8 @@ $menu_elements = array(
 $firstElementClass = 'current';
 $secondElementClass = '';
 $thirdElementClass = '';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 echo $this->Html->script('src/portal/developr.accordions.js', array(
 	'inline' => false
 ));

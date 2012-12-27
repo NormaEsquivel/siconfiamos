@@ -30,8 +30,8 @@ $menu_elements = array(
 $firstElementClass = 'current';
 $secondElementClass = '';
 $thirdElementClass = '';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
-
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 ?>
 
 <h3 class = "thin underline">Crédito de <?php echo $credito['Cliente']['full_name']; ?></h3>

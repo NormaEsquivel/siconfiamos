@@ -16,8 +16,8 @@ echo $this->Html->script('src/views/abonos/retrieve.js', array(
 $firstElementClass = '';
 $secondElementClass = '';
 $thirdElementClass = 'current';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
-
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 
 ?>
 <?php echo $this->Form->create('Abono', array('action' => 'add')); ?>

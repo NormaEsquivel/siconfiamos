@@ -12,8 +12,8 @@ $menu_elements = array(
 $firstElementClass = '';
 $secondElementClass = '';
 $thirdElementClass = 'current';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
-?>
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));?>
 <div class = "columns">
 	<div class = "six-columns">
 		<h3 class = "thin">¿Qué desea hacer a continuación?</h3>

@@ -28,8 +28,8 @@ $menu_elements = array(
 $firstElementClass = 'current';
 $secondElementClass = '';
 $thirdElementClass = '';
-$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
-
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
 $this->Html->script('src/views/templates/index.js', array('inline' => false));
 
 ?>
