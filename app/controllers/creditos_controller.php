@@ -265,12 +265,11 @@ class CreditosController extends AppController{
 					$t[$credito['Cliente']['Empresa']['nombre']]['Saldototal']= $t[$credito['Cliente']['Empresa']['nombre']]['Saldototal'] + $Pago['pago_capital'];
 				}
 				}
-					// $comparacion1=$fecha_inicio->diff($fecha);
-					// $comparacion2=$fecha->diff($fecha_final);
-					// if($comparacion1->format('%R%a')>=0 and $comparacion2->format('%R%a')>=0){
+					// $comparacion1=Set::diff($fecha_inicio, $fecha);
+					// $comparacion2=Set::diff($fecha, $fecha_final);
+					// if($comparacion1->format('%R%a')>=0 and $comparacion2->format('%R%a')>=0){
 						$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo'] = $t[$credito['Cliente']['Empresa']['nombre']]['Prestamo'] + $credito['Credito']['prestamo'];
-					// }
-					
+					// }
 					$t[$credito['Cliente']['Empresa']['nombre']]['Saldo']=$t[$credito['Cliente']['Empresa']['nombre']]['Prestamo'] - $t[$credito['Cliente']['Empresa']['nombre']]['Pago'] + $t[$credito['Cliente']['Empresa']['nombre']]['Saldo_inicial'];
 					
 					$t[$credito['Cliente']['Empresa']['nombre']]['Interes'] = $t[$credito['Cliente']['Empresa']['nombre']]['Interes'] + $Pago['intereses'];
@@ -288,8 +287,8 @@ class CreditosController extends AppController{
 		
 		$this->set(compact('Creditos'));
 		$this->set(compact('t'));
-		pr($Creditos);
-		pr($t);
+		// pr($Creditos);
+		// pr($t);
 		}
 	
 
