@@ -152,6 +152,7 @@ class AbonosController extends AppController{
 	
 	function elegir_empleados($id = null){
 		if($this->Session->check('User')){
+			$this->layout = 'template';
 			$this->loadModel('Cliente');
 			$this->loadModel('Credito');
 			$clientes = $this->Cliente->find('all', array(

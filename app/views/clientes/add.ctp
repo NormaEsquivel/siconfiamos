@@ -133,7 +133,9 @@ echo $this->Form->create('Cliente', array(
 					),
 					'div' => array(
 						'class' => 'field-block button-height'
-					)
+					),
+					'minYear' => date('Y')- 80,
+					'maxYear' => date('Y')- 18
 			)); ?>
 
 			<?php echo $this->Form->input('dependientes', array(
@@ -189,7 +191,9 @@ echo $this->Form->create('Cliente', array(
 					),
 					'div' => array(
 						'class' => 'field-block button-height'
-					)
+					),
+					'minYear' => date('Y')- 80,
+					'maxYear' => date('Y')
 			)); ?>
 		</fieldset>
 
@@ -316,7 +320,9 @@ echo $this->Form->create('Cliente', array(
 					),
 					'div' => array(
 						'class' => 'field-block button-height'
-					)
+					),
+					'minYear' => date('Y')- 80,
+					'maxYear' => date('Y')- 18
 			)); ?>
 
 			<?php echo $this->Form->input('Aval.rfc', array(

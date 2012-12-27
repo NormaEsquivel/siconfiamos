@@ -40,8 +40,6 @@ $secondElementClass = 'current';
 $thirdElementClass = '';
 $this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
 
-$this->set(compact('menu_elements'));
-
 $this->Html->script('src/views/templates/index.js', array('inline' => false));
 
 ?>

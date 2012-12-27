@@ -8,25 +8,20 @@ $menu_elements = array(
 			)
 		)
 	),
-	'element1' => array(
-		'name' => $this->Html->link('Victor', 
-			array(
-				'controller' => 'templates',
-				'action' => 'add_client'
-			)
-		)
-	),
 	'element2' => array(
-		'name' => $this->Html->link('Login', 
+		'name' => $this->Html->link('Finalizar Sesión', 
 			array(
-				'controller' => 'templates',
-				'action' => 'login'
+				'controller' => 'users',
+				'action' => 'logout'
 			)
 		)
-	),
+	)
 );
-$this->set(compact('menu_elements'));
 
+$firstElementClass = '';
+$secondElementClass = 'current';
+$thirdElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass'));
 ?>
 
 <h3 class = "thin underline">Cotización de Crédito</h3>
