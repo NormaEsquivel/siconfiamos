@@ -10,6 +10,11 @@ class Empresa extends AppModel{
 			'className' => 'Cliente',
 			'foreignKey' => 'empresa_id',
 			'dependent'=> true
+		),
+		'Cobro' => array(
+			'className' => 'Cobro',
+			'foreignKey' => 'empresa_id',
+			'dependent'=> true
 		)
 	);
 	

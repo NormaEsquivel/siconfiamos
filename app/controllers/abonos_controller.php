@@ -16,9 +16,142 @@ class AbonosController extends AppController{
 		}
 	}
 	
+	function buscar_empresa(){
+		 if(!empty($this->data)){
+		 	$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
+			$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
+		 }else{
+			if(date('d')>15){
+				$fecha_final = date('Y-m-t');
+				$fecha_inicio = date('Y-m-16');
+			}else{
+				$fecha_inicio = date('Y-m-1');
+				$fecha_final=date('Y-m-16');
+			}
+		}
+		 $this->loadModel('Empresa');
+		 $this->Empresa->Cobro->Behaviors->attach('Containable');
+		 $empresas=$this->Empresa->Cobro->find('all', array(
+		 	'conditions'=>array(
+		 		'Cobro.fecha >='=>$fecha_inicio,
+		 		'Cobro.fecha <='=>$fecha_final
+			),
+		 	'contain'=>array(
+		 		'Empresa',
+		 		'Abono' => array(
+		 			'Asociation' => array('Pago')
+				)
+			),
+			'order' => array('Empresa.id')
+		));		
+		
+		$total=null;
+		foreach ($empresas as $key => $Abono) {
+					
+			if(!isset($total[$Abono['Empresa']['nombre']])){
+						
+				 $total[$Abono['Empresa']['nombre']]['Capital']=0;
+				 $total[$Abono['Empresa']['nombre']]['Interes']=0;
+				 $total[$Abono['Empresa']['nombre']]['Iva']=0;
+				 $total[$Abono['Empresa']['nombre']]['t']=0;
+			}
+			
+			foreach ($Abono['Abono'] as $Asociation) {
+				
+				if($Asociation['Asociation']!= null ){
+						
+					foreach ($Asociation['Asociation'] as $key => $Pago) {
+						$total[$Abono['Empresa']['nombre']]['Capital'] = $total[$Abono['Empresa']['nombre']]['Capital'] + round($Pago['Pago']['pago_capital'], 2);
+						$total[$Abono['Empresa']['nombre']]['Interes'] = $total[$Abono['Empresa']['nombre']]['Interes'] + round($Pago['Pago']['intereses'], 2);
+						$total[$Abono['Empresa']['nombre']]['Iva'] = $total[$Abono['Empresa']['nombre']]['Iva'] + round($Pago['Pago']['iva_intereses'], 2);
+					}
+				}
+				else{
+					$total[$Abono['Empresa']['nombre']]['Capital']=$total[$Abono['Empresa']['nombre']]['Capital'] + $Asociation['abono'];
+				}
+				$total[$Abono['Empresa']['nombre']]['t']=$total[$Abono['Empresa']['nombre']]['Capital']+$total[$Abono['Empresa']['nombre']]['Interes']+$total[$Abono['Empresa']['nombre']]['Iva'];
+			}
+		}
+		$this->set(compact('empresas'));
+		$this->set('total', $total);
+		// pr($empresas);
+		// pr($total);
+	}
+	
+	function empresa_detalle(){
+		if($this->Session->check('User')){
+			 if(!empty($this->data)){
+			 	$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
+				$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
+			 }else{
+				if(date('d')>15){
+					$fecha_final = date('Y-m-t');
+					$fecha_inicio = date('Y-m-16');
+				}else{
+					$fecha_inicio = date('Y-m-1');
+					$fecha_final = date('Y-m-16');
+				}
+			}
+				$this->loadModel('Cliente');
+				$this->Cliente->Behaviors->attach('Containable');
+				$clientes=$this->Cliente->find('all',array(
+					'Condition'=>array(
+						'Cobro.fecha >='=>$fecha_inicio,
+			 			'Cobro.fecha <='=>$fecha_final
+						),
+					'fields'=>array(
+						'full_name','id','empresa_id'),
+					'contain'=>	array(
+						'Empresa'=>array(
+							'Cobro'=>array(
+								'Abono'=>array(
+									'Asociation'=>array('Pago'))))
+							)
+					));
+					
+					$arreglo=null;
+					foreach($clientes as $key => $cliente)
+					{							
+							if(!isset($arreglo[$cliente['Cliente']['full_name']])){
+								$arreglo[$cliente['Cliente']['full_name']]['Capital']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['Interes']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['Iva']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['t']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['empresa']=0;
+							}
+								foreach ($cliente['Empresa']['Cobro'] as $Abono) {
+									
+								foreach ($Abono['Abono'] as $Asociation) {
+										
+									if($Asociation['Asociation'] != null){
+											
+										foreach ($Asociation['Asociation'] as $key => $Pago) 
+										{
+											$arreglo[$cliente['Cliente']['full_name']]['Capital']=$arreglo[$cliente['Cliente']['full_name']]['Capital']+$Pago['Pago']['pago_capital'];
+											$arreglo[$cliente['Cliente']['full_name']]['Interes']=$arreglo[$cliente['Cliente']['full_name']]['Interes']+$Pago['Pago']['intereses'];
+											$arreglo[$cliente['Cliente']['full_name']]['Iva']=$arreglo[$cliente['Cliente']['full_name']]['Iva']+$Pago['Pago']['iva_intereses'];
+										}
+								}
+							else
+							{
+								$arreglo[$cliente['Cliente']['full_name']]['Capital']=$arreglo[$cliente['Cliente']['full_name']]['Capital'] + $Asociation['abono'];
+							}
+						$arreglo[$cliente['Cliente']['full_name']]['t']=$arreglo[$cliente['Cliente']['full_name']]['Capital']+$arreglo[$cliente['Cliente']['full_name']]['Interes']+$arreglo[$cliente['Cliente']['full_name']]['Iva'];						
+						$arreglo[$cliente['Cliente']['full_name']]['empresa']=$cliente['Empresa']['nombre'];
+						}
+					}
+				$this->set(compact('clientes'));
+				$this->set('arreglo',$arreglo);
+				$this->set(compact('id'));
+				// pr($clientes);
+				// pr($arreglo);
+
+			}
+		}
+	}
+	
 	function elegir_empleados($id = null){
 		if($this->Session->check('User')){
-			$this->layout = 'template';
 			$this->loadModel('Cliente');
 			$this->loadModel('Credito');
 			$clientes = $this->Cliente->find('all', array(
@@ -765,9 +898,8 @@ class AbonosController extends AppController{
 			)
 		));
 		
-		
-		
 	}
 	
 }
-?>
+
+	

@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"total",
+				"totalpago"
+			],
+			[
+				"exp",
+				"explode_fecha"
+			],
+			[
+				"fecha_",
+				"fecha_cobro"
+			],
+			[
+				"expo",
+				"explode_inicio"
+			],
+			[
+				"th",
+				"thead	Tag"
+			],
+			[
 				"butt",
 				"button-height"
 			],
@@ -32,74 +52,18 @@
 	"buffers":
 	[
 		{
-			"file": "app/views/users/empresa_view.ctp",
+			"file": "app/views/empresas/view.ctp",
 			"settings":
 			{
-				"buffer_size": 2030,
+				"buffer_size": 1687,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/controllers/users_controller.php",
+			"file": "app/views/empresas/cliente_view.ctp",
 			"settings":
 			{
-				"buffer_size": 4629,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/controllers/clientes_controller.php",
-			"settings":
-			{
-				"buffer_size": 18837,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/views/clientes/view2.ctp",
-			"settings":
-			{
-				"buffer_size": 2489,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/views/clientes/add.ctp",
-			"settings":
-			{
-				"buffer_size": 17046,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/views/templates/add_client.ctp",
-			"settings":
-			{
-				"buffer_size": 17046,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/views/layouts/template.ctp",
-			"settings":
-			{
-				"buffer_size": 7864,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/webroot/js/src/views/users/empresa_view.js",
-			"settings":
-			{
-				"buffer_size": 941,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/controllers/empresas_controller.php",
-			"settings":
-			{
-				"buffer_size": 23517,
+				"buffer_size": 2873,
 				"line_ending": "Windows"
 			}
 		}
@@ -128,34 +92,69 @@
 	},
 	"file_history":
 	[
+		"/C/wamp/www/siconfiamos/app/views/clientes/view.ctp",
+		"/C/wamp/www/siconfiamos/app/views/empresas/add.ctp",
+		"/C/wamp/www/siconfiamos/app/views/empresas/edit.ctp",
+		"/C/wamp/www/siconfiamos/app/views/clientes/edit.ctp",
+		"/C/wamp/www/siconfiamos/app/views/clientes/add.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/templates_controller.php",
+		"/C/wamp/www/siconfiamos/app/controllers/clientes_controller.php",
+		"/C/wamp/www/siconfiamos/app/controllers/incidencias_controller.php",
+		"/C/wamp/www/siconfiamos/app/vendors/xtcpdf.php",
+		"/C/wamp/www/siconfiamos/app/controllers/creditos_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/creditos/add.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/cobros_controller.php",
 		"/C/wamp/www/siconfiamos/app/controllers/empresas_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/empresas/cliente_view.ctp",
+		"/C/wamp/www/siconfiamos/app/views/clientes/incidencia.ctp",
+		"/C/wamp/www/siconfiamos/app/views/incidencias/imprimir.ctp",
+		"/C/wamp/www/siconfiamos/app/views/layouts/login.ctp",
+		"/C/wamp/www/siconfiamos/app/views/creditos/view.ctp",
+		"/C/wamp/www/siconfiamos/app/controllers/abonos_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/abonos/add.ctp",
+		"/C/wamp/www/siconfiamos/app/views/cobros/view.ctp",
+		"/C/wamp/www/siconfiamos/app/views/clientes/view2.ctp",
+		"/C/wamp/www/siconfiamos/app/views/cobros/index.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/index.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/cobros/view.js",
+		"/C/wamp/www/siconfiamos/app/views/users/empresa_view.ctp",
+		"/C/wamp/www/siconfiamos/app/views/creditos/historial.ctp",
+		"/C/wamp/www/siconfiamos/app/views/creditos/view_credit.ctp",
+		"/C/wamp/www/siconfiamos/app/views/abonos/elegir_empresa.ctp",
+		"/C/wamp/www/siconfiamos/app/views/abonos/elegir_empleados.ctp",
+		"/C/wamp/www/siconfiamos/app/views/abonos/retrieve.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/css/portal/style.css",
+		"/C/wamp/www/siconfiamos/app/models/incidencia.php",
+		"/C/wamp/www/siconfiamos/app/views/creditos/cotizar.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/cobros/index.js",
+		"/C/wamp/www/siconfiamos/cake/libs/controller/app_controller.php",
+		"/C/wamp/www/siconfiamos/app/controllers/users_controller.php",
+		"/C/wamp/www/siconfiamos/app/views/layouts/template.ctp",
+		"/C/wamp/www/siconfiamos/app/views/avals/view.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/abonos/index.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/clientes/incidencia.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_credit.js",
+		"/C/wamp/www/siconfiamos/app/views/empresas/view.ctp",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/abonos/retrieve.js",
+		"/C/wamp/www/siconfiamos/app/views/templates/add_client.ctp",
+		"/C/wamp/www/siconfiamos/app/models/empresa.php",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/abonos/elegir_empleados.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/add.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/users/empresa_view.js",
+		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/js/add.js",
+		"/C/Users/Victor/Documents/Siconfiamos template/html/tables.html",
 		"/C/wamp/www/siconfiamos/app/views/templates/index.ctp",
 		"/C/wamp/www/siconfiamos/app/views/elements/login_error.ctp",
-		"/C/wamp/www/siconfiamos/app/controllers/users_controller.php",
-		"/C/wamp/www/siconfiamos/app/views/layouts/login.ctp",
-		"/C/wamp/www/siconfiamos/app/controllers/clientes_controller.php",
-		"/C/wamp/www/siconfiamos/app/views/clientes/view.ctp",
 		"/C/wamp/www/siconfiamos/app/views/templates/view.ctp",
-		"/C/wamp/www/siconfiamos/app/controllers/creditos_controller.php",
-		"/C/wamp/www/siconfiamos/app/views/creditos/view_credit.ctp",
-		"/C/wamp/www/siconfiamos/app/views/creditos/historial.ctp",
 		"/C/wamp/www/siconfiamos/app/views/templates/credit_history.ctp",
 		"/C/wamp/www/siconfiamos/app/views/templates/view_credit.ctp",
-		"/C/wamp/www/siconfiamos/app/views/creditos/view.ctp",
 		"/C/wamp/www/siconfiamos/app/models/credito.php",
 		"/C/wamp/www/siconfiamos/app/views/creditos/ver_cotizacion.ctp",
-		"/C/wamp/www/siconfiamos/app/controllers/templates_controller.php",
 		"/C/wamp/www/siconfiamos/app/views/templates/add_credit.ctp",
-		"/C/wamp/www/siconfiamos/app/views/creditos/add.ctp",
-		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_credit.js",
-		"/C/wamp/www/siconfiamos/app/views/creditos/cotizar.ctp",
-		"/C/wamp/www/siconfiamos/app/views/clientes/view2.ctp",
 		"/C/wamp/www/siconfiamos/app/views/users/index.ctp",
 		"/C/wamp/www/siconfiamos/app/views/templates/login.ctp",
 		"/C/wamp/www/siconfiamos/app/views/layouts/csv/default.ctp",
 		"/C/Users/Victor/Documents/Siconfiamos template/html/login.html",
-		"/C/wamp/www/siconfiamos/app/views/layouts/template.ctp",
-		"/C/wamp/www/siconfiamos/app/views/templates/add_client.ctp",
 		"/C/wamp/www/siconfiamos/app/views/layouts/wizard.ctp",
 		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_client.js",
 		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/formValidator/languages/jquery.validationEngine-es.js",
@@ -165,31 +164,23 @@
 		"/C/wamp/www/siconfiamos/app/models/personal.php",
 		"/C/wamp/www/siconfiamos/app/models/familiar.php",
 		"/C/wamp/www/siconfiamos/app/views/templates/active_credit.ctp",
-		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/js/add.js",
 		"/C/Users/Victor/Documents/Siconfiamos template/html/wizard.html",
 		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/add_cliente.js",
 		"/C/wamp/www/siconfiamos/app/views/layouts/wizards.ctp",
-		"/C/wamp/www/siconfiamos/app/views/avals/view.ctp",
 		"/C/wamp/www/siconfiamos/app/vendors/format.php",
 		"/C/wamp/www/siconfiamos/app/views/elements/portal/menu.ctp",
 		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/formValidator/developr.validationEngine.css",
 		"/C/Users/Victor/Documents/Siconfiamos template/html/tabs.html",
-		"/C/Users/Victor/Documents/Siconfiamos template/html/tables.html",
 		"/C/Users/Victor/Documents/Siconfiamos template/html/blocks.html",
-		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/templates/index.js",
 		"/C/wamp/www/siconfiamos/app/views/templates/view_credito.ctp",
-		"/C/wamp/www/siconfiamos/cake/libs/controller/app_controller.php",
 		"/C/wamp/www/siconfiamos/app/webroot/js/src/portal/libs/DataTables/jquery.dataTables-simple.css",
 		"/C/wamp/www/siconfiamos/app/webroot/css/portal/DataTables/jquery.dataTables.css",
 		"/C/Users/Victor/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
 		"/C/Users/Victor/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/wamp/www/siconfiamos/app/webroot/js/src/views/creditos/development-bundle/ui/i18n/jquery.ui.datepicker-sk.js",
 		"/C/wamp/www/siconfiamos/app/models/template.php",
-		"/C/wamp/www/siconfiamos/app/models/empresa.php",
 		"/C/wamp/www/siconfiamos/app/views/clientes/add2.ctp",
-		"/C/wamp/www/siconfiamos/app/webroot/css/portal/style.css",
 		"/C/wamp/www/siconfiamos/app/webroot/css/portal/992.css",
-		"/C/wamp/www/siconfiamos/app/controllers/abonos_controller.php",
 		"/C/wamp/www/siconfiamos/app/webroot/css/portal/768.css",
 		"/C/wamp/www/siconfiamos/app/webroot/css/portal/2x.css",
 		"/C/wamp/www/siconfiamos/app/webroot/css/portal/480.css",
@@ -233,6 +224,15 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"arreglo2",
+			";\n",
+			"</tr>",
+			"tr",
+			"td",
+			"th",
+			".shortcuts",
+			"inicio",
+			"<th>",
 			"Cliente",
 			"cliente",
 			"Cliente",
@@ -360,23 +360,23 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/views/users/empresa_view.ctp",
+					"file": "app/views/empresas/view.ctp",
 					"settings":
 					{
-						"buffer_size": 2030,
+						"buffer_size": 1687,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								725,
-								725
+								5,
+								5
 							]
 						],
 						"settings":
@@ -389,75 +389,27 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
 				{
 					"buffer": 1,
-					"file": "app/controllers/users_controller.php",
+					"file": "app/views/empresas/cliente_view.ctp",
 					"settings":
 					{
-						"buffer_size": 4629,
+						"buffer_size": 2873,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3866,
-								3866
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1452.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/controllers/clientes_controller.php",
-					"settings":
-					{
-						"buffer_size": 18837,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1182,
-								1182
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 535.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/views/clientes/view2.ctp",
-					"settings":
-					{
-						"buffer_size": 2489,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								2489
+								320,
+								320
 							]
 						],
 						"settings":
@@ -467,141 +419,6 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/views/clientes/add.ctp",
-					"settings":
-					{
-						"buffer_size": 17046,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								17046,
-								17046
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 8793.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/views/templates/add_client.ctp",
-					"settings":
-					{
-						"buffer_size": 17046,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								17046
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/views/layouts/template.ctp",
-					"settings":
-					{
-						"buffer_size": 7864,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5393,
-								5393
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1262.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/webroot/js/src/views/users/empresa_view.js",
-					"settings":
-					{
-						"buffer_size": 941,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								453,
-								453
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/controllers/empresas_controller.php",
-					"settings":
-					{
-						"buffer_size": 23517,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4449,
-								4449
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2087.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -626,11 +443,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
@@ -642,7 +466,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -651,52 +475,196 @@
 		"selected_items":
 		[
 			[
-				"ec",
-				"app/controllers/empresas_controller.php"
+				"cobros",
+				"app/controllers/cobros_controller.php"
 			],
 			[
-				"empresa_v",
-				"app/webroot/js/src/views/users/empresa_view.js"
+				"view",
+				"app/views/creditos/view.ctp"
 			],
 			[
-				"ev",
-				"app/views/users/empresa_view.ctp"
-			],
-			[
-				"template",
-				"app/views/layouts/template.ctp"
-			],
-			[
-				"ac",
-				"app/views/templates/add_client.ctp"
+				"inciden",
+				"app/views/clientes/incidencia.ctp"
 			],
 			[
 				"add",
-				"app/views/clientes/add.ctp"
+				"app/views/abonos/add.ctp"
 			],
 			[
-				"view2",
-				"app/views/clientes/view2.ctp"
+				"creditos",
+				"app/controllers/creditos_controller.php"
+			],
+			[
+				"abo",
+				"app/controllers/abonos_controller.php"
+			],
+			[
+				"login",
+				"app/views/layouts/login.ctp"
+			],
+			[
+				"xtc",
+				"app/vendors/xtcpdf.php"
+			],
+			[
+				"impr",
+				"app/views/incidencias/imprimir.ctp"
+			],
+			[
+				"ii",
+				"app/controllers/incidencias_controller.php"
 			],
 			[
 				"cc",
 				"app/controllers/clientes_controller.php"
 			],
 			[
+				"tec",
+				"app/controllers/templates_controller.php"
+			],
+			[
+				"cv",
+				"app/views/empresas/cliente_view.ctp"
+			],
+			[
+				"edit",
+				"app/views/clientes/edit.ctp"
+			],
+			[
+				"empresa",
+				"app/controllers/empresas_controller.php"
+			],
+			[
+				"index.js",
+				"app/webroot/js/src/views/templates/index.js"
+			],
+			[
+				"cobro",
+				"app/controllers/cobros_controller.php"
+			],
+			[
+				"index",
+				"app/views/cobros/index.ctp"
+			],
+			[
+				"retri",
+				"app/views/abonos/retrieve.ctp"
+			],
+			[
+				"ee",
+				"app/views/abonos/elegir_empleados.ctp"
+			],
+			[
+				"ev",
+				"app/views/users/empresa_view.ctp"
+			],
+			[
+				"vc",
+				"app/views/creditos/view_credit.ctp"
+			],
+			[
+				"historial",
+				"app/views/creditos/historial.ctp"
+			],
+			[
+				"cotizar",
+				"app/views/creditos/cotizar.ctp"
+			],
+			[
+				"view2",
+				"app/views/clientes/view2.ctp"
+			],
+			[
+				"incidencia",
+				"app/views/clientes/incidencia.ctp"
+			],
+			[
+				"incidenc",
+				"app/models/incidencia.php"
+			],
+			[
+				"template",
+				"app/views/layouts/template.ctp"
+			],
+			[
+				"retrie",
+				"app/views/abonos/retrieve.ctp"
+			],
+			[
+				"his",
+				"app/views/creditos/historial.ctp"
+			],
+			[
 				"uc",
 				"app/controllers/users_controller.php"
 			],
 			[
-				"vc",
-				"app/views/creditos/ver_cotizacion.ctp"
+				"app",
+				"cake/libs/controller/app_controller.php"
+			],
+			[
+				"cobr",
+				"app/controllers/cobros_controller.php"
+			],
+			[
+				"incidenci",
+				"app/views/clientes/incidencia.ctp"
+			],
+			[
+				"elegir",
+				"app/views/abonos/elegir_empleados.ctp"
+			],
+			[
+				"incidencia.js",
+				"app/webroot/js/src/views/clientes/incidencia.js"
+			],
+			[
+				"inci",
+				"app/views/clientes/incidencia.ctp"
+			],
+			[
+				"elegi",
+				"app/views/abonos/elegir_empleados.ctp"
+			],
+			[
+				"abonos",
+				"app/controllers/abonos_controller.php"
+			],
+			[
+				"ac",
+				"app/views/templates/add_client.ctp"
+			],
+			[
+				"empresa_v",
+				"app/views/users/empresa_view.ctp"
+			],
+			[
+				"imprimir",
+				"app/views/incidencias/imprimir.ctp"
+			],
+			[
+				"add_cre",
+				"app/webroot/js/src/views/templates/add_credit.js"
+			],
+			[
+				"add.js",
+				"app/webroot/js/src/views/creditos/js/add.js"
+			],
+			[
+				"incidenci.js",
+				"app/webroot/js/src/views/clientes/incidencia.js"
+			],
+			[
+				"incide",
+				"app/views/clientes/incidencia.ctp"
+			],
+			[
+				"ec",
+				"app/controllers/empresas_controller.php"
 			],
 			[
 				"ac.js",
 				"app/webroot/js/src/views/templates/add_credit.js"
-			],
-			[
-				"view",
-				"app/views/creditos/view.ctp"
 			],
 			[
 				"ver",
@@ -717,18 +685,6 @@
 			[
 				"ch",
 				"app/views/templates/credit_history.ctp"
-			],
-			[
-				"his",
-				"app/views/creditos/historial.ctp"
-			],
-			[
-				"index",
-				"app/views/templates/index.ctp"
-			],
-			[
-				"login",
-				"app/views/layouts/login.ctp"
 			],
 			[
 				"tc",
@@ -765,14 +721,6 @@
 			[
 				"active",
 				"app/views/templates/active_credit.ctp"
-			],
-			[
-				"add.js",
-				"app/webroot/js/src/views/creditos/js/add.js"
-			],
-			[
-				"add_cre",
-				"app/webroot/js/src/views/templates/add_credit.js"
 			],
 			[
 				"persona",
@@ -835,20 +783,8 @@
 				"app/models/cliente.php"
 			],
 			[
-				"index.js",
-				"app/webroot/js/src/views/templates/index.js"
-			],
-			[
 				"datata",
 				"app/webroot/css/portal/DataTables/jquery.dataTables.css"
-			],
-			[
-				"app",
-				"cake/libs/controller/app_controller.php"
-			],
-			[
-				"creditos",
-				"app/controllers/creditos_controller.php"
 			],
 			[
 				"index.ctp",
@@ -889,10 +825,6 @@
 			[
 				"empresa.php",
 				"app/models/empresa.php"
-			],
-			[
-				"abonos",
-				"app/controllers/abonos_controller.php"
 			]
 		],
 		"width": 0.0

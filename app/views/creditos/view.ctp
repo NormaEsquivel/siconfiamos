@@ -4,7 +4,7 @@ $menu_elements = array(
 		'name' => $this->Html->link('Liquidar Crédito', 
 			array(
 				'controller' => 'creditos',
-				'action' => 'liquidar',
+				'action' => 'liquidar',git
 				$credito['Credito']['id']
 			)
 		)

@@ -54,5 +54,3 @@ class CobrosController extends AppController{
 	}
 	
 }
-
-?>
