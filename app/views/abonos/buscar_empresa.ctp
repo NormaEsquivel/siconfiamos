@@ -1,5 +1,4 @@
-<!--<?php pr($empresas); ?>
-<?php pr($total)?>-->
+
 <head>
 	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/start/jquery-ui.css" rel="stylesheet" type="text/css"/>
 	<?php 	echo $this->Html->script('src/views/creditos/js/jquery-1.7.2.min');
@@ -30,14 +29,12 @@ $totalcap=0;
 $totalint=0;
 $totaliva=0;
 $totaltot=0;
-
+if($total!=null):	
 foreach($total as $key => $nomempresa):
 foreach($empresas as $empresa)
 ?>
 <tr>
-	<td><?php echo $this->Html->link($key, array(
-		'controller'=>'abonos',
-		'action'=>'empresa_detalle'));?> </td>
+	<td><strong><?php echo $key; ?></strong></td>
 	<td>$<?php echo $nomempresa['Capital'];?></td>
 	<td>$<?php echo $nomempresa['Interes'];?></td>
 	<td>$<?php echo $nomempresa['Iva'];?></td>
@@ -58,6 +55,6 @@ endforeach;
 	<td><strong>$<?php echo $totaliva; ?></strong></td>
 	<td><strong>$<?php echo $totaltot; ?> </strong></td>
 </tr>
-
+<?php endif;?>
 </table>
 </fieldset>

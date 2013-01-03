@@ -29,24 +29,37 @@ $totalcap=0;
 $totalint=0;
 $totaliva=0;
 $totaltot=0;
-
-foreach($arreglo as $key => $detalle):
-	// if(!isset($key)):?>
+if($arreglo != null):
+foreach($arreglo as $key => $detalle):?>
 	<tr>	
-		<td><?php  echo $detalle['empresa']; ?></td>
-		<td><?php echo $key;?></td>			
-		<td>$<?php echo round($detalle['Capital'],2);?></td>
-		<td>$<?php echo round($detalle['Interes'],2);?></td>
-		<td>$<?php echo round($detalle['Iva'],2);?></td>
-		<td>$<?php echo round($detalle['t'],2);?></td>
+		<td><?php echo $key; ?></td>
+		<td></td>			
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
 	</tr>
 <?php
-$totaltot=$totaltot + round($detalle['Capital'],2) + $detalle['Interes'] + round($detalle['Iva'],2);
-$totalcap=$totalcap + round($detalle['Capital'],2);
-$totalint=$totalint + round($detalle['Interes'],2);
-$totaliva=$totaliva + round($detalle['Iva'],2);
-	// endif;
-//pr($detalle);
+foreach($detalle as $key2 => $totales):
+?>
+
+<?php
+$totaltot=$totaltot + round($totales['Capital'],2) + round($totales['Interes'],2) + round($totales['Iva'],2);
+$totalcap=$totalcap + round($totales['Capital'],2);
+$totalint=$totalint + round($totales['Interes'],2);
+$totaliva=$totaliva + round($totales['Iva'],2);
+?>
+
+	<tr>	
+		<td></td>
+		<td><?php echo $key2 ;?></td>			
+		<td>$<?php echo round($totales['Capital'],2);?></td>
+		<td>$<?php echo round($totales['Interes'],2);?></td>
+		<td>$<?php echo round($totales['Iva'],2);?></td>
+		<td>$<?php echo round($totales['t'],2);?></td>
+	</tr>
+<?php
+endforeach;
 ?>
 <tr>
 	<td><?php?></td>
@@ -54,10 +67,11 @@ $totaliva=$totaliva + round($detalle['Iva'],2);
 	<td><strong>$<?php echo $totalcap; ?></strong></td>
 	<td><strong>$<?php echo $totalint; ?></strong></td>
 	<td><strong>$<?php echo $totaliva; ?></strong></td>
-	<td><strong>$<?php echo round($totaltot,2); ?></strong></td>
+	<td><strong>$<?php echo $totaltot; ?></strong></td>
 </tr>
-<?php	
+<?php
 endforeach;
+endif;
 ?>
 </table>
 </fieldset>

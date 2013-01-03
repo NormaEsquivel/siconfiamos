@@ -280,6 +280,8 @@ class EmpresasController extends AppController{
 			$this->Session->write('info', $arreglo2);
 			}
 			$this->set('info',$arreglo2);
+			
+			pr($arreglo2);
 	}
 	}
 	
