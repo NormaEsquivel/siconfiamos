@@ -334,6 +334,7 @@ class CreditosController extends AppController{
 					$anio = $fechas[2];
 					$prestamo=$this->data['Credito']['prestamo'];
 					
+										
 					if($this->data['Credito']['periodo_cuotas']=='diario'){
 						$tasa=$this->data['Credito']['tasa_interes']/100;
 						$tasa=$tasa/360;
@@ -903,69 +904,68 @@ class CreditosController extends AppController{
 			foreach ($Creditos as $key => $credito) {
 				$fecha=new DateTime($credito['Credito']['fecha_calculo']);
 				
-				if(!isset($total[$credito['Cliente']['Empresa']['nombre']])){
-					
-					if(!isset($total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']])){
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['capital']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['interes']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['iva']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['saldoinicial']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['pagos']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['saldo']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo_interes']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo_iva']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_interes']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_iva']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['empresa']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldototal']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_inicial_interes']=0;
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_inicial_iva']=0;
+					if(!isset($total[$credito['Cliente']['full_name']])){
+						$total[$credito['Cliente']['full_name']]['capital']=0;
+						$total[$credito['Cliente']['full_name']]['interes']=0;
+						$total[$credito['Cliente']['full_name']]['iva']=0;
+						$total[$credito['Cliente']['full_name']]['saldoinicial']=0;
+						$total[$credito['Cliente']['full_name']]['Prestamo']=0;
+						$total[$credito['Cliente']['full_name']]['pagos']=0;
+						$total[$credito['Cliente']['full_name']]['saldo']=0;
+						$total[$credito['Cliente']['full_name']]['Prestamo_interes']=0;
+						$total[$credito['Cliente']['full_name']]['Prestamo_iva']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_interes']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_iva']=0;
+						$total[$credito['Cliente']['full_name']]['empresa']=0;
+						$total[$credito['Cliente']['full_name']]['Saldototal']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_inicial_interes']=0;
+						$total[$credito['Cliente']['full_name']]['Saldo_inicial_iva']=0;
 					}
-					
-				}	
 				 foreach ($credito['Pago'] as $key => $pago){
 					foreach($pago['Asociation'] as $key => $Asociation){
 						foreach ($Asociation['Abono'] as $key => $Abono){
-				 			$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['capital']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['capital']+$pago['pago_capital'];
+				 			$total[$credito['Cliente']['full_name']]['capital']=$total[$credito['Cliente']['full_name']]['capital']+$pago['pago_capital'];
 					 	}
 					}
 					
 					if($credito['Credito']['estado']=='activo' and $pago['sitacion']=='Pagado'){
 						if($fecha >= $fecha_inicio){
-							$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['saldoinicial']=$credito['Credito']['prestamo'] - $pago['pago_capital'];
-							$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_inicial_interes']=$credito['Credito']['prestamo'] - $pago['intereses'];
-							$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_inicial_iva']=$credito['Credito']['prestamo']- $pago['iva_intereses'];
+							$total[$credito['Cliente']['full_name']]['saldoinicial']=$credito['Credito']['prestamo'] - $pago['pago_capital'];
+							$total[$credito['Cliente']['full_name']]['Saldo_inicial_interes']=$credito['Credito']['prestamo'] - $pago['intereses'];
+							$total[$credito['Cliente']['full_name']]['Saldo_inicial_iva']=$credito['Credito']['prestamo']- $pago['iva_intereses'];
 						}
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['pagos']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['pagos'] + $Abono['abono'];
+						$total[$credito['Cliente']['full_name']]['pagos']=$total[$credito['Cliente']['full_name']]['pagos']+$Abono['abono'];
 					}
 					if($pago['sitacion']=='No pagado'){
-						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldototal']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldototal'] + $pago['pago_capital'];
+						$total[$credito['Cliente']['full_name']]['Saldototal']=$total[$credito['Cliente']['full_name']]['Saldototal'] + $pago['pago_capital'];
 					}
 				}
 				
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo']+$credito['Credito']['prestamo'];				 
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['saldo']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['saldoinicial']
-				 +$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['pagos'];
+				 $total[$credito['Cliente']['full_name']]['Prestamo']=$total[$credito['Cliente']['full_name']]['Prestamo']+$credito['Credito']['prestamo'];				 
+				 $total[$credito['Cliente']['full_name']]['saldo']=$total[$credito['Cliente']['full_name']]['saldoinicial']+$total[$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['full_name']]['pagos'];
 				 
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['interes']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['interes']+$pago['intereses'];
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['iva']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['iva']+$pago['iva_intereses'];
+				 $total[$credito['Cliente']['full_name']]['interes']=$total[$credito['Cliente']['full_name']]['interes']+$pago['intereses'];
+				 $total[$credito['Cliente']['full_name']]['iva']=$total[$credito['Cliente']['full_name']]['iva']+$pago['iva_intereses'];
 				 
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo_interes']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo'] - $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['interes'];
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo_iva']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo'] - $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['iva'];
+				 $total[$credito['Cliente']['full_name']]['Prestamo_interes']=$total[$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['full_name']]['interes'];
+				 $total[$credito['Cliente']['full_name']]['Prestamo_iva']=$total[$credito['Cliente']['full_name']]['Prestamo']-$total[$credito['Cliente']['full_name']]['iva'];
 				 
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_interes']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_inicial_interes'] 
-				 + $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo_interes'] - $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['interes'];
-				 $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_iva']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Saldo_inicial_iva'] 
-				 + $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['Prestamo_iva'] - $total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['iva'];
+				 $total[$credito['Cliente']['full_name']]['Saldo_interes']=$total[$credito['Cliente']['full_name']]['Saldo_inicial_interes'] + $total[$credito['Cliente']['full_name']]['Prestamo_interes']
+				 	- $total[$credito['Cliente']['full_name']]['interes'];
+				 $total[$credito['Cliente']['full_name']]['Saldo_iva']=$total[$credito['Cliente']['full_name']]['Saldo_inicial_iva'] + $total[$credito['Cliente']['full_name']]['Prestamo_iva']
+				 	- $total[$credito['Cliente']['full_name']]['iva'];
+				
+				$total[$credito['Cliente']['full_name']]['empresa']= $credito['Cliente']['Empresa']['nombre'];
 				
 			}
 
 				$this->set(compact('Creditos'));
 				$this->set(compact('Asociations'));
 				$this->set(compact('total'));
-				pr($Creditos);
-				pr($total);
+				// pr($Creditos);
+				// pr($total);
+
+				
 		}
 	
 }

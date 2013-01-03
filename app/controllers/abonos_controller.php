@@ -74,85 +74,78 @@ class AbonosController extends AppController{
 		}
 		$this->set(compact('empresas'));
 		$this->set('total', $total);
+		// pr($empresas);
+		// pr($total);
 	}
 	
 	function empresa_detalle(){
-		if(!empty($this->data)){
-			$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
-			$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
-		 }else{
-			if(date('d')>15){
-				$fecha_final = date('Y-m-t');
-				$fecha_inicio = date('Y-m-16');
-			}else{
-				$fecha_inicio = date('Y-m-1');
-				$fecha_final=date('Y-m-16');
-			}
-		}
-				$this->loadModel('Cliente');
-				 $this->Cliente->Credito->Pago->Asociation->Abono->Cobro->Behaviors->attach('Containable');
-				 $clientes=$this->Cliente->Credito->Pago->Asociation->Abono->Cobro->find('all', array(
-				 	'conditions'=>array(
-				 		'Cobro.fecha >='=>$fecha_inicio,
-				 		'Cobro.fecha <='=>$fecha_final
-					),
-				 	'order'=>array(
-				 		'Cobro.empresa_id'=> 'ASC'
-					),				 
-				 	'contain'=>array('Empresa',
-				 		'Abono'=>array(
-				 			'Asociation'=>array(
-				 				'Pago'=>array(
-				 					'Credito'=>array(
-				 						'Cliente'=>array(
-											'order'=>array(
-												'Cliente.id'=>'ASC'
-											)
-										)
-									)
-								)
-							)
-						)
-					)							
-				));
-				
-				$arreglo=null;
-				foreach($clientes as $key => $cobro){
-				
-					foreach ($cobro['Abono'] as $key => $Abono) {
-							
-						foreach ($Abono['Asociation'] as $key => $Asociation) {
-								
-							if(!isset($arreglo[$cobro['Empresa']['nombre']])){
-								
-								if(!isset($arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']])){
-									$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=0;
-									$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']=0;
-									$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva']=0;
-									$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['t']=0;
-								}
-							}
-						if($Abono['Asociation'] != null){
-							foreach ($Abono['Asociation'] as $key => $Pago) 
-							{
-								$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']
-								+$Pago['Pago']['pago_capital'];
-								$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']
-								+$Pago['Pago']['intereses'];
-								$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva']
-								+$Pago['Pago']['iva_intereses'];
-							}
-					}else{
-						$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital'] 
-						+ $Abono['abono'];
-					}
-				$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['t']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']
-				+ $arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']+$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva'];
-			$this->set(compact('clientes'));
-			$this->set('arreglo',$arreglo);
-			// pr($clientes);
-			// pr($arreglo);
+		if($this->Session->check('User')){
+			 if(!empty($this->data)){
+			 	$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
+				$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
+			 }else{
+				if(date('d')>15){
+					$fecha_final = date('Y-m-t');
+					$fecha_inicio = date('Y-m-16');
+				}else{
+					$fecha_inicio = date('Y-m-1');
+					$fecha_final = date('Y-m-16');
 				}
+			}
+				$this->loadModel('Cliente');
+				$this->Cliente->Behaviors->attach('Containable');
+				$clientes=$this->Cliente->find('all',array(
+					'Condition'=>array(
+						'Cobro.fecha >='=>$fecha_inicio,
+			 			'Cobro.fecha <='=>$fecha_final
+						),
+					'fields'=>array(
+						'full_name','id','empresa_id'),
+					'contain'=>	array(
+						'Empresa'=>array(
+							'Cobro'=>array(
+								'Abono'=>array(
+									'Asociation'=>array('Pago'))))
+							)
+					));
+					
+					$arreglo=null;
+					foreach($clientes as $key => $cliente)
+					{							
+							if(!isset($arreglo[$cliente['Cliente']['full_name']])){
+								$arreglo[$cliente['Cliente']['full_name']]['Capital']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['Interes']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['Iva']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['t']=0;
+								$arreglo[$cliente['Cliente']['full_name']]['empresa']=0;
+							}
+								foreach ($cliente['Empresa']['Cobro'] as $Abono) {
+									
+								foreach ($Abono['Abono'] as $Asociation) {
+										
+									if($Asociation['Asociation'] != null){
+											
+										foreach ($Asociation['Asociation'] as $key => $Pago) 
+										{
+											$arreglo[$cliente['Cliente']['full_name']]['Capital']=$arreglo[$cliente['Cliente']['full_name']]['Capital']+$Pago['Pago']['pago_capital'];
+											$arreglo[$cliente['Cliente']['full_name']]['Interes']=$arreglo[$cliente['Cliente']['full_name']]['Interes']+$Pago['Pago']['intereses'];
+											$arreglo[$cliente['Cliente']['full_name']]['Iva']=$arreglo[$cliente['Cliente']['full_name']]['Iva']+$Pago['Pago']['iva_intereses'];
+										}
+								}
+							else
+							{
+								$arreglo[$cliente['Cliente']['full_name']]['Capital']=$arreglo[$cliente['Cliente']['full_name']]['Capital'] + $Asociation['abono'];
+							}
+						$arreglo[$cliente['Cliente']['full_name']]['t']=$arreglo[$cliente['Cliente']['full_name']]['Capital']+$arreglo[$cliente['Cliente']['full_name']]['Interes']+$arreglo[$cliente['Cliente']['full_name']]['Iva'];						
+						$arreglo[$cliente['Cliente']['full_name']]['empresa']=$cliente['Empresa']['nombre'];
+						}
+					}
+				$this->set(compact('clientes'));
+				$this->set('arreglo',$arreglo);
+				$this->set(compact('id'));
+				// pr($clientes);
+				// pr($arreglo);
+
 			}
 		}
 	}
