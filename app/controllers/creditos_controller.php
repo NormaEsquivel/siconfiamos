@@ -962,8 +962,8 @@ class CreditosController extends AppController{
 				$this->set(compact('Creditos'));
 				$this->set(compact('Asociations'));
 				$this->set(compact('total'));
-				pr($Creditos);
-				pr($total);
+				// pr($Creditos);
+				// pr($total);
 		}
 	
 }
