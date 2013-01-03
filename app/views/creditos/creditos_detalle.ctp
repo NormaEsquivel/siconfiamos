@@ -48,46 +48,73 @@
 			$totalSaldo_interes=0;
 			$totalSaldo_iva=0;
 			$totalSaldoTotal=0;
-			foreach($total as $key => $total):
+			if($total!=null):
+		foreach($total as $key => $totals):
 			?>
 		<tr>
-			<td><strong><?php echo $total['empresa'];?></strong></td>
-			<td><?php echo $key; ?></td>
-			<td>$<?php echo round($total['saldoinicial'],2);?></td>
-			<td>$<?php echo round($total['Prestamo'],2);?></td>
-			<td>$<?php echo round($total['pagos'],2);?></td>
-			<td>$<?php echo round($total['saldo'],2);?></td>
-			<td><?php?></td>
-			<td>$<?php echo round($total['Saldo_inicial_interes'],2);?></td>
-			<td>$<?php echo round($total['Prestamo_interes'],2);?></td>
-			<td>$<?php echo round($total['interes'],2);?></td>
-			<td>$<?php echo round($total['Saldo_interes'],2);?></td>
-			<td><?php?></td>
-			<td>$<?php echo round($total['Saldo_inicial_iva'])?></td>
-			<td>$<?php echo round($total['Prestamo_iva'],2);?></td>
-			<td>$<?php echo round($total['iva'],2);?></td>
-			<td>$<?php echo round($total['Saldo_iva'],2);?></td>
-			<td><?php?></td>
-			<td>$<?php echo round($total['Saldototal'],2);?></td>
+			<td><strong><?php echo $key; ?></strong></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<?php
-			$totalsaldoini=$totalsaldoini+$total['saldoinicial'];
-			$totalsaldoini_interes=$totalsaldoini_interes + $total['Saldo_inicial_interes'];
-			$totalsaldoini_iva=$totalsaldoini_iva + $total['Saldo_inicial_iva'];
-			$totalprestamo=$totalprestamo+$total['Prestamo'];
-			$totalpagos=$totalpagos+$total['pagos'];
-			$totalsaldo=$totalsaldo+$total['saldo'];
-			$totalpagos_intereses=$totalpagos_intereses+$total['interes'];
-			$totalpagos_iva=$totalpagos_iva+$total['iva'];
-			$totalprestamo_intereses=$totalprestamo_intereses+$total['Prestamo_interes'];
-			$totalprestamo_iva=$totalprestamo_iva+$total['Prestamo_iva'];
-			$totalSaldo_interes=$totalSaldo_interes+$total['Saldo_interes'];
-			$totalSaldo_iva=$totalSaldo_iva+$total['Saldo_iva'];
-			$totalSaldoTotal=$totalSaldoTotal+$total['Saldototal'];
+			foreach($totals as $key2 => $totales):
+		?>
+		
+				<?php
+			$totalsaldoini=$totalsaldoini+$totales['saldoinicial'];
+			$totalsaldoini_interes=$totalsaldoini_interes + $totales['Saldo_inicial_interes'];
+			$totalsaldoini_iva=$totalsaldoini_iva + $totales['Saldo_inicial_iva'];
+			$totalprestamo=$totalprestamo+$totales['Prestamo'];
+			$totalpagos=$totalpagos+$totales['pagos'];
+			$totalsaldo=$totalsaldo+$totales['saldo'];
+			$totalpagos_intereses=$totalpagos_intereses+$totales['interes'];
+			$totalpagos_iva=$totalpagos_iva+$totales['iva'];
+			$totalprestamo_intereses=$totalprestamo_intereses+$totales['Prestamo_interes'];
+			$totalprestamo_iva=$totalprestamo_iva+$totales['Prestamo_iva'];
+			$totalSaldo_interes=$totalSaldo_interes+$totales['Saldo_interes'];
+			$totalSaldo_iva=$totalSaldo_iva+$totales['Saldo_iva'];
+			$totalSaldoTotal=$totalSaldoTotal+$totales['Saldototal'];
 			?>
+			
 		<tr>
+			<td></td>
+			<td><?php echo $key2 ?></td>
+			<td>$<?php echo round($totales['saldoinicial'],2);?></td>
+			<td>$<?php echo round($totales['Prestamo'],2);?></td>
+			<td>$<?php echo round($totales['pagos'],2);?></td>
+			<td>$<?php echo round($totales['saldo'],2);?></td>
 			<td><?php?></td>
+			<td>$<?php echo round($totales['Saldo_inicial_interes'],2);?></td>
+			<td>$<?php echo round($totales['Prestamo_interes'],2);?></td>
+			<td>$<?php echo round($totales['interes'],2);?></td>
+			<td>$<?php echo round($totales['Saldo_interes'],2);?></td>
 			<td><?php?></td>
+			<td>$<?php echo round($totales['Saldo_inicial_iva'])?></td>
+			<td>$<?php echo round($totales['Prestamo_iva'],2);?></td>
+			<td>$<?php echo round($totales['iva'],2);?></td>
+			<td>$<?php echo round($totales['Saldo_iva'],2);?></td>
+			<td><?php?></td>
+			<td>$<?php echo round($totales['Saldototal'],2);?></td>
+		</tr>
+		<?php endforeach; ?>
+		<tr>
+			<td></td>
+			<td></td>
 			<td><strong>$<?php echo round($totalsaldoini,2);?></strong></td>
 			<td><strong>$<?php echo round($totalprestamo,2);?></strong></td>
 			<td><strong>$<?php echo round($totalpagos,2);?></strong></td>
@@ -107,6 +134,7 @@
 		</tr>
 		<?php	
 			endforeach;
+endif;
 		?>
 	</table>
 </fieldset>
