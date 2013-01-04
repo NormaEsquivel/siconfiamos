@@ -15,8 +15,5 @@ $(document).ready(function(){
 	$('#sorting-example2').tablesorter({
 		
 	});
-
-
-
-
+	
 });

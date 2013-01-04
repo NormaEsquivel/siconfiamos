@@ -1,30 +1,50 @@
+<?php 
+$menu_elements = array(
+	'element' => array(
+		'name' => $this->Html->link('Imprimir Reporte', 
+			array(
+				'controller' => 'abonos',
+				'action' => 'imprimir'
+			)
+		)
+	),
+	'element1' => array(
+		'name' => $this->Html->link('Finalizar Sesión', 
+			array(
+				'controller' => 'users',
+				'action' => 'logout'
+			)
+		)
+	)
+);
 
-<head>
-	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/start/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<?php 	echo $this->Html->script('src/views/creditos/js/jquery-1.7.2.min');
-			echo $this->Html->script('src/views/creditos/js/jquery-ui-1.8.21.custom.min');
-			echo $this->Html->script('src/views/clientes/incidencia');
-		?>
-</head>
-<fieldset>
-<?php echo $this->Form->create('Abono',array('controller'=>'abonos', 'action'=>'buscar_empresa')); ?>
-	<legend>Reporte 2</legend>
-	
-<?php echo $this->Form->input('fecha_inicio', array('class' => 'calendar'));?>
-<?php echo $this->Form->input('fecha_final', array('class' => 'calendar'));?>
-<?php echo $this->Form->end('Buscar')?>
+$firstElementClass = '';
+$secondElementClass = 'current';
+$thirdElementClass = '';
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
+echo $this->Html->script('src/portal/libs/glDatePicker/glDatePicker.min.js', array('inline' => false) ); 
+echo $this->Html->script('src/views/abonos/buscar_empresa.js', array(
+	'inline' => false
+)); 
 
-<br>
-<br>
-<table>
-	<tr>
-		<th>Empresa</th>
-		<th>Capital</th>
-		<th>Interes</th>
-		<th>IVA</th>
-		<th>Total</th>
-	</tr>
-<?php
+?>
+
+<div class="five-columns">
+	<h3 class="thin"><?php echo $title; ?></h3>
+</div>
+<table class="simple-table responsive-table responsive-table-on" id = "sorting-example2">
+	<thead>
+		<tr>
+			<th scope="col">Empresa</th>
+			<th scope="col">Capital</th>
+			<th scope="col">Interes</th>
+			<th scope="col">IVA</th>
+			<th scope="col">Total</th>
+		</tr>
+	</thead>
+<tbody>
+	<?php
 $totalcap=0;
 $totalint=0;
 $totaliva=0;
@@ -56,5 +76,58 @@ endforeach;
 	<td><strong>$<?php echo $totaltot; ?> </strong></td>
 </tr>
 <?php endif;?>
+</tbody>
 </table>
-</fieldset>
+<div class= "five-columns">
+	<details class="details margin-bottom">
+		<summary role="button" aria-expanded="false">Búsqueda</summary>
+		<div class="with-padding">
+			<?php 
+			echo $this->Form->create('Abono', array(
+				'url' => array(
+					'controller' => 'abonos',
+					'action' => 'buscar_empresa'
+				)
+			));
+			?>
+			
+			<?php 
+			echo $this->Form->input('fecha_inicio', array(
+				'div' => false,
+				'before' => '<p class = "inline-label button-height">',
+				'after' => '</p>',
+				'label' => array(
+					'class' => 'label',
+					'text' => 'Fecha de inicio'
+				),
+				'type' => 'text',
+				'class' => 'input small-margin-right datepicker'
+
+			));
+			?>
+			
+			<?php 
+			echo $this->Form->input('fecha_final', array(
+				'div' => false,
+				'before' => '<p class = "inline-label button-height">',
+				'after' => '</p>',
+				'label' => array(
+					'class' => 'label',
+					'text' => 'Fecha final'
+				),
+				'type' => 'text',
+				'class' => 'input small-margin-right datepicker'
+
+			));
+			?>
+			
+			<?php 
+			echo $this->Form->end(array(
+				'class' => 'button blue-gradient glossy',
+				'id' => 'submit-button',
+				'label' => 'Buscar'
+			));
+			?>
+		</div>
+	</details>
+</div>

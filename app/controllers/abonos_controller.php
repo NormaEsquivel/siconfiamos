@@ -16,7 +16,26 @@ class AbonosController extends AppController{
 		}
 	}
 	
+	function imprimir(){
+			if($this->Session->check('User')){
+				if($this->Session->check('buscar_empresa')){
+					$empresas=$this->Session->read('empresas');
+					$generales=$this->Session->read('generales');
+					$total = $this->Session->read('total');
+
+				Configure::write('debug',0); // Otherwise we cannot use this method while developing
+				$this->set('empresas', $this->Session->read('empresas')); 
+				$this->set('total', $total); 
+				//$this->set('incidencia',$incidencia);
+				$this->set('generales',$generales);
+		        $this->layout = 'pdf'; //this will use the pdf.ctp layout 
+		        $this->render(); 
+				}
+			}
+		}
+	
 	function buscar_empresa(){
+		$this->layout = 'template';
 		 if(!empty($this->data)){
 		 	$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
 			$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
@@ -72,11 +91,18 @@ class AbonosController extends AppController{
 				$total[$Abono['Empresa']['nombre']]['t']=$total[$Abono['Empresa']['nombre']]['Capital']+$total[$Abono['Empresa']['nombre']]['Interes']+$total[$Abono['Empresa']['nombre']]['Iva'];
 			}
 		}
+
+		$this->Session->write('total', $total);
+		$this->Session->write('empresas', $empresas);
+		$this->Session->write('generales', 'Reporte de Cobros de ' . $fecha_inicio . ' a ' . $fecha_final . '');
 		$this->set(compact('empresas'));
 		$this->set('total', $total);
+		$this->set('title_for_layout', '');
+		$this->set('title', 'Reporte de Cobros de ' . $fecha_inicio . ' a ' . $fecha_final . '');
 	}
 	
 	function empresa_detalle(){
+		$this->layout = 'template';
 		if(!empty($this->data)){
 			$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
 			$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
@@ -148,8 +174,13 @@ class AbonosController extends AppController{
 					}
 				$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['t']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']
 				+ $arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']+$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva'];
+			$this->Session->write('clientes',$clientes);
+			$this->Session->write('arreglo',$arreglo);
+			$this->Session->write('generales','Reporte detallado de Cobros de ' . $fecha_inicio . ' a ' . $fecha_final . ' ' );
 			$this->set(compact('clientes'));
 			$this->set('arreglo',$arreglo);
+			$this->set('title_for_layout', '');
+			$this->set('title', 'Reporte detallado de Cobros de ' . $fecha_inicio . ' a ' . $fecha_final . '');
 			// pr($clientes);
 			// pr($arreglo);
 				}

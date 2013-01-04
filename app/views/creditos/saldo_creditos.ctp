@@ -1,19 +1,39 @@
-<head>
-	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/start/jquery-ui.css" rel="stylesheet" type="text/css"/>
-	<?php 	echo $this->Html->script('src/views/creditos/js/jquery-1.7.2.min');
-			echo $this->Html->script('src/views/creditos/js/jquery-ui-1.8.21.custom.min');
-			echo $this->Html->script('src/views/clientes/incidencia');
-		?>
-</head>
+<?php 
+$menu_elements = array(
+	'element' => array(
+		'name' => $this->Html->link('Imprimir Reporte', 
+			array(
+				'controller' => 'abonos',
+				'action' => 'imprimir'
+			)
+		)
+	),
+	'element1' => array(
+		'name' => $this->Html->link('Finalizar Sesión', 
+			array(
+				'controller' => 'users',
+				'action' => 'logout'
+			)
+		)
+	)
+);
 
-<?php echo $this->Form->create('Credito',array('controller'=>'creditos', 'action'=>'saldo_creditos')); ?>
-<?php echo $this->Form->input('fecha_inicio', array('class' => 'calendar'));?>
-<?php echo $this->Form->input('fecha_final', array('class' => 'calendar'));?>
-<?php echo $this->Form->end('Buscar')?>
+$firstElementClass = '';
+$secondElementClass = 'current';
+$thirdElementClass = '';
+$fourthElementClass = '';
+$this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', 'thirdElementClass', 'fourthElementClass'));
+echo $this->Html->script('src/portal/libs/glDatePicker/glDatePicker.min.js', array('inline' => false) ); 
+echo $this->Html->script('src/views/abonos/saldo_creditos.js', array(
+	'inline' => false
+)); 
 
-<fieldset>
-	<legend>Reporte saldo de creditos</legend>
-	<table>
+?>
+<div class= "twelve-columns">
+<h3 class = "thin"><?php echo $title; ?><h3>
+</div>
+<table class="simple-table responsive-table responsive-table-on" id = "sorting-example2">
+	<head>
 		<tr>
 			<th>Empresa</th>
 			<th>Saldo inicial</th>
@@ -33,6 +53,8 @@
 			<th></th>
 			<th>Saldo</th>
 		</tr>
+	</head>
+	<tbody>
 		<?php
 		$totalsaldini=0;
 		$totalsaldini_intereses=0;
@@ -51,7 +73,7 @@
 		foreach($t as $key => $total):
 		?>
 		<tr>
-			<td><?php echo $this->Html->link($key, array('controller' => 'creditos', 'action' => 'creditos_detalle')); ?></td>
+			<td><?php echo $key ?></td>
 			<td>$<?php echo round($total['Saldo_inicial'],2); ?></td>
 			<td>$<?php echo round($total['Prestamo'],2); ?></td>
 			<td>$<?php echo round($total['Pago'],2); ?></td>
@@ -106,5 +128,55 @@
 			<td><?php?></td>
 			<td><strong>$<?php echo $totalSaldototal;?></strong></td>
 		</tr>
-	</table>
-</fieldset>
+	</tbody>
+</table>
+<div class= "five-columns">
+	<details class="details margin-bottom">
+		<summary role="button" aria-expanded="false">Búsqueda</summary>
+		<div class="with-padding">
+			<?php 
+			echo $this->Form->create('Credito', array(
+				'url' => array(
+					'controller' => 'creditos',
+					'action' => 'saldo_creditos'
+				)
+			));
+			?>
+			<?php 
+			echo $this->Form->input('fecha_inicio', array(
+				'div' => false,
+				'before' => '<p class = "inline-label button-height">',
+				'after' => '</p>',
+				'label' => array(
+					'class' => 'label',
+					'text' => 'Fecha de inicio'
+				),
+				'type' => 'text',
+				'class' => 'input small-margin-right datepicker'
+
+			));
+			?>
+			<?php 
+			echo $this->Form->input('fecha_final', array(
+				'div' => false,
+				'before' => '<p class = "inline-label button-height">',
+				'after' => '</p>',
+				'label' => array(
+					'class' => 'label',
+					'text' => 'Fecha final'
+				),
+				'type' => 'text',
+				'class' => 'input small-margin-right datepicker'
+
+			));
+			?>
+			<?php 
+			echo $this->Form->end(array(
+				'class' => 'button blue-gradient glossy',
+				'id' => 'submit-button',
+				'label' => 'Buscar'
+			));
+			?>
+		</div>
+	</details>
+</div>
