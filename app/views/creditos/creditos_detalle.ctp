@@ -35,6 +35,26 @@ echo $this->Html->script('src/views/clientes/creditos_detalle.js', array(
 	<thead>
 		<tr>
 			<th scope="col">Empresa</th>
+			<th></th>
+			<th></th>
+			<th scope="col">Capital</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th scope="col">Intereses</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th>IVA</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr>
+			<th></th>
 			<th scope="col">Cliente</th>
 			<th scope="col">Saldo inicial</th>
 			<th scope="col">Prestamo</th>
@@ -56,7 +76,7 @@ echo $this->Html->script('src/views/clientes/creditos_detalle.js', array(
 	</thead>
 <tbody>
 			<?php
-			$totalsaldoini=0;
+			$totsaldoini=0;
 			$totalsaldoini_interes=0;
 			$totalsaldoini_iva=0;
 			$totalprestamo=0;
@@ -97,7 +117,7 @@ echo $this->Html->script('src/views/clientes/creditos_detalle.js', array(
 		?>
 		
 		<?php
-			$totalsaldoini=$totalsaldoini+$totales['saldoinicial'];
+			$totsaldoini=$totsaldoini+$totales['saldoinicial'];
 			$totalsaldoini_interes=$totalsaldoini_interes + $totales['Saldo_inicial_interes'];
 			$totalsaldoini_iva=$totalsaldoini_iva + $totales['Saldo_inicial_iva'];
 			$totalprestamo=$totalprestamo+$totales['Prestamo'];
@@ -136,7 +156,7 @@ echo $this->Html->script('src/views/clientes/creditos_detalle.js', array(
 		<tr>
 			<td></td>
 			<td></td>
-			<td><strong>$<?php echo round($totalsaldoini,2);?></strong></td>
+			<td><strong>$<?php echo round($totsaldoini,2);?></strong></td>
 			<td><strong>$<?php echo round($totalprestamo,2);?></strong></td>
 			<td><strong>$<?php echo round($totalpagos,2);?></strong></td>
 			<td><strong>$<?php echo round($totalsaldo,2);?></strong></td>

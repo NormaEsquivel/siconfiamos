@@ -35,23 +35,42 @@ echo $this->Html->script('src/views/abonos/saldo_creditos.js', array(
 <table class="simple-table responsive-table responsive-table-on" id = "sorting-example2">
 	<head>
 		<tr>
-			<th>Empresa</th>
-			<th>Saldo inicial</th>
-			<th>prestamo</th>
-			<th>pagos</th>
-			<th>saldo</th>
+			<th scope="col">Empresa</th>
 			<th></th>
-			<th>Saldo inicial</th>
-			<th>prestamo</th>
-			<th>pagos</th>
-			<th>saldo</th>
+			<th scope="col">Capital</th>
 			<th></th>
-			<th>Saldo inicial</th>
-			<th>prestamo</th>
-			<th>pagos</th>
-			<th>saldo</th>
 			<th></th>
-			<th>Saldo</th>
+			<th></th>
+			<th></th>
+			<th scope="col">Intereses</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th scope="col">IVA</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr>
+			<th></th>
+			<th scope="col">Saldo inicial</th>
+			<th scope="col">prestamo</th>
+			<th scope="col">pagos</th>
+			<th scope="col">saldo</th>
+			<th></th>
+			<th scope="col">Saldo inicial</th>
+			<th scope="col">prestamo</th>
+			<th scope="col">pagos</th>
+			<th scope="col">saldo</th>
+			<th></th>
+			<th scope="col">Saldo inicial</th>
+			<th scope="col">prestamo</th>
+			<th scope="col">pagos</th>
+			<th scope="col">saldo</th>
+			<th></th>
+			<th scope="col">Saldo</th>
 		</tr>
 	</head>
 	<tbody>
