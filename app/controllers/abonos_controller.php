@@ -102,7 +102,7 @@ class AbonosController extends AppController{
 	}
 	
 function empresa_detalle(){
-	$this->layout = 'template';
+	// $this->layout = 'template';
 	if(!empty($this->data)){
 		$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
 		$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
@@ -146,7 +146,6 @@ function empresa_detalle(){
 			foreach($clientes as $key => $cobro){
 			
 				foreach ($cobro['Abono'] as $key => $Abono) {
-						
 					foreach ($Abono['Asociation'] as $key => $Asociation) {
 							
 						if(!isset($arreglo[$cobro['Empresa']['nombre']])){
@@ -158,19 +157,18 @@ function empresa_detalle(){
 								$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['t']=0;
 							}
 						}
-					if($Abono['Asociation'] != null){
-						foreach ($Abono['Asociation'] as $key => $Pago) 
-						{
-							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=
-							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']+$Pago['Pago']['pago_capital'];
-							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']=
-							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']+$Pago['Pago']['intereses'];
-							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva']=
-							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva']+$Pago['Pago']['iva_intereses'];
-						}
+					if($Abono['Asociation'] == null){						$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital'] 
+						+ $Abono['abono'];
+						
 				}else{
-					$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital'] 
-					+ $Abono['abono'];
+					foreach ($Abono['Asociation'] as $key => $Pago){
+							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']=
+							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital'] + $Pago['Pago']['pago_capital'];
+							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']=
+							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes'] + $Pago['Pago']['intereses'];
+							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva']=
+							$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva'] + $Pago['Pago']['iva_intereses'];
+						}
 				}
 			$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['t']=$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Capital']
 			+ $arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Interes']+$arreglo[$cobro['Empresa']['nombre']][$Asociation['Pago']['Credito']['Cliente']['full_name']]['Iva'];
@@ -182,7 +180,7 @@ function empresa_detalle(){
 		$this->set('title_for_layout', '');
 		$this->set('title', 'Reporte detallado de Cobros de ' . $fecha_inicio . ' a ' . $fecha_final . '');
 		// pr($clientes);
-		// pr($arreglo);
+		pr($arreglo);
 			}
 		}
 	}

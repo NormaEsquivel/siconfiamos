@@ -25,6 +25,14 @@ $menu_elements = array(
 				'action' => 'logout'
 			)
 		)
+	),
+	'element3' => array(
+		'name' => $this->Html->link('Tabla de Amortizacion', 
+			array(
+				'controller' => 'creditos',
+				'action' => 'imprimirpagos'
+			)
+		)
 	)
 );
 $firstElementClass = 'current';

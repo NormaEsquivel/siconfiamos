@@ -164,6 +164,20 @@ class CreditosController extends AppController{
 			}
 		}
 
+		function imprimirpagos(){
+			if($this->Session->check('User')){
+				if($this->Session->check('Cliente')){
+					$cliente=$this->Session->read('Cliente');
+					$credito=$this->Session->read('credito');
+				Configure::write('debug',0); // Otherwise we cannot use this method while developing 
+				$this->set('cliente',$cliente);
+				$this->set('credito',$credito);
+		        $this->layout = 'pdf'; //this will use the pdf.ctp layout 
+		        $this->render(); 
+				}
+			}
+		}
+
 		function view_credit($id = null){
 			if($this->Session->check('User')){
 				$this->layout = 'template';
