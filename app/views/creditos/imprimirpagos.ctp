@@ -11,17 +11,14 @@ $tcpdf->SetFont('helvetica', 12);
 // add a page (required with recent versions of tcpdf) 
 $tcpdf->AddPage();  
 
-//$header=array('Fecha','Número de pago','Capital','Intereses','Iva','Pago','Saldo Insoluto','Estado');
-$header=array('Fecha','#','Pago Capital','Intereses','Iva Intereses','Pago','Saldo Insoluto','Estado');
+$header=array('Fecha','Número de pago','Capital','Intereses','Iva','Pago','Saldo Insoluto','Estado');
 
 $txt= <<<EOD
 
 EOD;
 
 $tcpdf->Write($h=0, $txt, $link='', $fill=0, $align='C', $ln=true, $stretch=0, $firstline=false, $firstblock=false, $maxh=0);
-
-//$tcpdf->ColoredTable6($header,$cliente,$credito['pago']);
-
-
+$tcpdf->ColoredTable6($header,$cliente,$credito['Credito']);
+$tcpdf->Ln();
 echo $tcpdf->Output('Pagos.pdf', 'I'); 
 ?>

@@ -102,7 +102,7 @@ class AbonosController extends AppController{
 	}
 	
 function empresa_detalle(){
-	// $this->layout = 'template';
+	$this->layout = 'template';
 	if(!empty($this->data)){
 		$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
 		$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
@@ -180,7 +180,7 @@ function empresa_detalle(){
 		$this->set('title_for_layout', '');
 		$this->set('title', 'Reporte detallado de Cobros de ' . $fecha_inicio . ' a ' . $fecha_final . '');
 		// pr($clientes);
-		pr($arreglo);
+		// pr($arreglo);
 			}
 		}
 	}

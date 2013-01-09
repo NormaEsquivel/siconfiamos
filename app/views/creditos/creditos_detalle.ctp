@@ -47,7 +47,7 @@ echo $this->Html->script('src/views/clientes/creditos_detalle.js', array(
 			<th></th>
 			<th></th>
 			<th></th>
-			<th>IVA</th>
+			<th scope="col">IVA</th>
 			<th></th>
 			<th></th>
 			<th></th>

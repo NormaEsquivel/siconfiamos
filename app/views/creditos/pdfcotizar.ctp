@@ -28,14 +28,12 @@ Tipo de cálculo: '.$credito['Credito']['tipo_calculo'].'
 // Now you position and print your page content 
 // example: 
 $header=array('Fecha','#','Pago Capital','Intereses','Iva Intereses','Pago','Saldo Insoluto');
-//$datos=array();
-//foreach($pagos as $pago){
-	//$cadena=$pago['Pago']['fecha'].";".$pago['Pago']['pago_capital'].";".$pago['Pago']['intereses'].";".$pago['Pago']['pago'];
-	//$datos[]=explode(';',$cadena);
-//}
+
 $txt = <<<EOD
 
+
 EOD;
+
 $tcpdf->Write($h=0, $txt, $link='', $fill=0, $align='C', $ln=true, $stretch=0, $firstline=false, $firstblock=false, $maxh=0);
 $tcpdf->multiCell(0, 0,$txt7, 0, 'C', false);
 $tcpdf->multiCell(0,0,$txt9,0,'L',false);
@@ -45,7 +43,6 @@ $tcpdf->multiCell(0, 0,$txt8, 0, 'L', false);
 // ... 
 // etc. 
 // see the TCPDF examples  
-
 echo $tcpdf->Output('Cotizacion.pdf', 'I'); 
 
 

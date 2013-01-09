@@ -304,7 +304,7 @@ public function ColoredTable6($header,$pagos,$arreglo) {
         $w = array(25,20,28,25,35,30,30);
         $num_headers = count($header);
         for($i = 0; $i < $num_headers; ++$i) {
-            $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
+            $this->Cell($w[$i], 8, $header[$i], 1, 0, 'C', 1);
         }
         $this->Ln();
         // Color and font restoration
@@ -321,6 +321,7 @@ public function ColoredTable6($header,$pagos,$arreglo) {
             $this->Cell($w[4], 6, '$'.number_format($pago['iva_intereses'],2), 'LR', 0, 'R', $fill);
 			$this->Cell($w[5], 6, '$'.number_format($pago['pago'],2), 'LR', 0, 'R', $fill);
 			$this->Cell($w[6], 6, '$'.number_format($pago['saldo_insoluto'],2), 'LR', 0, 'R', $fill);
+			$this->Cell($w[7], 6, ucfirst($pago['sitacion'],2), 'LR', 0, 'R', $fill);
             $this->Ln();
             $fill=!$fill;
         }

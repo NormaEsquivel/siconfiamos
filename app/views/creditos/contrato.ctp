@@ -253,6 +253,34 @@ ATENTAMENTE
 <br>
 <br> 
 <br>'.$credito['Cliente']['Empresa']['representante'].'</td></tr></table>';
+
+$texto7='
+<br>
+<br>GRUPO KELQ S.AP.I. DE C.V. SOFOM E.N.R, con domicilio en calle 73 No. 225 por 48 y 50 colonia Montes de Amé con código postal 97115 
+en la ciudad de Mérida, Yucatán, es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección. 
+<br>
+<br>
+Su información personal será utilizada para proveer los servicios y productos que ha solicitado, informarle sobre cambios en los mismos y 
+evaluar la calidad del servicio que le brindamos. Para las finalidades antes mencionadas, requerimos obtener los siguientes datos personales: 
+Nombre completo, dirección y teléfono; nombre completo del cónyuge o pareja, en caso de estar casado o vivir en unión libre; datos del 
+domicilio particular y laboral; puesto y cargo desempeñado; antigüedad laboral, ingresos y cualquier otro que resulte de importancia para la 
+realización de los trámites respectivos con nuestra entidad financiera. 
+<br>
+<br>
+Usted tiene derecho de acceder, rectificar y cancelar sus datos personales, así como de oponerse al tratamiento de los mismos o revocar el 
+consentimiento que para tal fin nos haya otorgado, a través de los procedimientos que hemos implementado. Para conocer dichos procedimientos, 
+los requisitos y plazos, se puede poner en contacto con nuestros asesores financieros en nuestras oficinas ubicadas en la dirección antes 
+mencionada o a los teléfonos: (999) 9300000 ext. 203.
+<br>
+<br>
+<br>
+<br>
+<br>';
+$texto8='
+<br><table><tr><td aling= "center"> '.$credito['Cliente']['nombre'].' '.$credito['Cliente']['apellido_paterno'].'</td></tr>
+<br>
+<br><tr><td>Consiento que mis datos personales sean utilizados en los términos que señala el presente aviso de privacidad.</td></tr></table>';
+
 $tcpdf->AddPage();
 $tcpdf->writeHtml($format->fecha(date('Y-m-d')), true, false, false, false,'R');
 $tcpdf->writeHtml($texto, true, false, false, false,'L');
@@ -270,6 +298,11 @@ $tcpdf->writeHtml('<b>CARTA DE AUTORIZACIÓN</b>', true, false, false, false,'C'
 $tcpdf->writeHtml($format->fecha(date('Y-m-d')), true, false, false, false,'R');
 $tcpdf->writeHtml($texto5, true, false, false, false,'L');
 $tcpdf->writeHtml($texto6, true, false, false, false,'C');
+
+$tcpdf->AddPage();
+$tcpdf->writeHTML('<b>AVISO DE PRIVACIDAD</b>', true, false, false, false,'C');
+$tcpdf->writeHtml($texto7, true, false, false, false,'L');
+$tcpdf->writeHtml($texto8, true, false, false, false,'C');
 echo $tcpdf->Output('Contrato.pdf', 'I');
 
 ?>

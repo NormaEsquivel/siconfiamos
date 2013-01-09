@@ -1,1 +1,0 @@
-alter table abonos add column cobro_id int(10) after pago_id;
