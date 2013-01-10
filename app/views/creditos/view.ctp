@@ -29,8 +29,9 @@ $menu_elements = array(
 	'element3' => array(
 		'name' => $this->Html->link('Tabla de Amortizacion', 
 			array(
-				'controller' => 'creditos',
-				'action' => 'imprimirpagos'
+				'controller' => 'pagos',
+				'action' => 'imprimirpdf',
+				$credito['Credito']['id']
 			)
 		)
 	)
