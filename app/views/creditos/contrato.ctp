@@ -149,7 +149,7 @@ ordinarios atendiendo a la naturaleza del contrato, y son justos de acuerdo a lo
 <br>
 Cliente<br>
 Siendo el Cliente, reconozco, acepto y convengo todo lo previamente transcrito.
-<br>
+<br>Calculo anual total (CAT) ' . $credito['Credito']['tasa_interes'] . '%
 <br>
 Firma:<br>
 Nombre: ' . $credito['Cliente']['nombre'] . ' ' . $credito['Cliente']['apellido_paterno'] . ' ' . $credito['Cliente']['apellido_materno'] . ' <br>
