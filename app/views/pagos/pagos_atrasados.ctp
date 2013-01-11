@@ -41,7 +41,7 @@ echo $this->Html->script('src/views/clientes/creditos_detalle.js', array(
 	<tr>	
 		<td><?php echo $arreglo['Empresa']; ?></td>
 		<td><?php echo $key; ?></td>			
-		<td><?php echo $arreglo['Adeudo']; ?></td>
+		<td><?php echo round($arreglo['Adeudo'],2); ?></td>
 	</tr>
 		<?php
 		endforeach;
