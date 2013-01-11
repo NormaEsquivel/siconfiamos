@@ -260,7 +260,7 @@ class ClientesController extends AppController{
 			$this->redirect(array('action'=>'view2'));
 		}
 	}
+
 	
 }
-
 ?>
