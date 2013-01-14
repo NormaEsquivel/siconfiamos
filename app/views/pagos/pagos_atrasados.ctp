@@ -1,6 +1,6 @@
 <?php
 $menu_elements = array(
-	'element' => array(
+	'element2' => array(
 		'name' => $this->Html->link('Finalizar Sesión', 
 			array(
 				'controller' => 'users',
@@ -28,7 +28,7 @@ echo $this->Html->script('src/views/pagos/pagos_atrasados.js', array(
 <table class="simple-table responsive-table responsive-table-on" id = "sorting-example2">
 	<thead>
 		<tr>
-			<th scope="col">Empresa</th>
+			<th scope="col" class="header">Empresa</th>
 			<th scope="col">Empleado</th>
 			<th scope="col">Adeudo</th>
 		</tr>

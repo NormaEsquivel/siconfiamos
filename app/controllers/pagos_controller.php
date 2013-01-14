@@ -593,22 +593,11 @@ class PagosController extends AppController{
 function pagos_atrasados(){
 	 $this->layout='template';
 	if(!empty($this->data)){
-		 	$fecha_inicio= date('d-m-Y', strtotime($this->data['Pago']['fecha_inicio']));
-			$fecha_final= date('d-m-Y', strtotime($this->data['Pago']['fecha_final']));
-		 }else{
-			if(date('d')>15){
-				$fecha_final = date('t-m-Y');
-				$fecha_inicio = date('16-m-Y');
-			}else{
-				$fecha_inicio = date('1-m-Y');
-				$fecha_final=date('16-m-Y');
-			}
 		}
 		$this->Pago->Behaviors->attach('Containable');
 		 $Pagos=$this->Pago->find('all', array(
 		 	'conditions'=>array(
-		 		'Pago.fecha >='=>$fecha_inicio,
-		 		'Pago.fecha <='=>$fecha_final
+		 		'Pago.sitacion >='=>'No Pagado'
 			),
 			'contain' => array(
 				'Credito' => array(
@@ -624,17 +613,15 @@ function pagos_atrasados(){
 				$arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=0;
 			}
 			$arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=$Pago['Credito']['Cliente']['Empresa']['nombre'];
-			if($fecha >= $fecha_inicio and $fecha <= $fecha_final){
-				if($Pago['Pago']['Sitacion']='No Pagado'){
+			if($Pago['Pago']['Sitacion']='No Pagado'){
 					$arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=$Pago['Pago']['pago'];
-				}
-			}		
+				}					
 		}
 		$this->Session->write('Pagos',$Pagos);
 		$this->Session->write('arreglo',$arreglo);
-		$this->Session->write('generales','Reporte de Pagos atrasados de '. $fecha_inicio . ' a ' . $fecha_final );
+		$this->Session->write('generales','Reporte de Pagos atrasados');
 		$this->set('title_for_layout', '');
-		$this->set('title','Reporte de Pagos atrasados de '. $fecha_inicio . ' a ' . $fecha_final );
+		$this->set('title','Reporte de Pagos atrasados');
 		$this->set('Pagos', $Pagos);
 		$this->set('arreglo', $arreglo);
 		
