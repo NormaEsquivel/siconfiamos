@@ -34,7 +34,7 @@ echo $this->Html->script('src/views/abonos/empresa_detalle.js', array(
 	<h3 class="thin"><?php echo $title;?><h3>
 </div>
 
-<table class="simple-table responsive-table responsive-table-on" id = "sorting-example2">>
+<table class="simple-table responsive-table responsive-table-on" id = "sorting-example2">
 	<thead>
 		<tr>
 			<th scope="col">Empresa</th>
