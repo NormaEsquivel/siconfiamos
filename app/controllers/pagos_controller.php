@@ -591,7 +591,7 @@ class PagosController extends AppController{
 		// }
 		
 function pagos_atrasados(){
-	// $this->layout = 'template';
+	$this->layout = 'template';
 	if($this->Session->check('User')){
 		$this->loadModel('Empresa');	
 		$this->Empresa->Behaviors->attach('Containable');
@@ -635,9 +635,9 @@ function pagos_atrasados(){
 		$this->set('title','Reporte de Pagos atrasados');
 		$this->set('Empresas', $Empresas);
 		$this->set('arreglo', $arreglo);
-		
-			pr($Empresas);
-			pr($arreglo);
+// 		
+			// pr($Empresas);
+			// pr($arreglo);
 			
 		}
 		// $this->Pago->Behaviors->attach('Containable');
