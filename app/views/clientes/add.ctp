@@ -219,7 +219,7 @@ echo $this->Form->create('Cliente', array(
 						'text' => '<b>Apellido Paterno</b>'
 					),
 					'div' => array(
-						'class' => 'field-block button-height'
+						'class' => 'field-block button-height',
 					)
 			)); ?>
 
@@ -357,6 +357,15 @@ echo $this->Form->create('Cliente', array(
 						'class' => 'field-block button-height'
 					)
 			)); ?>
+			
+			<!--<?php echo $this->Html->link('No Aplica',	array(
+					'controller' => 'templates',
+					'action' => 'NoAplica'
+					),
+					array(
+						'class' => 'button compact icon-card'
+					));	?>-->
+					
 
 		</fieldset>
 

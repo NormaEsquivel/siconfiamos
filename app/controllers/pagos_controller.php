@@ -591,44 +591,79 @@ class PagosController extends AppController{
 		// }
 		
 function pagos_atrasados(){
-	 $this->layout='template';
-	if(!empty($this->data)){
-		}
-		$this->Pago->Behaviors->attach('Containable');
-		 $Pagos=$this->Pago->find('all', array(
-		 	'conditions'=>array(
-		 		'Pago.sitacion >='=>'No Pagado'
-			),
+	// $this->layout = 'template';
+	if($this->Session->check('User')){
+		$this->loadModel('Empresa');	
+		$this->Empresa->Behaviors->attach('Containable');
+		$Empresas=$this->Empresa->find('all', array(
 			'contain' => array(
-				'Credito' => array(
-					'Cliente' => array('Empresa')
+				'Cliente' => array(
+					'Credito' => array('Pago')
 				)
 			)
 		));	
-		$arreglo=null;		
-		foreach($Pagos as $key => $Pago){
-			$fecha=date($Pago['Pago']['fecha']);
-			if(!isset($arreglo[$Pago['Credito']['Cliente']['full_name']])){
-				$arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=0;
-				$arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=0;
+		
+		
+		$arreglo=null;	
+		
+		foreach ($Empresas as $key => $empresa) {
+			
+			foreach ($empresa['Cliente'] as $key => $cliente) {
+					
+			if(!isset($arreglo[$empresa['Empresa']['nombre']])){
+					
+				if(!isset($arreglo[$empresa['Empresa']['nombre']][$cliente['full_name']])){
+						
+					$arreglo[$empresa['Empresa']['nombre']][$cliente['full_name']]['Adeudo']=0;
+				
+				}
+			
 			}
-			$arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=$Pago['Credito']['Cliente']['Empresa']['nombre'];
-			if($Pago['Pago']['Sitacion']='No Pagado'){
-					$arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=$Pago['Pago']['pago'];
-				}					
+				foreach ($cliente['Credito']['Pago'] as $key => $Pago) {
+						
+					if($Pago['sitacion']='No pagado'){
+						
+						$arreglo[$empresa['Empresa']['nombre']][$cliente['full_name']]['Adeudo']= $Pago['pago'];
+					}
+				
+				}
+			}
 		}
-		$this->Session->write('Pagos',$Pagos);
-		$this->Session->write('arreglo',$arreglo);
+		
 		$this->Session->write('generales','Reporte de Pagos atrasados');
 		$this->set('title_for_layout', '');
 		$this->set('title','Reporte de Pagos atrasados');
-		$this->set('Pagos', $Pagos);
+		$this->set('Empresas', $Empresas);
 		$this->set('arreglo', $arreglo);
 		
-		// pr($fecha_inicio);
-		// pr($fecha_final);
-		// pr($Pagos);
-		// pr($arreglo);		
+			pr($Empresas);
+			pr($arreglo);
+			
+		}
+		// $this->Pago->Behaviors->attach('Containable');
+		 // $Pagos=$this->Pago->find('all', array(
+		 	// 'conditions'=>array(
+		 		// 'Pago.sitacion >='=>'No Pagado'
+			// ),
+			// 'contain' => array(
+				// 'Credito' => array(
+					// 'Cliente' => array('Empresa'=>array('order'=>array('Empresa.nombre'=>'DESC')))
+				// )
+			// )
+		// ));
+			
+		// foreach($Pagos as $key => $Pago){
+			// if(!isset($arreglo[$Pago['Credito']['Cliente']['full_name']])){
+				// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=0;
+				// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=0;
+			// }
+			// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=$Pago['Credito']['Cliente']['Empresa']['nombre'];
+			// if($Pago['Pago']['Sitacion']='No Pagado'){
+					// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=$Pago['Pago']['pago'];
+				// }
+		// }
+		// $this->Session->write('Pagos',$Pagos);
+		// $this->Session->write('arreglo',$arreglo);
 		}
 		
 	}

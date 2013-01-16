@@ -103,7 +103,34 @@ class TemplatesController extends AppController{
 			}
 		}
 	}
-
+	
+	// function NoAplica(){
+		// $this->loadModel('Cliente');
+		// $Avales = $this->Cliente->find('first', array(
+			// 'conditions' => array(
+				// 'Cliente.id' => $id
+			// ),
+			// 'contain' => array('Aval')
+		// ));
+// 		
+		// if(!empty($this->data)){
+			// $this->data['Aval']['nombre']='No Aplica';
+			// $this->data['Aval']['apellido_paterno']='No Aplica';
+			// $this->data['Aval']['apellido_materno']='No Aplica';
+			// $this->data['Aval']['direccion']='No Aplica';
+			// $this->data['Aval']['colonia']='No Aplica';
+			// $this->data['Aval']['localidad']='No Aplica';
+			// $this->data['Aval']['estado']='No Aplica';
+			// $this->data['Aval']['codigo_postal']='00000';
+			// $this->data['Aval']['telefono_1']='0000000000';
+			// $this->data['Aval']['telefono_2']='0000000000';
+			// $this->data['Aval']['rfc']='00000';
+			// $this->data['Aval']['identificacion']='00000';
+			// $this->data['Aval']['curp']='00000abcd';
+		// }
+		// $this->set(compact('Avales'));			
+	// }
+	
 	function add_credit(){
 
 	}
