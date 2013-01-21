@@ -973,8 +973,8 @@ class CreditosController extends AppController{
 			$this->set('total',$total);
 			$this->set('title_for_layout','');
 			$this->set('title', 'Reporte de Creditos detallado de '  . $fecha_inicio . ' a ' . $fecha_final . ' ');
-			pr($Creditos);
-			pr($total);
+			// pr($Creditos);
+			// pr($total);
 		}
 	
 }
