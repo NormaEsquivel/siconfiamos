@@ -94,7 +94,7 @@ echo $this->Html->script('src/views/abonos/saldo_creditos.js', array(
 		<tr>
 			<td><?php echo $key ?></td>
 			<td>$<?php echo round($total['Saldo_inicial'],2); ?></td>
-			<td>$<?php echo round($total['Prestamo'],2); ?></td>
+			<td>$<?php echo round($total['PrestamoC'],2); ?></td>
 			<td>$<?php echo round($total['Pago'],2); ?></td>
 			<td>$<?php echo round($total['Saldo'],2); ?></td>
 			<td><?php?></td>
@@ -114,7 +114,7 @@ echo $this->Html->script('src/views/abonos/saldo_creditos.js', array(
 		$totalsaldini=$totalsaldini + round($total['Saldo_inicial'],2);
 		$totalsaldini_intereses=$totalsaldini_intereses + round($total['Saldo_inicial_intereses'],2);
 		$totalsaldini_iva=$totalsaldini_iva + round($total['Saldo_inicial_iva'],2);
-		$totalpres=$totalpres + round($total['Prestamo'],2);
+		$totalpres=$totalpres + round($total['PrestamoC'],2);
 		$totalpagos_cap=$totalpagos_cap + round($total['Pago'],2);
 		$totalsaldo=$totalsaldo + round($total['Saldo'],2);
 		$totalpagos_int=$totalpagos_int + round($total['Interes'],2);
