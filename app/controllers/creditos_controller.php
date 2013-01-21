@@ -860,7 +860,7 @@ class CreditosController extends AppController{
 		}	
 
 		function creditos_detalle(){
-			//$this->layout='template';
+			$this->layout='template';
 			if(!empty($this->data)){
 				$fecha_inicio=date('Y-m-d',strtotime($this->data['Credito']['fecha_inicio']));
 				$fecha_final=date('Y-m-d',strtotime($this->data['Credito']['fecha_final']));
