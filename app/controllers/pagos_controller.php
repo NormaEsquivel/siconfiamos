@@ -635,36 +635,65 @@ function pagos_atrasados(){
 		$this->set('title','Reporte de Pagos atrasados');
 		$this->set('Empresas', $Empresas);
 		$this->set('arreglo', $arreglo);
-// 		
 			// pr($Empresas);
 			// pr($arreglo);
 			
 		}
-		// $this->Pago->Behaviors->attach('Containable');
-		 // $Pagos=$this->Pago->find('all', array(
-		 	// 'conditions'=>array(
-		 		// 'Pago.sitacion >='=>'No Pagado'
-			// ),
-			// 'contain' => array(
-				// 'Credito' => array(
-					// 'Cliente' => array('Empresa'=>array('order'=>array('Empresa.nombre'=>'DESC')))
-				// )
-			// )
-		// ));
-			
-		// foreach($Pagos as $key => $Pago){
-			// if(!isset($arreglo[$Pago['Credito']['Cliente']['full_name']])){
-				// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=0;
-				// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=0;
-			// }
-			// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Empresa']=$Pago['Credito']['Cliente']['Empresa']['nombre'];
-			// if($Pago['Pago']['Sitacion']='No Pagado'){
-					// $arreglo[$Pago['Credito']['Cliente']['full_name']]['Adeudo']=$Pago['Pago']['pago'];
-				// }
-		// }
-		// $this->Session->write('Pagos',$Pagos);
-		// $this->Session->write('arreglo',$arreglo);
+}
+
+function creditos_cortados(){
+		$this->layout = 'template';
+		 if(!empty($this->data)){
+		 	$fecha_inicio= date('Y-m-d', strtotime($this->data['Abono']['fecha_inicio']));
+			$fecha_final= date('Y-m-d', strtotime($this->data['Abono']['fecha_final']));
+		 }else{
+			if(date('d')>15){
+				$fecha_final = date('Y-m-t');
+				$fecha_inicio = date('Y-m-16');
+			}else{
+				$fecha_inicio = date('Y-m-1');
+				$fecha_final=date('Y-m-16');
+			}
 		}
+		 $this->loadModel('Empresa');
+		 $this->Empresa->Behaviors->attach('Containable');
+		 $Empresa=$this->Empresa->find('all', array(
+		 	'conditions'=>array(
+			),
+		 	'contain'=>array(
+		 		'Cliente' => array('Credito')
+			)
+		));	
+		
+		$arreglo=null;
+		foreach ($Empresa as $key => $empresa) {
+			foreach($empresa['Cliente'] as $key => $Cliente){
+				if(!isset($arreglo[$empresa['Empresa']['nombre']])){
+						
+					if(!isset($arreglo[$empresa['Empresa']['nombre']][$Cliente['full_name']])){
+						
+						$arreglo[$empresa['Empresa']['nombre']][$Cliente['full_name']]['NumerodePago']=0;
+						$arreglo[$empresa['Empresa']['nombre']][$Cliente['full_name']]['PrestamoCliente']=0;
+						
+					}
+				
+				}
+					if($Cliente['Credito']['estado']='activo'){
+						
+						$arreglo[$empresa['Empresa']['nombre']][$Cliente['full_name']]['NumerodePago']= $Cliente['Credito']['cuotas'];
+						$arreglo[$empresa['Empresa']['nombre']][$Cliente['full_name']]['PrestamoCliente']=$Cliente['Credito']['prestamo'];
+						
+					}
+			}
+		}
+		$this->Session->write('generales','Reporte de Creditos Cortados');
+		$this->set('title_for_layout', '');
+		$this->set('title','Reporte de Creditos Cortados');
+		$this->set('Empresas', $Empresa);
+		$this->set('arreglo', $arreglo);
+		// pr($Empresa);
+		// pr($arreglo);
+}
 		
 	}
 

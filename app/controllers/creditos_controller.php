@@ -860,7 +860,7 @@ class CreditosController extends AppController{
 		}	
 
 		function creditos_detalle(){
-			$this->layout='template';
+			$this->layout='template';
 			if(!empty($this->data)){
 				$fecha_inicio=date('Y-m-d',strtotime($this->data['Credito']['fecha_inicio']));
 				$fecha_final=date('Y-m-d',strtotime($this->data['Credito']['fecha_final']));
@@ -933,7 +933,6 @@ class CreditosController extends AppController{
 				 			+$pago['pago_capital'];
 					 	
 						}
-						
 						$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['pagos']=$total[$credito['Cliente']['Empresa']['nombre']][$credito['Cliente']['full_name']]['pagos'] + $Asociation['Abono']['abono'];
 					}
 					
@@ -974,7 +973,7 @@ class CreditosController extends AppController{
 			$this->set('title_for_layout','');
 			$this->set('title', 'Reporte de Creditos detallado de '  . $fecha_inicio . ' a ' . $fecha_final . ' ');
 			// pr($Creditos);
-			// pr($total);
+			// pr($total);
 		}
 	
 }

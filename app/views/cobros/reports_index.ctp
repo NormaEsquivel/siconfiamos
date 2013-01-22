@@ -32,6 +32,7 @@ $this->set(compact('menu_elements', 'firstElementClass', 'secondElementClass', '
 		<h3 class = "thin underline">Reportes</h3>
 		<ol>
 			<li><?php echo $this->Html->link('Pagos Atrasados', array('controller' => 'pagos', 'action'=>'pagos_atrasados')); ?></li>
+			<li><?php echo $this->Html->link('Reporte de Creditos Cortados', array('controller' => 'pagos', 'action'=>'creditos_cortados')); ?></li>
 		</ol>
 	</div>
 </div>
